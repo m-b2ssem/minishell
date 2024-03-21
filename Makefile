@@ -7,7 +7,7 @@ SRC =	main.c
 
 OBJ = $(SRC:.c=.o)
 
-$(NAME) : $(OBJ) $(M_OBJ)
+$(NAME) : $(OBJ)
 	@make -C ./libft
 	$(CC) $(CFLAGS) $(OBJ)  $(LIBFT)  -o $(NAME)
 
@@ -19,7 +19,7 @@ clean	:
 	@make -C ./libft clean
 
 fclean	: clean
-	@rm -rf $(NAME) $(BONUS)
+	@rm -rf $(NAME)
 	@make -C ./libft fclean
 
 
