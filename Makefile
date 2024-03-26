@@ -9,7 +9,7 @@ OBJ = $(SRC:.c=.o)
 
 $(NAME) : $(OBJ)
 	@make -C ./libft
-	$(CC) $(CFLAGS) $(OBJ)  $(LIBFT)  -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJ) -lreadline  $(LIBFT)  -o $(NAME)
 
 
 all		: $(NAME)
