@@ -1,18 +1,5 @@
-#include "minishell.h"
-
-int err(char *str) 
+int main()
 {
-    while (*str)
-        write(2, str++, 1);
-    return 1;
-}
-
-int cd(char **argv, int i) 
-{
-    if (i != 2)
-        return err("error: cd: bad arguments\n");
-    else if (chdir(argv[1]) == -1)
-        return err("error: cd: cannot change directory to "), err(argv[1]), err("\n");
     return 0;
 }
 

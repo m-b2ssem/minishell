@@ -1,0 +1,4 @@
+void    redirections(char *cml)
+{
+    
+}
