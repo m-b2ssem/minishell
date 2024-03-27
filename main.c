@@ -2,6 +2,12 @@
 
 void    execute(char *cml)
 {
+
+    if (cml != NULL)
+    {
+        cd(cml);
+        builtin_pwd();
+    }
     redirections(cml);
 }
 

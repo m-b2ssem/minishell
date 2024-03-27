@@ -49,6 +49,8 @@ struct			s_token
 	t_token		*next;
 };
 
-void    redirections(char *cml);
+void	redirections(char *cml);
+int		builtin_pwd();
+int		cd(char *new_path);
 
 #endif
