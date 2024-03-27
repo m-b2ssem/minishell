@@ -2,7 +2,7 @@ NAME = minishell
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
 LIBFT = ./libft/libft.a
-SRC =	main.c
+SRC =	main.c redirections/redirections.c
 
 
 OBJ = $(SRC:.c=.o)
