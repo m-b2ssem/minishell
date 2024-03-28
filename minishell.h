@@ -10,47 +10,15 @@
 # include <stdbool.h>
 #include <sys/fcntl.h>
 
-typedef struct s_commande_line	t_commande_line;
-typedef struct s_token			t_token;
-
-struct				s_commande_line
+typedef struct s_cmd
 {
-	char			*string;
-	t_token			*first_token;
-	char			**envp;
-	char			**argv;
-	int				fd_in;
-	int				fd_out;
-	char			*name_file;
-	t_commande_line	*next;
-};
-
-typedef enum token
-{
-	NON,
-	ARG,
-	BUILTIN,
-	OPEN_FILE,
-	HERE_DOC,
-	LIMITOR,
-	CREAT_FILE,
-	WRITE_FILE,
-	FILE_IN,
-	FILE_OUT,
-	FILE_OUT_OVER,
-	ENDS
-}				t_e_token;
-
-struct			s_token
-{
-	char		*str;
-	t_e_token	type;
-	bool		expanded;
-	t_token		*next;
-};
+    char    *path;
+    char    *builtin;
+} 	t_cmd;
 
 void	redirections(char *cml);
 int		builtin_pwd();
-int		cd(char *new_path);
+int		builtin_cd(t_cmd *cmd);
+void    custom_exe(t_cmd *cmd);
 
 #endif
