@@ -9,7 +9,7 @@ void    custom_exe(t_cmd *cmd, char **env)
     if (ft_strcmp("echo", cmd->builtin) == 0)
         builtin_echo(cmd);
     if (ft_strcmp("export", cmd->builtin) == 0)
-        builtin_export(cmd, env);
+        builtin_export(cmd);
     if (ft_strcmp("env", cmd->builtin) == 0)
         builtin_env(env);
     if (ft_strcmp("unset", cmd->builtin) == 0)

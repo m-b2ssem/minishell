@@ -24,7 +24,7 @@ int		builtin_pwd();
 int		builtin_cd(t_cmd *cmd);
 void    custom_exe(t_cmd *cmd, char **env);
 int     builtin_echo(t_cmd *cmd);
-int     builtin_export(t_cmd *cmd, char **env);
+int     builtin_export(t_cmd *cmd);
 int     builtin_env(char **env);
 int     builtin_unset(t_cmd *cmd, char *unset);
 
