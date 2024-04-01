@@ -10,16 +10,31 @@
 # include <stdbool.h>
 #include <sys/fcntl.h>
 
-typedef struct s_cmd
+#define HOME "/Users/bassem"
+
+/*typedef struct s_cmd
 {
     char    **env;
     char    *path;
     char    *builtin;
     char    *args;
     char    **arg_arr;
-} 	t_cmd;
+} 	t_cmd;*/
 
-void	redirections(char *cml);
+typedef struct s_cmd t_cmd;
+typedef struct		s_cmd
+{
+	char			*string;
+	t_token			*first_token;
+	char			**envp;
+	char			**argv;
+	int				fd_in;
+	int				fd_out;
+	char			*name_file;
+	s_cmd	        *next;
+}           t_cmd;
+
+void	redirections(t_cmd *cml);
 int		builtin_pwd();
 int		builtin_cd(t_cmd *cmd);
 void    custom_exe(t_cmd *cmd, char **env);

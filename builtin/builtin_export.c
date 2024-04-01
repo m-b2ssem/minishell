@@ -1,6 +1,6 @@
 #include "../minishell.h"
 
-char* strtok_custom(char* str, const char* delim) {
+char *strtok_custom(char* str, const char* delim) {
     static char* ptr = NULL;
     if (str != NULL)
         ptr = str; // Initialize pointer if a new string is passed
@@ -58,20 +58,21 @@ void bubble_sort(char **arr, int n) {
 int    add_variable(t_cmd *cmd, int i)
 {
     char** new_env;
-    
+    int     j;
+
     new_env = malloc((i + 2) * sizeof(char*)); // Allocate space for the new element and the NULL terminator
     if (new_env == NULL) {
         printf("eroor with alocatting the memory");
         return (1);
     }
-    int j = 0;
+    j = 0;
     while (j < i) {
         new_env[j] = cmd->env[j];
         j++;
     }
-    new_env[i] = cmd->args;
-    i++;
-    new_env[i] = NULL;
+    new_env[j] = cmd->args;
+    j++;
+    new_env[j] = NULL;
     cmd->env = new_env;
     return (0);
 }

@@ -4,6 +4,7 @@
 
 int builtin_cd(t_cmd *cmd)
 {
+    char *odl_pwd = getcwd(NULL, 0);
     if (cmd->builtin == NULL)
     {
         printf("no builtin was passed\n");
@@ -20,7 +21,7 @@ int builtin_cd(t_cmd *cmd)
     }
     else if (ft_strcmp("--", cmd->path) == 0)
     {
-        if (chdir("/Users/bassem") != 0)
+        if (chdir(HOME) != 0)
         {
             printf("no dirctory with this name\n");
             return (1);
@@ -46,12 +47,13 @@ int builtin_cd(t_cmd *cmd)
     {
         if(chdir(cmd->path) != 0)
         {
-            printf("no dirctory with this name222\n");
+            printf("no dirctory with this name\n");
             return (1);
         }
     }
     // for testing
-    char *s = getcwd(NULL, 0);
-    printf("%s", s);
+    char *new_pwd = getcwd(NULL, 0);
+    // we need to update the old pwd and the new pwd in the env arry
+    printf("%s", new_pwd);
     return (0);
 }

@@ -1,7 +1,7 @@
 #include "../minishell.h"
 
-void redirections(char *cml)
+void redirections(t_cmd *cmd)
 {
-    (void)cml;
+    (void)cmd;
     return;
 }
