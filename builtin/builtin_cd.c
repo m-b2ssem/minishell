@@ -4,7 +4,7 @@
 
 int builtin_cd(t_cmd *cmd)
 {
-    char *odl_pwd = getcwd(NULL, 0);
+    //char *odl_pwd = getcwd(NULL, 0);
     if (cmd->builtin == NULL)
     {
         printf("no builtin was passed\n");
