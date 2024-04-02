@@ -22,7 +22,7 @@ void    custom_exe(t_cmd *cmd, char **env)
 
 void    execute(t_cmd *cmd, char **env)
 {
-    t_value cur = cmd->token->type;
+    t_rid cur = cmd->token->type;
     if (cur.REDIR_DIN != 0 || cur.REDIR_DOUT != 0 || cur.REDIR_IN != 0 || cur.REDIR_OUT != 0)
         redirections(cmd);
     custom_exe(cmd, env);
@@ -30,22 +30,36 @@ void    execute(t_cmd *cmd, char **env)
 int main(int argc,char *argv[], char *env[])
 {
     (void)argc;
-    (void)argv;
-    t_cmd   *cmd;
-    cmd = (t_cmd *)malloc(sizeof(t_cmd) * 1);
+    t_cmd *cmd = (t_cmd *)malloc(sizeof(t_cmd));
     if (!cmd)
-        return 0;
-    cmd->token = (t_token *)malloc(sizeof(t_token) * 1);
-    if (!cmd->token)
-    {
-        return 0;
+        return 1;
+
+    cmd->token = (t_token *)malloc(sizeof(t_token));
+    if (!cmd->token) {
+        free(cmd);
+        return 1;
     }
-    cmd->token->type = (t_value *)malloc(sizoeof(t_value) * 1);
-    cmd->token->type.REDIR_OUT = atoi(argv[2]);
-    cmd->token->path = argv[3];
+
+    // Initialize all fields
+    cmd->token->type.REDIR_DIN = 0;
+    cmd->token->type.REDIR_IN = 0;
+    cmd->token->type.REDIR_OUT = 1;
+    cmd->token->type.REDIR_DOUT = 0;
+    cmd->token->path1 = argv[1];
+    cmd->token->next = NULL;
     cmd->env = env;
-    
+    cmd->args = NULL;
+    cmd->arg_arr = NULL;
+    cmd->fd_in = 0;
+    cmd->fd_out = 0;
+    cmd->name_file = NULL;
+    cmd->builtin = NULL;
+    cmd->path = NULL;
+
     execute(cmd, env);
+
+    free(cmd->token);
     free(cmd);
+
     return 0;
 }

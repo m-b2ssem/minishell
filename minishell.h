@@ -10,30 +10,39 @@
 # include <stdbool.h>
 #include <sys/fcntl.h>
 
-#define HOME "gg"
+#define HOME "/Users/bassem"
+
+/*typedef struct s_cmd
+{
+    char    **env;
+    char    *path;
+    char    *builtin;
+    char    *args;
+    char    **arg_arr;
+} 	t_cmd;*/
 
 typedef struct		s_cmd t_cmd;
 
 
-typedef struct s_value
+typedef struct s_rid
 {
 	int	REDIR_IN;
 	int REDIR_DIN;
 	int REDIR_OUT;
 	int REDIR_DOUT;
-} t_value;
+} t_rid;
 
 
 typedef struct		s_token
 {
-	t_value			type;
+	t_rid			type;
 	char			*path;
 	struct s_token	*next;
 }					t_token;
 
 typedef struct		s_cmd
 {
-	char			*string;
+	//char			*string;
 	t_token			*token;
 	char			**env;
 	char			*args;
