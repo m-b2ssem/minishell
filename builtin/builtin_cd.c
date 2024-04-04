@@ -5,12 +5,12 @@
 int builtin_cd(t_cmd *cmd)
 {
     //char *odl_pwd = getcwd(NULL, 0);
-    if (cmd->builtin == NULL)
+    if (cmd->token->builtin == NULL)
     {
         printf("no builtin was passed\n");
         return (1);
     }
-    if (cmd->path == NULL)
+    if (cmd->token->path == NULL)
     {
         //here I should pass the home dirctory 
         if (chdir("/Users/bassem") != 0)
@@ -19,7 +19,7 @@ int builtin_cd(t_cmd *cmd)
             return (1);
         }
     }
-    else if (ft_strcmp("--", cmd->path) == 0)
+    else if (ft_strcmp("--", cmd->token->path) == 0)
     {
         if (chdir(HOME) != 0)
         {
@@ -27,7 +27,7 @@ int builtin_cd(t_cmd *cmd)
             return (1);
         }
     }
-    else if (ft_strcmp("-", cmd->path) == 0)
+    else if (ft_strcmp("-",  cmd->token->path) == 0)
     {
         if (chdir("/Users/bassem") != 0)
         {
@@ -35,7 +35,7 @@ int builtin_cd(t_cmd *cmd)
             return (1);
         }
     }
-    else if (ft_strcmp("..", cmd->path) == 0)
+    else if (ft_strcmp("..",  cmd->token->path) == 0)
     {
         if (chdir("..") != 0)
         {
@@ -45,7 +45,7 @@ int builtin_cd(t_cmd *cmd)
     }
     else
     {
-        if(chdir(cmd->path) != 0)
+        if(chdir( cmd->token->path) != 0)
         {
             printf("no dirctory with this name\n");
             return (1);

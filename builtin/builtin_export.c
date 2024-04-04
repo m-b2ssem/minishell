@@ -83,7 +83,7 @@ int builtin_export(t_cmd *cmd)
     int i = 0;
     while (cmd->env[i] != NULL)
         i++; // Count the number of environment variables
-    if (cmd->args != NULL)
+    if (cmd->arg_arr[1] != NULL)
     {
         if(add_variable(cmd, i))
             return(1);

@@ -1,25 +1,26 @@
 #include "../minishell.h"
 
-static int redirections_in(t_cmd *cmd, t_token token)
+static int redirections_in(t_cmd *cmd, t_token *token)
 {
-    if (token.type.REDIR_IN)
+    if (token->type.REDIR_IN)
     {
         if (cmd->fd_in != 0)
             close(cmd->fd_in);
-        cmd->fd_in = open(token.path, O_RDONLY);
+        cmd->fd_in = open(token->path, O_RDONLY);
         if (cmd->fd_in == -1)
             return (-1);
     }
-    if (token.type.REDIR_DOUT)
+    if (token->type.REDIR_DOUT)
     {
         if (cmd->fd_in != 0)
             close(cmd->fd_in);
-        cmd->fd_in = open(token.path, O_CREAT | O_RDWR | O_APPEND, 0644);
+        cmd->fd_in = heredoc(cmd, token);
         if (cmd->fd_in == -1)
             return (-1);
     }
-    return (0)
+    return (0);
 }
+
 
 static int redirections_out(t_cmd *cmd, t_token *token)
 {

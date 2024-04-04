@@ -1,9 +1,4 @@
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
-#include <stdio.h>
-#include <fcntl.h>
-#include <readline/readline.h>
+#include "../minishell.h"
 
 int random_char(void)
 {
@@ -68,7 +63,9 @@ char   *check_for_env_value(char *str)
 
     new_str = malloc(sizeof(char) * (strlen(str) + 1));
     if (!new_str)
+    {
         return (NULL);
+    }
 	while (str[i])
 	{
 		if (str[i] != '$')
@@ -107,9 +104,11 @@ char   *check_for_env_value(char *str)
 }
 
 
-int write_inside_file(char *path, int fd)
+int write_inside_file(t_cmd *cmd, char *path, int fd)
 {
     char    *str;
+
+    (void)cmd;
     str = NULL;
     while (1)
     {
@@ -133,7 +132,7 @@ int write_inside_file(char *path, int fd)
 }
 
 
-int heredoc(void)
+int heredoc(t_cmd *cmd, t_token *token)
 {
     int fd;
     char *file;
@@ -149,9 +148,8 @@ int heredoc(void)
         free(file);
         return (-1);
     }
-    char *path = "en";
     // this is to write inside the file 
-    write_inside_file(path, fd);
+    write_inside_file(cmd ,token->path, fd);
     close(fd);
 
     fd = open(file, O_RDONLY);
@@ -161,9 +159,8 @@ int heredoc(void)
     }
     // this is will write from the file to the stdin
     while ((bytesRead = read(fd, buffer, sizeof(buffer))) > 0) {
-        write(STDOUT_FILENO, buffer, bytesRead);
+        write(STDIN_FILENO, buffer, bytesRead);
     }
-
     close(fd);
     if (unlink(file) == -1)
     {
@@ -171,13 +168,5 @@ int heredoc(void)
         return(-1);
     }
     free(file);
-    return 0;
-}
-
-int main()
-{
-
-    heredoc();
-    return 0;
-    
+    return (fd);
 }
