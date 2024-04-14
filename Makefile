@@ -1,26 +1,49 @@
-NAME = minishell
-CC = cc
-CFLAGS = -Wall -Wextra -Werror
-LIBFT = ./libft/libft.a
-SRC =	main.c
+
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: amirfatt <amirfatt@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2023/11/03 11:48:43 by amirfatt          #+#    #+#              #
+#    Updated: 2023/12/05 15:32:34 by amirfatt         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+NAME= minishell
+CC= cc
+FLAGS= -g
+#LAGS= -g -Wall -Wextra -Werror
+
+INCLUDE= -I includes
+LIBFT= cd libft && make
+
+SRC=  env_var.c
 
 
-OBJ = $(SRC:.c=.o)
+OBJECTS= $(SRC:.c=.o)
 
-$(NAME) : $(OBJ)
-	@make -C ./libft
-	$(CC) $(CFLAGS) $(OBJ) -lreadline  $(LIBFT)  -o $(NAME)
+all: $(NAME)
 
+$(NAME): $(OBJECTS)
+	$(LIBFT)
+	$(CC) $(OBJECTS) -o $(NAME) libft/libft.a
+	@echo "------------GAME Creation------------"
 
-all		: $(NAME)
+%.o: %.c
+	$(CC) $(INCLUDE) $(FLAGS) -c $< -o $@
 
-clean	:
-	@rm -f $(OBJ)
-	@make -C ./libft clean
+clean:
+	rm -f $(OBJECTS)
+	cd libft && make clean
+	@echo "------------Object files deletion------------"
 
-fclean	: clean
-	@rm -rf $(NAME)
-	@make -C ./libft fclean
+fclean: clean
+	rm -f $(NAME)
+	cd libft && make fclean
+	@echo "------------Exec files deletion------------"
 
+re: fclean all
 
-re		: fclean all
+.PHONY: all clean fclean re
