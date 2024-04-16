@@ -25,6 +25,10 @@ void    execute(t_cmd *cmd, char **env)
     t_rid cur = cmd->token->type;
     if (cmd->token->builtin != NULL)
         custom_exe(cmd, env);
+    else
+    {
+        execve(cmd->path, cmd->arg_arr, env);
+    }
     if (cur.REDIR_DIN != 0 || cur.REDIR_DOUT != 0 || cur.REDIR_IN != 0 || cur.REDIR_OUT != 0)
         redirections(cmd);
     
@@ -46,20 +50,26 @@ int main(int argc,char *argv[], char *env[])
     cmd->token->type.REDIR_DIN = 0;
     cmd->token->type.REDIR_IN = 0;
     cmd->token->type.REDIR_OUT = 0;
-    cmd->token->type.REDIR_DOUT = 1;
+    cmd->token->type.REDIR_DOUT = 0;
     cmd->token->path = argv[1];
     cmd->token->next = NULL;
     cmd->env = env;
     cmd->args = NULL;
-    cmd->arg_arr = NULL;
+    cmd->arg_arr = malloc(sizeof(char *) * 3);
+    if (!cmd->arg_arr)
+        return 5;
+    cmd->arg_arr[0] = "bb";
+    cmd->arg_arr[1] = "-a";
+    cmd->arg_arr[2] = NULL;
     cmd->fd_in = 0;
     cmd->fd_out = 0;
     cmd->name_file = NULL;
     cmd->token->builtin = NULL;
-    //cmd->path = NULL;
+    cmd->next = NULL;
+    cmd->path = "/bin/b";
 
     execute(cmd, env);
-
+    free(cmd->arg_arr);
     free(cmd->token);
     free(cmd);
 

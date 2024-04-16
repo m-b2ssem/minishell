@@ -42,8 +42,8 @@ typedef struct		s_cmd
 	int				fd_in;
 	int				fd_out;
 	char			*name_file;
-	//char			*path;
-	//s_cmd	        *next;
+	char			*path;
+	struct s_cmd	*next;
 }           t_cmd;
 
 int 	redirections(t_cmd *cmd);
