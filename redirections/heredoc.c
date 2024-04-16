@@ -52,7 +52,22 @@ char *random_name(void)
     return (file);
 }
 
-char   *check_for_env_value(char *str)
+char *my_getenv(char *name, char **env)
+{
+    int i = 0;
+    int len = strlen(name);
+    while (env[i])
+    {
+        if (strncmp(env[i], name, len) == 0 && env[i][len] == '=')
+        {
+            return (&env[i][len + 1]);
+        }
+        i++;
+    }
+    return (NULL);
+}
+
+char   *check_for_env_value(char *str, char **env)
 {
     char    *new_str;
     char    *after_doller;
@@ -83,7 +98,7 @@ char   *check_for_env_value(char *str)
                 after_doller[k++] = str[i++];
             }
             after_doller[k] = '\0';
-            var_value = getenv(after_doller);
+            var_value = my_getenv(after_doller, env);
             if (var_value)
             {
                 strcpy(&new_str[j], var_value); // replace $word with its value
@@ -121,7 +136,7 @@ int write_inside_file(t_cmd *cmd, char *path, int fd)
             break;
         if (str != NULL)
         {
-            str = check_for_env_value(str);
+            str = check_for_env_value(str, cmd->env);
         }
         write(fd, str, strlen(str));
         write(fd, "\n", 1);
