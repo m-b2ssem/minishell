@@ -56,4 +56,11 @@ int     builtin_env(char **env);
 int     builtin_unset(t_cmd *cmd, char *unset);
 int		heredoc(t_cmd *cmd, t_token *token);
 
+// exec
+int    execute(t_cmd *cmd, char **env);
+int    custom_exe(t_cmd *cmd, char **env);
+
+// utils
+int cmd_lenth(t_cmd *cmd);
+
 #endif
