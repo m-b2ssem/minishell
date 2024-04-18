@@ -49,7 +49,6 @@ typedef struct		s_cmd
 int 	redirections(t_cmd *cmd);
 int		builtin_pwd();
 int		builtin_cd(t_cmd *cmd);
-void    custom_exe(t_cmd *cmd, char **env);
 int     builtin_echo(t_cmd *cmd);
 int     builtin_export(t_cmd *cmd);
 int     builtin_env(char **env);
@@ -58,7 +57,7 @@ int		heredoc(t_cmd *cmd, t_token *token);
 
 // exec
 int    execute(t_cmd *cmd, char **env);
-int    custom_exe(t_cmd *cmd, char **env);
+int    custom_exe(t_cmd *cmd, char **env)
 
 // utils
 int cmd_lenth(t_cmd *cmd);
