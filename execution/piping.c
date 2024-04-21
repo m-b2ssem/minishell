@@ -1,5 +1,6 @@
 #include "../minishell.h"
-int free_pipe(int **pipefd)
+
+static int free_pipe(int **pipefd)
 {
     int i;
 
@@ -13,7 +14,7 @@ int free_pipe(int **pipefd)
     return (0);
 }
 
-int     setup_pipe(t_cmd *cmd, int **pipefd, int index)
+static int     setup_pipe(t_cmd *cmd, int **pipefd, int index)
 {
     if (pipe(pipefd[index]) == -1)
     {
@@ -21,17 +22,19 @@ int     setup_pipe(t_cmd *cmd, int **pipefd, int index)
         return (6);
     }
     if (index == 0)
-        cmd->fd_in = 0;
+        cmd->fd_in = STDIN_FILENO;
     else
         cmd->fd_in = pipefd[index - 1][0];
     if (cmd->next == NULL)
     {
         close(pipefd[index][0]);
         close(pipefd[index][1]);
-        cmd->fd_out = 1;
+        cmd->fd_out = STDOUT_FILENO;
     }
     else
         cmd->fd_out = pipefd[index][1];
+    //printf("fd_in: %d\n", cmd->fd_in);
+    //printf("fd_out: %d\n", cmd->fd_out);
     return (0);
 }
 
@@ -53,7 +56,7 @@ int piping(t_cmd *cmd)
     {
         pipefd[index] = malloc(sizeof(int) * 2);
         if (!pipefd[index])
-            return (5);
+            return (free_pipe(pipefd), 5);
         if (setup_pipe(tmp, pipefd, index))
             return (free_pipe(pipefd), 6);
         tmp = tmp->next;
@@ -62,3 +65,4 @@ int piping(t_cmd *cmd)
     free_pipe(pipefd);
     return (0);
 }
+
