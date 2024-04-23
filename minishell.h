@@ -9,6 +9,7 @@
 # include <readline/history.h>
 # include <stdbool.h>
 #include <sys/fcntl.h>
+#include <sys/wait.h>
 
 #define HOME "/Users/bassem"
 
@@ -66,5 +67,6 @@ int 	piping(t_cmd *cmd);
 int cmd_lenth(t_cmd *cmd);
 int close_fd(t_cmd *cmd);
 void wait_pid(pid_t *pross_id, int len);
+char *get_bin_path(char *command);
 
 #endif

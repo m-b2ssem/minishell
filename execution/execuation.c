@@ -23,36 +23,7 @@ int    custom_exe(t_cmd *cmd, char **env)
         redirections(cmd);
     return (0);
 }
-int cmd_lenth(t_cmd *cmd)
-{
-    t_cmd   *cur;
-    int     i;
 
-    cur = cmd;
-    i = 0;
-    while (cur)
-    {
-        i++;
-        cur = cur->next;
-    }
-    return (i);
-}
-
-int close_fd(t_cmd *cmd)
-{
-    t_cmd   *cur;
-
-    cur = cmd;
-    while (cur)
-    {
-        if (cur->fd_in != 0)
-            close(cur->fd_in);
-        if (cur->fd_out != 1)
-            close(cur->fd_out);
-        cur = cur->next;
-    }
-    return (0);
-}
 void custom_exe_on_child(t_cmd *cmd, pid_t *pross_id)
 {
     (void)pross_id;
@@ -63,12 +34,12 @@ void custom_exe_on_child(t_cmd *cmd, pid_t *pross_id)
     }
     else
     {
-        /*printf("path: %s\n", cmd->path);
-        printf("arg_arr: %s\n", cmd->arg_arr[1]);
-        printf("fd_in: %d\n", cmd->fd_in);
-        printf("fd_out: %d\n", cmd->fd_out);*/
+        cmd->path = NULL;
+        cmd->path = get_bin_path(cmd->arg_arr[0]);
+        printf("path: %s\n", cmd->path);
+        if (cmd->path == NULL)
+            exit(1);
         execve(cmd->path, cmd->arg_arr, cmd->env);
-        exit(0);
     }
 }
 
@@ -116,6 +87,7 @@ int    execute(t_cmd *cmd, char **env)
         return (3); // check which value you should return.
     if (cmd->token->builtin != NULL && cmd_lenth(cmd) == 1)
     {
+        printf("builtin\n");
         custom_exe(cmd, env);
         return (0);
     }

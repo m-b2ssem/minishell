@@ -26,15 +26,15 @@ int main(int argc,char *argv[], char *env[])
     cmd->arg_arr = malloc(sizeof(char *) * 3);
     if (!cmd->arg_arr)
         return 5;
-    cmd->arg_arr[0] = "/bin/ls";
-    cmd->arg_arr[1] = "-a";
-    cmd->arg_arr[2] = NULL;
+    //cmd->arg_arr[0] = "ls";
+    //cmd->arg_arr[1] = "-a";
+    //cmd->arg_arr[2] = NULL;
     cmd->fd_in = 0;
     cmd->fd_out = 1;
     cmd->name_file = NULL;
-    cmd->token->builtin = NULL;
+    cmd->token->builtin = "pwd";
     cmd->next = NULL;
-    cmd->path = "/bin/ls";
+    //cmd->path = "/bin/ls";
 
     cmd->next = malloc(sizeof(t_cmd));
     if (!cmd->next) {
@@ -63,7 +63,7 @@ int main(int argc,char *argv[], char *env[])
         free(cmd);
         return 5;
     }
-    cmd->next->arg_arr[0] = "/usr/bin/wc";
+    cmd->next->arg_arr[0] = "wc";
     cmd->next->arg_arr[1] = "-l";
     cmd->next->arg_arr[2] = NULL;
     cmd->next->fd_in = 0;
@@ -71,7 +71,7 @@ int main(int argc,char *argv[], char *env[])
     cmd->next->name_file = NULL;
     cmd->next->token->builtin = NULL;
     cmd->next->next = NULL;
-    cmd->next->path = "/usr/bin/wc";
+    //cmd->next->path = "/usr/bin/wc";
     
     execute(cmd, env);
     free(cmd->next->arg_arr);

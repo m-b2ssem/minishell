@@ -32,7 +32,7 @@ static int	split_words(char **result, char const *s, char c, int word)
 			result[word] = malloc(sizeof(char) * (end_cur - start_cur + 2));
 			if (!result[word])
 			{
-				while (word++)
+				while (--word >= 0)
 					free(result[word]);
 				return (0);
 			}
@@ -63,8 +63,18 @@ char	**ft_split(char const *s, char c)
 int main()
 {
 	char *to_split = "hello word";
-	char spilt = "hello";
+	char spilt = ' ';
 
-	char *r = ft_spilt(to_split,spilt);
-	printf("the spilted string is : %s", r);
+	char **r = ft_split(to_split, spilt);
+	if(r == NULL)
+	{
+		printf("error\n");
+		return 1;
+	}
+
+	printf("the spilted string is : %s\n", r[0]);
+	free(r[0]);
+	free(r[1]);
+	free(r);
+	return 0;
 }*/
