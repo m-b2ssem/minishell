@@ -31,6 +31,7 @@ int main(int argc, char **argv, char **envp)
     int pid = fork();
     if (pid == 0)
     {
+        exit(1);
         return 10;
         execve(path, args, envp);
     }

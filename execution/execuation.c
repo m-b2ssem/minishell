@@ -26,6 +26,7 @@ int    custom_exe(t_cmd *cmd, char **env)
 
 void custom_exe_on_child(t_cmd *cmd, pid_t *pross_id)
 {
+    //struct stat fileStat;
     (void)pross_id;
     if (cmd->token->builtin != NULL)
     {
@@ -36,10 +37,27 @@ void custom_exe_on_child(t_cmd *cmd, pid_t *pross_id)
     {
         cmd->path = NULL;
         cmd->path = get_bin_path(cmd->arg_arr[0]);
-        printf("path: %s\n", cmd->path);
+        //printf("path: %s\n", cmd->path);
         if (cmd->path == NULL)
             exit(1);
+        printf("path: \n");
         execve(cmd->path, cmd->arg_arr, cmd->env);
+        /*if (execve(cmd->path, cmd->arg_arr, cmd->env) == -1)
+        {
+            if (stat(cmd->path, &fileStat) == 0)
+            {
+                if (fileStat.st_mode == 33152)
+                    printf("Permissions deneid\n");
+                else
+                    printf("Faile to e exitcute the file\n");
+            }
+            else
+                perror("here");
+            perror("execve");
+            //free_cmd(cmd); // free cmd
+            //free(pross_id);
+            exit(1);
+        }*/
     }
 }
 
@@ -55,17 +73,20 @@ int child_procces(t_cmd *cmd,  pid_t *pross_id, int i)
         close_fd(cmd);
         custom_exe_on_child(cmd, pross_id);
     }
+    
     return (0);
 }
 
 void wait_pid(pid_t *pross_id, int len)
 {
     int i;
+    int status;
 
     i = 0;
     while (i < len)
     {
-        waitpid(pross_id[i], NULL, 0);
+        waitpid(pross_id[i], &status, 0);
+        printf("status: %d\n", WEXITSTATUS(status));
         i++;
     }
 }

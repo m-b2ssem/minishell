@@ -26,13 +26,13 @@ int main(int argc,char *argv[], char *env[])
     cmd->arg_arr = malloc(sizeof(char *) * 3);
     if (!cmd->arg_arr)
         return 5;
-    //cmd->arg_arr[0] = "ls";
-    //cmd->arg_arr[1] = "-a";
-    //cmd->arg_arr[2] = NULL;
+    cmd->arg_arr[0] = "ls";
+    cmd->arg_arr[1] = "-a";
+    cmd->arg_arr[2] = NULL;
     cmd->fd_in = 0;
     cmd->fd_out = 1;
     cmd->name_file = NULL;
-    cmd->token->builtin = "pwd";
+    cmd->token->builtin = NULL;
     cmd->next = NULL;
     //cmd->path = "/bin/ls";
 

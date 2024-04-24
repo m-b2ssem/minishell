@@ -10,6 +10,7 @@
 # include <stdbool.h>
 #include <sys/fcntl.h>
 #include <sys/wait.h>
+#include <sys/stat.h>
 
 #define HOME "/Users/bassem"
 
