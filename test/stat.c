@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <sys/wait.h>
+#include <sys/stat.h>
 
 int main(int argc, char *argv[], char *envp[]) {
 
@@ -19,7 +20,7 @@ int main(int argc, char *argv[], char *envp[]) {
                 printf("Faile to e exitcute the file\n");
             int b = fileStat.st_mode;
             printf("File Permissions: %d\n", b);
-            printf("File size: %lld bytes\n", fileStat.st_size);
+            printf("File size: %ld bytes\n", fileStat.st_size);
             printf("Permissions: %o\n", fileStat.st_mode & 0777);
             // You can access more information like modification time, etc., through other members of the `fileStat` structure.
         } else {

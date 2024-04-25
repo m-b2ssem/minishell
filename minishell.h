@@ -60,8 +60,8 @@ int		heredoc(t_cmd *cmd, t_token *token);
 // exec
 int    execute(t_cmd *cmd, char **env);
 int    custom_exe(t_cmd *cmd, char **env);
-int 	child_procces(t_cmd *cmd,  pid_t *pross_id, int i);
-void    custom_exe_on_child(t_cmd *cmd, pid_t *pross_id);
+int 	child_procces(t_cmd *cmd,  pid_t *pross_id, int i, t_cmd *tmp);
+void    custom_exe_on_child(t_cmd *cmd, pid_t *pross_id, t_cmd *tmp);
 int 	piping(t_cmd *cmd);
 
 // utils
@@ -69,5 +69,7 @@ int cmd_lenth(t_cmd *cmd);
 int close_fd(t_cmd *cmd);
 void wait_pid(pid_t *pross_id, int len);
 char *get_bin_path(char *command);
+void free_cmd(t_cmd *cmd);
+void clean_exit(t_cmd *tmp, pid_t *pross_id, int status);
 
 #endif

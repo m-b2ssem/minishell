@@ -45,7 +45,8 @@ char *get_bin_path(char *command)
         free(tmp);
         i++;
     }
-    return NULL;
+    free_paths(paths);
+    return (NULL);
 }
 
 int close_fd(t_cmd *cmd)
@@ -78,3 +79,24 @@ int cmd_lenth(t_cmd *cmd)
     }
     return (i);
 }
+
+void clean_exit(t_cmd *tmp, pid_t *pross_id, int status)
+{
+    free_cmd(tmp);
+    free(pross_id);
+    exit(status);
+}
+
+void free_cmd(t_cmd *cmd)
+{
+    t_cmd *tmp;
+    while (cmd != NULL)
+    {
+        free(cmd->arg_arr);
+        free(cmd->token);
+        tmp = cmd;
+        cmd = cmd->next;
+        free(tmp);
+    }
+}
+

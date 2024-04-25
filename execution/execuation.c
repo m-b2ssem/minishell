@@ -24,44 +24,32 @@ int    custom_exe(t_cmd *cmd, char **env)
     return (0);
 }
 
-void custom_exe_on_child(t_cmd *cmd, pid_t *pross_id)
+void custom_exe_on_child(t_cmd *cmd, pid_t *pross_id, t_cmd *tmp)
 {
-    //struct stat fileStat;
-    (void)pross_id;
+    struct stat fileStat;
     if (cmd->token->builtin != NULL)
     {
         custom_exe(cmd, cmd->env);
+        free_cmd(tmp); // free cmd
+        free(pross_id);
         exit(0);
     }
     else
     {
-        cmd->path = NULL;
         cmd->path = get_bin_path(cmd->arg_arr[0]);
-        //printf("path: %s\n", cmd->path);
-        if (cmd->path == NULL)
-            exit(1);
-        printf("path: \n");
-        execve(cmd->path, cmd->arg_arr, cmd->env);
-        /*if (execve(cmd->path, cmd->arg_arr, cmd->env) == -1)
-        {
-            if (stat(cmd->path, &fileStat) == 0)
-            {
-                if (fileStat.st_mode == 33152)
-                    printf("Permissions deneid\n");
-                else
-                    printf("Faile to e exitcute the file\n");
-            }
-            else
-                perror("here");
-            perror("execve");
-            //free_cmd(cmd); // free cmd
-            //free(pross_id);
-            exit(1);
-        }*/
+        //if (cmd->path == NULL)
+            //clean_exit(tmp, pross_id, 127);
+        execve("hghfgh", cmd->arg_arr, cmd->env);
+        printf("dfshbgfhnsrghnfsf\n");
+        if(stat(cmd->arg_arr[0], &fileStat) == 0)
+            return (printf("Permissions deneid\n"),free_cmd(tmp), free(pross_id), exit(126));
+        free_cmd(tmp); // free cmd
+        free(pross_id);
+        exit(1);
     }
 }
 
-int child_procces(t_cmd *cmd,  pid_t *pross_id, int i)
+int child_procces(t_cmd *cmd,  pid_t *pross_id, int i, t_cmd *tmp)
 {
     pross_id[i] = fork();
     if (pross_id[i] == -1)
@@ -70,8 +58,8 @@ int child_procces(t_cmd *cmd,  pid_t *pross_id, int i)
     {
         dup2(cmd->fd_in, STDIN_FILENO);
         dup2(cmd->fd_out, STDOUT_FILENO);
-        close_fd(cmd);
-        custom_exe_on_child(cmd, pross_id);
+        close_fd(tmp);
+        custom_exe_on_child(cmd, pross_id, tmp);
     }
     
     return (0);
@@ -114,9 +102,10 @@ int    execute(t_cmd *cmd, char **env)
     }
     else
     {
+        t_cmd *tmp = cmd;
         while (cmd != NULL)
         {
-            child_procces(cmd, pross_ids, i);
+            child_procces(cmd, pross_ids, i, tmp);
             if (cmd->fd_in != 0)
 		        close(cmd->fd_in);
 	        if (cmd->fd_out != 1)
