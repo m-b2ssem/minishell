@@ -55,11 +55,12 @@ int     builtin_echo(t_cmd *cmd);
 int     builtin_export(t_cmd *cmd);
 int     builtin_env(char **env);
 int     builtin_unset(t_cmd *cmd, char *unset);
+void builtin_exit(t_cmd *cmd, t_cmd *tmp, pid_t *pross_id);
 int		heredoc(t_cmd *cmd, t_token *token);
 
 // exec
 int    execute(t_cmd *cmd, char **env);
-int    custom_exe(t_cmd *cmd, char **env);
+int    custom_exe(t_cmd *cmd, char **env, t_cmd *tmp, pid_t *pross_id);
 int 	child_procces(t_cmd *cmd,  pid_t *pross_id, int i, t_cmd *tmp);
 void    custom_exe_on_child(t_cmd *cmd, pid_t *pross_id, t_cmd *tmp);
 int 	piping(t_cmd *cmd);

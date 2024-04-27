@@ -1,6 +1,10 @@
 #include "../minishell.h"
 
-int    custom_exe(t_cmd *cmd, char **env)
+extern int exit_status;
+
+
+
+int    custom_exe(t_cmd *cmd, char **env, t_cmd *tmp, pid_t *pross_id)
 {
     t_rid cur = cmd->token->type;
     if (ft_strcmp("pwd", cmd->token->builtin) == 0)
@@ -15,10 +19,8 @@ int    custom_exe(t_cmd *cmd, char **env)
         builtin_env(env);
     if (ft_strcmp("unset", cmd->token->builtin) == 0)
         builtin_unset(cmd, cmd->args);
-    /**
-    if (ft_strcmp("exit", cmd) == 0)
-        builtin_exit(cmd); todo
-    */
+    if (ft_strcmp("exit", cmd->token->builtin) == 0)
+        builtin_exit(cmd, tmp, pross_id);
     if (cur.REDIR_DIN != 0 || cur.REDIR_DOUT != 0 || cur.REDIR_IN != 0 || cur.REDIR_OUT != 0)
         redirections(cmd);
     return (0);
@@ -29,7 +31,7 @@ void custom_exe_on_child(t_cmd *cmd, pid_t *pross_id, t_cmd *tmp)
     struct stat fileStat;
     if (cmd->token->builtin != NULL)
     {
-        custom_exe(cmd, cmd->env);
+        custom_exe(cmd, cmd->env, tmp, pross_id);
         free_cmd(tmp); // free cmd
         free(pross_id);
         exit(0);
@@ -45,7 +47,7 @@ void custom_exe_on_child(t_cmd *cmd, pid_t *pross_id, t_cmd *tmp)
             return (printf("Permissions deneid\n"),free_cmd(tmp), free(pross_id), exit(126));
         free_cmd(tmp); // free cmd
         free(pross_id);
-        exit(1);
+        exit(127);
     }
 }
 
@@ -53,7 +55,12 @@ int child_procces(t_cmd *cmd,  pid_t *pross_id, int i, t_cmd *tmp)
 {
     pross_id[i] = fork();
     if (pross_id[i] == -1)
+    {
+        printf("fork failed\n");
+        free_cmd(tmp);
+        free(pross_id);
         exit(1);
+    }
     if (pross_id[i] == 0)
     {
         dup2(cmd->fd_in, STDIN_FILENO);
@@ -61,23 +68,9 @@ int child_procces(t_cmd *cmd,  pid_t *pross_id, int i, t_cmd *tmp)
         close_fd(tmp);
         custom_exe_on_child(cmd, pross_id, tmp);
     }
-    
     return (0);
 }
 
-void wait_pid(pid_t *pross_id, int len)
-{
-    int i;
-    int status;
-
-    i = 0;
-    while (i < len)
-    {
-        waitpid(pross_id[i], &status, 0);
-        printf("status: %d\n", WEXITSTATUS(status));
-        i++;
-    }
-}
 
 int    execute(t_cmd *cmd, char **env)
 {
@@ -96,8 +89,7 @@ int    execute(t_cmd *cmd, char **env)
         return (3); // check which value you should return.
     if (cmd->token->builtin != NULL && cmd_lenth(cmd) == 1)
     {
-        printf("builtin\n");
-        custom_exe(cmd, env);
+        custom_exe(cmd, env, cmd, pross_ids);
         return (0);
     }
     else

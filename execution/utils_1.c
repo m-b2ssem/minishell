@@ -100,3 +100,17 @@ void free_cmd(t_cmd *cmd)
     }
 }
 
+void wait_pid(pid_t *pross_id, int len)
+{
+    int i;
+    int status;
+
+    i = 0;
+    while (i < len)
+    {
+        waitpid(pross_id[i], &status, 0);
+        printf("status: %d\n", WEXITSTATUS(status));
+        i++;
+    }
+}
+
