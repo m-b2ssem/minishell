@@ -1,49 +1,28 @@
-
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: amirfatt <amirfatt@student.42.fr>          +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2023/11/03 11:48:43 by amirfatt          #+#    #+#              #
-#    Updated: 2023/12/05 15:32:34 by amirfatt         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
-NAME= minishell
-CC= cc
-FLAGS= -g
-#LAGS= -g -Wall -Wextra -Werror
-
-INCLUDE= -I includes
-LIBFT= cd libft && make
-
-SRC=  env_var.c
+NAME = minishell
+CC = cc
+CFLAGS = -Wall -Wextra -Werror
+LIBFT = ./libft/libft.a
+SRC =	main.c redirections/redirections.c redirections/heredoc.c builtin/builtin_pwd.c builtin/builtin_cd.c \
+		builtin/builtin_echo.c builtin/builtin_export.c builtin/builtin_env.c builtin/builtin_unset.c builtin/builtin_exit.c\
+		execution/execuation.c execution/piping.c execution/utils_1.c
 
 
-OBJECTS= $(SRC:.c=.o)
+OBJ = $(SRC:.c=.o)
 
-all: $(NAME)
+$(NAME) : $(OBJ)
+	@make -C ./libft
+	$(CC) $(CFLAGS) $(OBJ) -lreadline  $(LIBFT)  -o $(NAME)
 
-$(NAME): $(OBJECTS)
-	$(LIBFT)
-	$(CC) $(OBJECTS) -o $(NAME) libft/libft.a
-	@echo "------------GAME Creation------------"
 
-%.o: %.c
-	$(CC) $(INCLUDE) $(FLAGS) -c $< -o $@
+all		: $(NAME)
 
-clean:
-	rm -f $(OBJECTS)
-	cd libft && make clean
-	@echo "------------Object files deletion------------"
+clean	:
+	@rm -f $(OBJ)
+	@make -C ./libft clean
 
-fclean: clean
-	rm -f $(NAME)
-	cd libft && make fclean
-	@echo "------------Exec files deletion------------"
+fclean	: clean
+	@rm -rf $(NAME)
+	@make -C ./libft fclean
 
-re: fclean all
 
-.PHONY: all clean fclean re
+re		: fclean all
