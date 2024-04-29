@@ -27,17 +27,17 @@ int main(int argc,char *argv[], char *env[])
     cmd->arg_arr = malloc(sizeof(char *) * 5);
     if (!cmd->arg_arr)
         return 5;
-    cmd->arg_arr[0] = "/usr/bin/ls";
-    cmd->arg_arr[1] = "s";
+    cmd->arg_arr[0] = "/usr/bin/sleep";
+    cmd->arg_arr[1] = "5";
     cmd->arg_arr[2] = NULL;
     cmd->fd_in = 0;
     cmd->fd_out = 1;
     cmd->name_file = NULL;
-    cmd->token->builtin = "exit";
+    cmd->token->builtin = NULL;
     cmd->next = NULL;
     //cmd->path = "/bin/ls";
 
-    /*cmd->next = malloc(sizeof(t_cmd));
+    cmd->next = malloc(sizeof(t_cmd));
     if (!cmd->next) {
         free(cmd);
         return 1;
@@ -64,21 +64,20 @@ int main(int argc,char *argv[], char *env[])
         free(cmd);
         return 5;
     }
-    cmd->next->arg_arr[0] = "/usr/bin/wc";
-    cmd->next->arg_arr[1] = "-l";
-    cmd->next->arg_arr[2] = "NULL";
-    cmd->next->arg_arr[3] = NULL;
+    cmd->next->arg_arr[0] = "/usr/bin/sleep";
+    cmd->next->arg_arr[1] = "5";
+    cmd->next->arg_arr[2] = NULL;
     cmd->next->fd_in = 0;
     cmd->next->fd_out = 1;
     cmd->next->name_file = NULL;
-    cmd->next->token->builtin = "exit";
+    cmd->next->token->builtin = NULL;
     cmd->next->next = NULL;
-    //cmd->next->path = "/usr/bin/wc";*/
+    //cmd->next->path = "/usr/bin/wc";
     
     execute(cmd, env);
-    /*free(cmd->next->arg_arr);
+    free(cmd->next->arg_arr);
     free(cmd->next->token);
-    free(cmd->next);*/
+    free(cmd->next);
     free(cmd->arg_arr);
     free(cmd->token);
     free(cmd);

@@ -27,7 +27,9 @@ void builtin_exit(t_cmd *cmd, t_cmd *tmp, pid_t *pross_id)
         }
         if (!ft_isnumbers(cmd->arg_arr[1]))
         {
-            printf("minishell: exit: %s: numeric argument required\n", cmd->arg_arr[1]);
+            write(2, "minishell: exit: ", 17);
+            write(2, cmd->arg_arr[1], ft_strlen(cmd->arg_arr[1]));
+            write(2, ": numeric argument required\n", 29);
             clean_exit(tmp, pross_id, 2);
         }
         exit_status = ft_atoi(cmd->arg_arr[1]);
