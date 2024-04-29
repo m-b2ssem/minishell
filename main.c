@@ -15,6 +15,13 @@ int main(int argc,char *argv[], char *env[])
         return 1;
     }
 
+    cmd->env = malloc(sizeof(t_env));
+    if (!cmd->env) {
+        free(cmd->token);
+        free(cmd);
+        return 1;
+    }
+    initialize_env_variables(&cmd->env, env);
     // Initialize all fields
     cmd->token->type.REDIR_DIN = 0;
     cmd->token->type.REDIR_IN = 0;
@@ -22,8 +29,6 @@ int main(int argc,char *argv[], char *env[])
     cmd->token->type.REDIR_DOUT = 0;
     cmd->token->path = NULL;
     cmd->token->next = NULL;
-    cmd->env = env;
-    cmd->args = NULL;
     cmd->arg_arr = malloc(sizeof(char *) * 5);
     if (!cmd->arg_arr)
         return 5;
@@ -37,7 +42,7 @@ int main(int argc,char *argv[], char *env[])
     cmd->next = NULL;
     //cmd->path = "/bin/ls";
 
-    cmd->next = malloc(sizeof(t_cmd));
+    /*cmd->next = malloc(sizeof(t_cmd));
     if (!cmd->next) {
         free(cmd);
         return 1;
@@ -71,13 +76,14 @@ int main(int argc,char *argv[], char *env[])
     cmd->next->fd_out = 1;
     cmd->next->name_file = NULL;
     cmd->next->token->builtin = NULL;
-    cmd->next->next = NULL;
+    cmd->next->next = NULL;*/
     //cmd->next->path = "/usr/bin/wc";
     
-    execute(cmd, env);
-    free(cmd->next->arg_arr);
-    free(cmd->next->token);
-    free(cmd->next);
+    execute(cmd, cmd->env);
+    //free(cmd->next->arg_arr);
+    //free(cmd->next->token);
+    //free(cmd->next);
+    free_list(cmd->env);
     free(cmd->arg_arr);
     free(cmd->token);
     free(cmd);

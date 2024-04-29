@@ -1,107 +1,163 @@
 #include "../minishell.h"
 
-char *strtok_custom(char* str, const char* delim) {
-    static char* ptr = NULL;
-    if (str != NULL)
-        ptr = str; // Initialize pointer if a new string is passed
-    
-    if (ptr == NULL || *ptr == '\0')
-        return NULL; // If pointer is NULL or points to end of string, return NULL
-    
-    char* start = ptr;
-    while (*ptr != '\0') {
-        const char* d;
-        for (d = delim; *d != '\0'; d++) {
-            if (*ptr == *d) {
-                *ptr = '\0'; // Replace delimiter with NULL terminator
-                ptr++;
-                return start;
+void free_env_list(t_env *env)
+{
+    t_env *temp;
+
+    while (env != NULL) {
+        temp = env;
+        env = env->next;
+        free(temp->name);
+        free(temp->value);
+        free(temp);
+    }
+}
+
+t_env *copy_env_list(t_env *env) {
+    t_env *new_env;
+    t_env *temp;
+
+    new_env = NULL;
+    while (env != NULL)
+    {
+        temp = (t_env *)malloc(sizeof(t_env));
+        if (!temp)
+            return (free_env_list(new_env), NULL);
+        temp->name = strdup(env->name);
+        temp->value = strdup(env->value);
+        temp->export = env->export;
+        temp->next = new_env;
+        new_env = temp;
+        env = env->next;
+    }
+    return new_env;
+}
+
+void swap(t_env *a, t_env *b)
+{
+    char *temp_name;
+    char *temp_value;
+    int temp_export;
+
+    temp_name = a->name;
+    temp_value = a->value;
+    temp_export = a->export;
+
+    a->name = b->name;
+    a->value = b->value;
+    a->export = b->export;
+
+    b->name = temp_name;
+    b->value = temp_value;
+    b->export = temp_export;
+}
+
+void bubble_sort(t_env **head)
+{
+    int swapped = 1;
+    t_env *ptr1;
+    t_env *lptr = NULL;
+
+    /* Checking for empty list */
+    if (*head == NULL)
+        return;
+
+    while (swapped)
+    {
+        swapped = 0;
+        ptr1 = *head;
+        while (ptr1->next != lptr)
+        {
+            if (strcmp(ptr1->name, ptr1->next->name) > 0) { 
+                swap(ptr1, ptr1->next);
+                swapped = 1;
             }
+            ptr1 = ptr1->next;
         }
-        ptr++;
+        lptr = ptr1;
     }
-    return start;
 }
 
+int    add_variable(t_cmd *cmd)
+{
+    int     i;
+    int     j;
+    int     export;
+    char    *name;
+    char    *value;
+    t_env   *new;
 
-int compare(const char *a, const char *b) {
-    int i = 0;
-    while (a[i] != '=' && b[i] != '=' && a[i] == b[i]) {
-        i++;
-    }
-    if (a[i] == '=' || b[i] == '=') {
-        return a[i] - b[i];
-    }
-    return a[i] - b[i];
-}
-
-void swap(char **a, char **b) {
-    char *temp = *a;
-    *a = *b;
-    *b = temp;
-}
-
-void bubble_sort(char **arr, int n) {
-    int i = 0;
-    while (i < n-1) {
-        int j = 0;
-        while (j < n-i-1) {
-            if (compare(arr[j], arr[j+1]) > 0) {
-                swap(&arr[j], &arr[j+1]);
-            }
+    i = 1;
+    name = malloc(sizeof(char) * (strlen(cmd->arg_arr[i]) + 1));
+    if (!name)
+        return (1);  // Error allocating memory for new environment variable
+    value = malloc(sizeof(char) * (strlen(cmd->arg_arr[i]) + 1));
+    if (!value)
+        return (free(name), 1);  // Error allocating memory for new environment variable
+    while(cmd->arg_arr[i] != NULL)
+    {
+        j = 0;
+        while (cmd->arg_arr[i][j] != '=' && cmd->arg_arr[i][j] != '\0')
+        {
+            name[j] = cmd->arg_arr[i][j];
             j++;
         }
+        name[j] = '\0';
+        if (cmd->arg_arr[i][j] == '=')
+        {
+            export = 1;
+            j++;
+            while (cmd->arg_arr[i][j] != '\0')
+            {
+                value[j] = cmd->arg_arr[i][j];
+                j++;
+            }
+            value[j] = '\0';
+        }
+        else
+        {
+            export = 0;
+            value = "";
+        }
+        new = lst_new(name, value, new, export);
+        if (!new)
+            return (1);  // Error allocating memory for new environment variable
+        lst_addback(&cmd->env, new);
+        free(name);
+        free(value);
         i++;
     }
-}
-
-int    add_variable(t_cmd *cmd, int i)
-{
-    char** new_env;
-    int     j;
-
-    new_env = malloc((i + 2) * sizeof(char*)); // Allocate space for the new element and the NULL terminator
-    if (new_env == NULL) {
-        printf("eroor with alocatting the memory");
-        return (1);
-    }
-    j = 0;
-    while (j < i) {
-        new_env[j] = cmd->env[j];
-        j++;
-    }
-    new_env[j] = cmd->args;
-    j++;
-    new_env[j] = NULL;
-    cmd->env = new_env;
     return (0);
 }
 
 
 int builtin_export(t_cmd *cmd)
 {
-    int i = 0;
-    while (cmd->env[i] != NULL)
-        i++; // Count the number of environment variables
-    if (cmd->arg_arr[1] != NULL)
+    t_env *temp;
+
+    while (cmd->arg_arr[1] != NULL)
     {
-        if(add_variable(cmd, i))
-            return(1);
+        if(add_variable(cmd))
+                return(1);
         return(0);
     }
-    bubble_sort(cmd->env, i);  // Sort the environment variables
+    temp = copy_env_list(cmd->env);
+    if (!temp)
+        return (1);  // Error copying environment variables
+    bubble_sort(&temp);  // Sort the environment variables
 
-    i = 0;
-    while (cmd->env[i] != NULL)
-    {  // Print the sorted environment variables
-        char* name = strtok_custom(cmd->env[i], "=");
-        char* value = strtok_custom(NULL, "=");
-        if (value != NULL) {
-            printf("declare -x %s=\"%s\"\n", name, value);
-        } else {
-            printf("declare -x %s=\"\"\n", name);
+    while (temp != NULL)
+    {
+        if (temp->export == 1)
+        {
+            printf("declare -x %s=%s\n", temp->name, temp->value);
         }
-        i++;
+        else
+        {
+            printf("declare -x %s\n", temp->name);
+        }
+        temp = temp->next;
     }
+    free_env_list(temp);
     return (0);
 }
