@@ -103,12 +103,12 @@ void	initialize_env_variables(t_env **head, char **env)
 		i++;
 	}
 }
-void	free_list(t_env *head)
+void	free_list(t_env **head)
 {
 	t_env	*current;
 	t_env	*next;
 
-	current = head;
+	current = *head;
 	while (current != NULL)
 	{
 		next = current->next;

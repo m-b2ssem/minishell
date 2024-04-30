@@ -1,6 +1,6 @@
 #include "../minishell.h"
 
-void free_env_list(t_env *env)
+/*void free_env_list(t_env *env)
 {
     t_env *temp;
 
@@ -11,20 +11,22 @@ void free_env_list(t_env *env)
         free(temp->value);
         free(temp);
     }
-}
+}*/
 
 t_env *copy_env_list(t_env *env) {
     t_env *new_env;
     t_env *temp;
 
+    if (env == NULL)
+        return (NULL);
     new_env = NULL;
     while (env != NULL)
     {
         temp = (t_env *)malloc(sizeof(t_env));
         if (!temp)
-            return (free_env_list(new_env), NULL);
-        temp->name = strdup(env->name);
-        temp->value = strdup(env->value);
+            return (free_list(&new_env), NULL);
+        temp->name = env->name ? strdup(env->name) : strdup("");
+        temp->value = env->value ? strdup(env->value) : strdup("");
         temp->export = env->export;
         temp->next = new_env;
         new_env = temp;
@@ -39,14 +41,18 @@ void swap(t_env *a, t_env *b)
     char *temp_value;
     int temp_export;
 
-    temp_name = a->name;
-    temp_value = a->value;
+    temp_name = strdup(a->name);
+    temp_value = strdup(a->value);
     temp_export = a->export;
 
-    a->name = b->name;
-    a->value = b->value;
+    free(a->name);
+    free(a->value);
+    a->name = strdup(b->name);
+    a->value = strdup(b->value);
     a->export = b->export;
 
+    free(b->name);
+    free(b->value);
     b->name = temp_name;
     b->value = temp_value;
     b->export = temp_export;
@@ -123,19 +129,22 @@ int    add_variable(t_cmd *cmd)
         if (!new)
             return (1);  // Error allocating memory for new environment variable
         lst_addback(&cmd->env, new);
-        free(name);
-        free(value);
+        //free(name);
+        //free(value);
         i++;
     }
+    free(name);
+    free(value);
     return (0);
 }
 
 
 int builtin_export(t_cmd *cmd)
 {
-    t_env *temp;
+    t_env *temp = NULL;
+    t_env *head = NULL;
 
-    while (cmd->arg_arr[1] != NULL)
+    if (cmd->arg_arr[1] != NULL)
     {
         if(add_variable(cmd))
                 return(1);
@@ -143,21 +152,17 @@ int builtin_export(t_cmd *cmd)
     }
     temp = copy_env_list(cmd->env);
     if (!temp)
-        return (1);  // Error copying environment variables
+        return (1);/// Error copying environment variables
+    head = temp; // Keep a reference to the head of the list
     bubble_sort(&temp);  // Sort the environment variables
-
     while (temp != NULL)
     {
         if (temp->export == 1)
         {
-            printf("declare -x %s=%s\n", temp->name, temp->value);
-        }
-        else
-        {
-            printf("declare -x %s\n", temp->name);
+            printf("declare -x %s=\"%s\"\n", temp->name, temp->value);
         }
         temp = temp->next;
     }
-    free_env_list(temp);
+    free_list(&head); // Free the head of the list
     return (0);
 }

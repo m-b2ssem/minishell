@@ -73,12 +73,13 @@ void custom_exe_on_child(t_cmd *cmd, pid_t *pross_id, t_cmd *tmp)
     else
     {
         cmd->path = get_bin_path(cmd->arg_arr[0]);
+        printf("path: %s\n", cmd->path);
         //if (cmd->path == NULL)
             //clean_exit(tmp, pross_id, 127);
         new_env = env_to_char(cmd->env);
         if (new_env == NULL)
             clean_exit(tmp, pross_id, 127);
-        execve("/bin/sleep", cmd->arg_arr, new_env);
+        execve(cmd->path, cmd->arg_arr, new_env);
         if(stat(cmd->arg_arr[0], &fileStat) == 0)
         {
             write(2, "minishell: ", 11);
@@ -120,7 +121,7 @@ int child_procces(t_cmd *cmd,  pid_t *pross_id, int i, t_cmd *tmp)
 }
 
 
-int    execute(t_cmd *cmd, t_env *env)
+int    execute(t_cmd *cmd, t_env **env)
 {
     pid_t   *pross_ids;
     t_cmd    *tmp;
@@ -142,6 +143,7 @@ int    execute(t_cmd *cmd, t_env *env)
     if (cmd->token->builtin != NULL && cmd_lenth(cmd) == 1)
     {
         custom_exe(cmd, tmp, pross_ids);
+        close_fd(tmp);
         return (0);
     }
     else

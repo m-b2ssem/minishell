@@ -14,13 +14,7 @@ int main(int argc,char *argv[], char *env[])
         free(cmd);
         return 1;
     }
-
-    cmd->env = malloc(sizeof(t_env));
-    if (!cmd->env) {
-        free(cmd->token);
-        free(cmd);
-        return 1;
-    }
+    cmd->env = NULL;
     initialize_env_variables(&cmd->env, env);
     // Initialize all fields
     cmd->token->type.REDIR_DIN = 0;
@@ -32,13 +26,13 @@ int main(int argc,char *argv[], char *env[])
     cmd->arg_arr = malloc(sizeof(char *) * 5);
     if (!cmd->arg_arr)
         return 5;
-    cmd->arg_arr[0] = "/usr/bin/sleep";
-    cmd->arg_arr[1] = "5";
+    cmd->arg_arr[0] = NULL;
+    cmd->arg_arr[1] = NULL;
     cmd->arg_arr[2] = NULL;
     cmd->fd_in = 0;
     cmd->fd_out = 1;
     cmd->name_file = NULL;
-    cmd->token->builtin = NULL;
+    cmd->token->builtin = "env";
     cmd->next = NULL;
     //cmd->path = "/bin/ls";
 
@@ -79,11 +73,11 @@ int main(int argc,char *argv[], char *env[])
     cmd->next->next = NULL;*/
     //cmd->next->path = "/usr/bin/wc";
     
-    execute(cmd, cmd->env);
+    execute(cmd, &cmd->env);
     //free(cmd->next->arg_arr);
     //free(cmd->next->token);
     //free(cmd->next);
-    free_list(cmd->env);
+    free_list(&cmd->env);
     free(cmd->arg_arr);
     free(cmd->token);
     free(cmd);

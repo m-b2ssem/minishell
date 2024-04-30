@@ -70,7 +70,7 @@ void builtin_exit(t_cmd *cmd, t_cmd *tmp, pid_t *pross_id);
 int		heredoc(t_cmd *cmd, t_token *token);
 
 // exec
-int    execute(t_cmd *cmd, t_env *env);
+int    execute(t_cmd *cmd, t_env **env);
 int    custom_exe(t_cmd *cmd, t_cmd *tmp, pid_t *pross_id);
 int 	child_procces(t_cmd *cmd,  pid_t *pross_id, int i, t_cmd *tmp);
 void    custom_exe_on_child(t_cmd *cmd, pid_t *pross_id, t_cmd *tmp);
@@ -86,7 +86,7 @@ void clean_exit(t_cmd *tmp, pid_t *pross_id, int status);
 
 void				initialize_env_variables(t_env **head, char **env);
 void				print_list(t_env *head);
-void				free_list(t_env *head);
+void				free_list(t_env **head);
 t_env				*lst_last(t_env *lst);
 t_env				*lst_new(char *name, char *value, t_env *new, int export);
 void				lst_addback(t_env **list, t_env *new);
