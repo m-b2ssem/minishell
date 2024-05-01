@@ -1,29 +1,15 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   env_var.c                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: amirfatt <amirfatt@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/11 16:01:38 by amirfatt          #+#    #+#             */
-/*   Updated: 2024/04/14 12:45:18 by amirfatt         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "minishell.h"
 
 void	print_list(t_env *head) // Single pointer to head
 {
 	t_env *current = head;
 
-	printf("HERE\n");
 	while (current != NULL)
 	{
-		printf("    Name: %s\n", current->name);
-		printf("    Value: %s\n", current->value);
+		printf("Name: %s\n", current->name);
+		printf("Value: %s\n", current->value);
 		current = current->next; // Move to the next node
 	}
-	printf("NULL\n");
 }
 
 t_env	*lst_last(t_env *lst)
@@ -40,7 +26,7 @@ t_env	*lst_last(t_env *lst)
 	return (current);
 }
 
-t_env	*lst_new(char *name, char *value, t_env *new)
+t_env	*lst_new(char *name, char *value, t_env *new, int export)
 {
 	new = malloc(sizeof(t_env));
 	if (!new)
@@ -56,7 +42,10 @@ t_env	*lst_new(char *name, char *value, t_env *new)
 		free(new);
 		return (NULL);
 	}
-	new->export = -1;
+	if (export == 1)
+		new->export = 1;
+	else
+		new->export = 0;
 	new->next = NULL;
 	return (new);
 }
@@ -92,7 +81,6 @@ int	find_char(char *s)
 void	initialize_env_variables(t_env **head, char **env)
 {
 	int		i;
-	int		flag;
 	char	*name;
 	char	*value;
 	t_env	*new;
@@ -102,7 +90,7 @@ void	initialize_env_variables(t_env **head, char **env)
 	{
 		name = ft_substr(env[i], 0, find_char(env[i]));
 		value = getenv(name);
-		new = lst_new(name, value ? value : "", new);
+		new = lst_new(name, value ? value : "", new, 1);
 		if (!new)
 		{
 			free(name);
@@ -113,12 +101,12 @@ void	initialize_env_variables(t_env **head, char **env)
 		i++;
 	}
 }
-void	free_list(t_env *head)
+void	free_list(t_env **head)
 {
 	t_env	*current;
 	t_env	*next;
 
-	current = head;
+	current = *head;
 	while (current != NULL)
 	{
 		next = current->next;
@@ -128,7 +116,7 @@ void	free_list(t_env *head)
 		current = next;
 	}
 }
-
+/*
 int	main(int argc, char **argv, char **env)
 {
 	extern char	**__environ;
@@ -142,4 +130,4 @@ int	main(int argc, char **argv, char **env)
 	print_list(var);
 	free_list(var);
 	return (0);
-}
+}*/

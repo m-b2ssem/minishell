@@ -52,22 +52,24 @@ char *random_name(void)
     return (file);
 }
 
-char *my_getenv(char *name, char **env)
+char *my_getenv(char *name, t_env *env)
 {
-    int i = 0;
+    t_env *tmp;
+
+    tmp = env;
     int len = strlen(name);
-    while (env[i])
+    while (tmp->next != NULL)
     {
-        if (strncmp(env[i], name, len) == 0 && env[i][len] == '=')
+        if (strncmp(tmp->name, name, len) == 0 &&  tmp->export == 1)
         {
-            return (&env[i][len + 1]);
+            return (tmp->value);
         }
-        i++;
+        tmp = tmp->next;
     }
     return (NULL);
 }
 
-char   *check_for_env_value(char *str, char **env)
+char   *check_for_env_value(char *str, t_env *env)
 {
     char    *new_str;
     char    *after_doller;
