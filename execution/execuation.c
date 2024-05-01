@@ -16,9 +16,9 @@ int    custom_exe(t_cmd *cmd, t_cmd *tmp, pid_t *pross_id)
     if (ft_strcmp("export", cmd->token->builtin) == 0)
         builtin_export(cmd);
     if (ft_strcmp("env", cmd->token->builtin) == 0)
-        builtin_env(*(cmd->env));
+        builtin_env(cmd->env);
     if (ft_strcmp("unset", cmd->token->builtin) == 0)
-        builtin_unset(cmd->env, cmd);
+        builtin_unset(&cmd->env, cmd);
     if (ft_strcmp("exit", cmd->token->builtin) == 0)
         builtin_exit(cmd, tmp, pross_id);
     if (cur.REDIR_DIN != 0 || cur.REDIR_DOUT != 0 || cur.REDIR_IN != 0 || cur.REDIR_OUT != 0)
@@ -68,8 +68,7 @@ void custom_exe_on_child(t_cmd *cmd, pid_t *pross_id, t_cmd *tmp)
     if (cmd->token->builtin != NULL)
     {
         custom_exe(cmd, tmp, pross_id);
-        free_list(cmd->env);
-        clean_exit(tmp, pross_id, 110);
+        clean_exit(tmp, pross_id, 0);
     }
     else
     {
@@ -77,7 +76,7 @@ void custom_exe_on_child(t_cmd *cmd, pid_t *pross_id, t_cmd *tmp)
         printf("path: %s\n", cmd->path);
         //if (cmd->path == NULL)
             //clean_exit(tmp, pross_id, 127);
-        new_env = env_to_char(*(cmd->env));
+        new_env = env_to_char(cmd->env);
         if (new_env == NULL)
             clean_exit(tmp, pross_id, 127);
         execve(cmd->path, cmd->arg_arr, new_env);
@@ -122,7 +121,7 @@ int child_procces(t_cmd *cmd,  pid_t *pross_id, int i, t_cmd *tmp)
 }
 
 
-int    execute(t_cmd *cmd, t_env **env)
+int    execute(t_cmd *cmd, t_env *env)
 {
     pid_t   *pross_ids;
     t_cmd    *tmp;
@@ -145,7 +144,8 @@ int    execute(t_cmd *cmd, t_env **env)
     {
         custom_exe(cmd, tmp, pross_ids);
         close_fd(tmp);
-        return (50);
+        free(pross_ids);
+        return (0);
     }
     else
     {

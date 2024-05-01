@@ -49,7 +49,7 @@ typedef struct s_env
 
 typedef struct		s_cmd
 {
-	t_env			**env;
+	t_env			*env;
 	t_token			*token;
 	char			**arg_arr;
 	int				fd_in;
@@ -70,7 +70,7 @@ void builtin_exit(t_cmd *cmd, t_cmd *tmp, pid_t *pross_id);
 int		heredoc(t_cmd *cmd, t_token *token);
 
 // exec
-int    execute(t_cmd *cmd, t_env **env);
+int    execute(t_cmd *cmd, t_env *env);
 int    custom_exe(t_cmd *cmd, t_cmd *tmp, pid_t *pross_id);
 int 	child_procces(t_cmd *cmd,  pid_t *pross_id, int i, t_cmd *tmp);
 void    custom_exe_on_child(t_cmd *cmd, pid_t *pross_id, t_cmd *tmp);

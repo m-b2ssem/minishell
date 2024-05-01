@@ -1,32 +1,21 @@
 #include "../minishell.h"
 
-/*void free_env_list(t_env *env)
-{
-    t_env *temp;
-
-    while (env != NULL) {
-        temp = env;
-        env = env->next;
-        free(temp->name);
-        free(temp->value);
-        free(temp);
-    }
-}*/
 
 t_env *copy_env_list(t_env *env) {
     t_env *new_env;
     t_env *temp;
 
-    if (env == NULL)
-        return (NULL);
+    if (env->next == NULL)
+        return (printf("here"),NULL);
+
     new_env = NULL;
     while (env != NULL)
     {
         temp = (t_env *)malloc(sizeof(t_env));
         if (!temp)
             return (free_list(&new_env), NULL);
-        temp->name = env->name ? strdup(env->name) : strdup("");
-        temp->value = env->value ? strdup(env->value) : strdup("");
+        temp->name = env->name ? strdup(env->name) : strdup(" ");
+        temp->value = env->value ? strdup(env->value) : strdup(" ");
         temp->export = env->export;
         temp->next = new_env;
         new_env = temp;
@@ -88,21 +77,25 @@ int    add_variable(t_cmd *cmd)
 {
     int     i;
     int     j;
+    int     k;
     int     export;
     char    *name;
     char    *value;
     t_env   *new;
+    
 
     i = 1;
-    name = ft_calloc(sizeof(char) , (strlen(cmd->arg_arr[i]) + 1));
-    if (!name)
-        return (1);  // Error allocating memory for new environment variable
-    value = ft_calloc(sizeof(char) , (strlen(cmd->arg_arr[i]) + 1));
-    if (!value)
-        return (free(name), 1);  // Error allocating memory for new environment variable
+    k = 0;
+   name = ft_calloc(sizeof(char) ,(strlen(cmd->arg_arr[i]) + 1));
+   if (!name)
+   	return (1);  // Error allocating memory for new environment variable
+   value = ft_calloc(sizeof(char) ,(strlen(cmd->arg_arr[i]) + 1));
+   if (!value)
+   	return (free(name), 1);
     while(cmd->arg_arr[i] != NULL)
     {
         j = 0;
+        k = 0;
         while (cmd->arg_arr[i][j] != '=' && cmd->arg_arr[i][j] != '\0')
         {
             name[j] = cmd->arg_arr[i][j];
@@ -115,24 +108,24 @@ int    add_variable(t_cmd *cmd)
             j++;
             while (cmd->arg_arr[i][j] != '\0')
             {
-                value[j] = cmd->arg_arr[i][j];
+                value[k] = cmd->arg_arr[i][j];
+                k++;
                 j++;
             }
-            value[j] = '\0';
+            value[k] = '\0';
         }
         else
         {
             export = 0;
             value = "";
         }
+        printf("name: %s\n", name);
+        printf("value: %s\n", value);
+        printf("export: %d\n", export);
         new = lst_new(name, value, new, export);
         if (!new)
-        {
-            free(name);
-            free(value);
-            return (1); 
-        }
-        lst_addback(cmd->env, new);
+            return (1);  // Error allocating memory for new environment variable
+        lst_addback(&cmd->env, new);
         i++;
     }
     free(name);
@@ -146,19 +139,17 @@ int builtin_export(t_cmd *cmd)
     t_env *temp = NULL;
     t_env *head = NULL;
 
-    if (cmd->arg_arr[1] != NULL && cmd->arg_arr[1][0] != '#')
+    if (cmd->arg_arr[1] != NULL)
     {
         if(add_variable(cmd))
                 return(1);
         return(0);
     }
-    temp = copy_env_list(*(cmd->env));
+    temp = copy_env_list(cmd->env);
     if (!temp)
         return (1);/// Error copying environment variables
     head = temp; // Keep a reference to the head of the list
-    if (temp != NULL) {
-        bubble_sort(&temp);  // Sort the environment variables
-    }  
+    bubble_sort(&temp);  // Sort the environment variables
     while (temp != NULL)
     {
         if (temp->export == 1)
