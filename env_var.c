@@ -3,10 +3,10 @@
 void	print_list(t_env *head) // Single pointer to head
 {
 	t_env *current = head;
-
-	printf("HERE\n");
+	int i = 0;
 	while (current != NULL)
 	{
+		printf("Node %d\n", i++);
 		printf("    Name: %s\n", current->name);
 		printf("    Value: %s\n", current->value);
 		current = current->next; // Move to the next node
@@ -107,10 +107,12 @@ void	free_list(t_env **head)
 {
 	t_env	*current;
 	t_env	*next;
+	int i = 0;
 
 	current = *head;
 	while (current != NULL)
 	{
+		printf("Freeing %d\n", i++);
 		next = current->next;
 		free(current->name);
 		free(current->value);

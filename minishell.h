@@ -49,7 +49,7 @@ typedef struct s_env
 
 typedef struct		s_cmd
 {
-	t_env			*env;
+	t_env			**env;
 	t_token			*token;
 	char			**arg_arr;
 	int				fd_in;

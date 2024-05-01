@@ -138,7 +138,7 @@ int write_inside_file(t_cmd *cmd, char *path, int fd)
             break;
         if (str != NULL)
         {
-            str = check_for_env_value(str, cmd->env);
+            str = check_for_env_value(str, *(cmd->env));
         }
         write(fd, str, strlen(str));
         write(fd, "\n", 1);
