@@ -45,7 +45,7 @@ t_env	*lst_new(char *name, char *value, t_env *new)
 		free(new);
 		return (NULL);
 	}
-	new->export = -1;
+	new->export = 1;
 	new->next = NULL;
 	return (new);
 }
