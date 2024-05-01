@@ -5,52 +5,14 @@
 
 t_quote_status	get_quote_status(char c, t_quote_status stat);
 
-t_cmd add_argument_to_list(char *arg, )
+t_cmd add_argument_to_list(char *arg, int i, t_cmd *line)
+{
 
-
+}
 
 int	is_pipe(char c)
 {
 	return (c == '|');
-}
-char	*ft_substr(char const *s, unsigned int start, size_t len)
-{
-	char	*subst;
-	size_t	size;
-
-	if (!s)
-		return (NULL);
-	if (start >= strlen(s))
-		return (ft_strdup(""));
-	size = strlen(s + start);
-	if (size < len)
-		len = size;
-	subst = (char *)malloc(sizeof(char) * (len + 1));
-	if (!subst)
-		return (NULL);
-	strncpy(subst, s + start, len + 1);
-	return (subst);
-}
-
-char	*ft_strdup(const char *s1)
-{
-	int		i;
-	char	*dst;
-
-	i = 1;
-	while (s1[i - 1])
-		i++;
-	dst = malloc(sizeof(*s1) * i);
-	i = 0;
-	if (dst == NULL)
-		return (NULL);
-	while (s1[i])
-	{
-		dst[i] = s1[i];
-		i++;
-	}
-	dst[i] = '\0';
-	return (dst);
 }
 
 int	save_input_in_struct(char *str, t_cmd **line)
@@ -63,7 +25,6 @@ int	save_input_in_struct(char *str, t_cmd **line)
 	i = 0;
 	start = 0;
 	stat = NO_QUOTE;
-	// get initial quote status
 	get_quote_status(str[i], stat);
 	while (str[i])
 	{

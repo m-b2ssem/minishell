@@ -72,7 +72,6 @@ int	find_char(char *s)
 	int	i;
 
 	i = 0;
-	// handle cases where '=' is not found in the string
 	while (s[i] != '=')
 		i++;
 	return (i);
