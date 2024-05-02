@@ -117,17 +117,17 @@ void	free_list(t_env *head)
 	}
 }
 
-int	main(int argc, char **argv, char **env)
-{
-	extern char	**__environ;
-	t_env		*var;
+// int	main(int argc, char **argv, char **env)
+// {
+// 	extern char	**__environ;
+// 	t_env		*var;
 
-	var = NULL;
-	env = __environ;
-	(void)argc;
-	(void)argv;
-	initialize_env_variables(&var, env);
-	print_list(var);
-	free_list(var);
-	return (0);
-}
+// 	var = NULL;
+// 	env = __environ;
+// 	(void)argc;
+// 	(void)argv;
+// 	initialize_env_variables(&var, env);
+// 	print_list(var);
+// 	free_list(var);
+// 	return (0);
+// }
