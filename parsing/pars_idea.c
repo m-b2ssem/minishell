@@ -72,15 +72,15 @@ int	lexer(char *user_input, t_cmd **line)
 	return (0);
 }
 
-int	main(int argc, char **argv)
-{
-	t_cmd	*line;
+// int	main(int argc, char **argv)
+// {
+// 	t_cmd	*line;
 
-	if (argc > 2)
-	{
-		lexer(argv[1], &line);
-	}
-	else
-		printf("NO");
-	return (0);
-}
+// 	if (argc > 2)
+// 	{
+// 		lexer(argv[1], &line);
+// 	}
+// 	else
+// 		printf("NO");
+// 	return (0);
+// }
