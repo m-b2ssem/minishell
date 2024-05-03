@@ -33,13 +33,13 @@ int main(int argc,char *argv[], char *env[])
     cmd->arg_arr = malloc(sizeof(char *) * 5);
     if (!cmd->arg_arr)
         return 5;
-    cmd->arg_arr[0] = "export";
-    cmd->arg_arr[1] = "hello=word";
+    cmd->arg_arr[0] = "ls";
+    cmd->arg_arr[1] = "-l";
     cmd->arg_arr[2] = NULL;
     cmd->fd_in = 0;
     cmd->fd_out = 1;
     cmd->name_file = NULL;
-    cmd->token->builtin = "export";
+    cmd->token->builtin = NULL;
     cmd->next = NULL;
     //cmd->path = "/bin/ls";
 
@@ -70,7 +70,7 @@ int main(int argc,char *argv[], char *env[])
         return 5;
     }
     cmd->next->arg_arr[0] = "export";
-    cmd->next->arg_arr[1] = NULL;
+    cmd->next->arg_arr[1] = "hello=";
     cmd->next->arg_arr[2] = NULL;
     cmd->next->fd_in = 0;
     cmd->next->fd_out = 1;

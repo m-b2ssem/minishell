@@ -138,8 +138,7 @@ int    execute(t_cmd *cmd, t_env *env)
         return (2);
     res = piping(cmd);
     if (res)
-        return (3); // check which value you should return.
-    signal(EOF, eof_handler);
+        return (free(pross_ids),3); // check which value you should return.
     if (cmd->token->builtin != NULL && cmd_lenth(cmd) == 1)
     {
         custom_exe(cmd, tmp, pross_ids);
