@@ -3,6 +3,7 @@
 #include <signal.h>
 #include <unistd.h>
 #include <sys/wait.h>
+#include <readline/readline.h>
 
 
 void child_1() {
@@ -11,12 +12,10 @@ void child_1() {
 }
 
 void child() {
-    while(1) {
-        printf("Child 111\n");
-        child_1();
-        signal(SIGINT, SIG_DFL);
-        sleep(1);
-    }
+    printf("Child 111\n");
+    child_1();
+    signal(SIGINT, SIG_DFL);
+    exit(0);
 }
 
 
@@ -26,28 +25,38 @@ void sigint_handler(int sig_num) {
     exit(0);
 }
 
-int main() {
+int main(int argc, char *argv[], char *env[]) {
+    (void)argc;
+    (void)argv;
     
     printf("Press Ctrl+C to send SIGINT signal.\n");
-    int i;
+    //int i;
     char *str;
     while(1) {
         signal(SIGINT, sigint_handler);
+        while (*env != NULL)
+        {
+            printf("%s\n", *env);
+            env++;
+        }
+        {
+            /* code */
+        }
+        
 
-        i = fork();
         str = readline("minishell> ");
-        if (str = NULL)
+        if (str == NULL)
         {
             printf("exit\n");
+            break;
         }
+        /*i = fork();
         if (i == 0) {
             printf("Child process created.\n");
             child();
             signal(SIGINT, SIG_DFL);
-        }
-        printf("Running infinite loop.\n");
-        sleep(1);
+        }*/
     }
-    waitpid(i, NULL, 0);
+    //waitpid(i, NULL, 0);
     return 0;
 }

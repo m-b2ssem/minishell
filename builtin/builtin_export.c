@@ -117,14 +117,15 @@ int    add_variable(t_cmd *cmd)
         else
         {
             export = 0;
-            value = "";
+            value[k++] = ' ';
+            value[k] = '\0';
         }
         printf("name: %s\n", name);
         printf("value: %s\n", value);
         printf("export: %d\n", export);
         new = lst_new(name, value, new, export);
         if (!new)
-            return (1);  // Error allocating memory for new environment variable
+            return (free(name), free(value), 1);  // Error allocating memory for new environment variable
         lst_addback(&cmd->env, new);
         i++;
     }
