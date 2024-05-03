@@ -77,7 +77,7 @@ int	find_pipe(char *str, int i, t_quote_status quote)
 	return (end);
 }
 
-int	is_space(char c)
+int	is_space(char c) 
 {
 	if (c == ' ')
 		return (1);
@@ -131,6 +131,8 @@ int	lexer(char *user_input, t_cmd **line)
 			else if (arg)
 				free(arg);
 			free(arg);
+			// double free;
+
 		}
 		i++;
 	}
@@ -185,7 +187,7 @@ void	arg_add_back(t_cmd **stack, t_cmd *new)
 			current = arg_last(*(stack));
 			current->next = new;
 		}
-		// new = NULL;
+		new = NULL;
 	}
 }
 
