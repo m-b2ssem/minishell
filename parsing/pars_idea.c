@@ -1,10 +1,9 @@
 
-#include "../libft/libft.h"
 #include "../minishell.h"
 
-int	is_space(char c)
+int	is_pipe(char c)
 {
-	return (c == ' ' || c == '\t');
+	return (c == '|');
 }
 
 t_quote_status	get_quote_status(char c, t_quote_status stat)
@@ -18,69 +17,37 @@ t_quote_status	get_quote_status(char c, t_quote_status stat)
 	return (stat);
 }
 
-t_cmd	*init_arg_list(t_cmd **line, t_cmd *new)
+void	end_of_process(char *str, int *i)
 {
-	new = malloc(sizeof(t_cmd));
-	if (!new)
-		return (NULL);
-	memset(new, 0, sizeof(t_cmd));
-}
+	t_quote_status	quote;
 
-t_cmd	*argument_into_list(t_cmd **line, char *arg)
-{
-	t_cmd	*new;
-
-	init_arg_list(&line, new);
-	new->args = malloc(sizeof(char) * strlen(arg));
-	if (!new->args)
-		return (NULL);
-	new->args = strcpy(new->args, arg);
-	printf("%s\n", new->args);
+	quote = NO_QUOTE;
+	while (str[(*i)])
+	{
+		quote = get_quote_status(str[(*i)], quote);
+		if (is_pipe(str[(*i)]) && quote == NO_QUOTE)
+			return ;
+		(*i)++;
+	}
 }
 
 int	lexer(char *user_input, t_cmd **line)
 {
-	int				i;
-	int				start;
-	char			*arg;
-	t_quote_status	quote;
+	int		i;
+	int		start;
+	char	*arg;
 
-	quote = NO_QUOTE;
+	(void)line;
+	arg = NULL;
 	i = 0;
 	start = 0;
-	arg = NULL;
-	while (user_input && user_input[i])
+	while (user_input && user_input[i] != '\0')
 	{
-		while (is_space(user_input[i]) && user_input[i] != '\0')
-			i++;
-		quote = get_quote_status(user_input[i], quote);
-		if (user_input[i] == '|' && quote == NO_QUOTE)
-		{
-			arg = ft_substr(arg, start, i - start);
-			argument_into_list(&line, arg);
-			start = i;
-			free(arg);
-		}
-		i++;
-	}
-	if (start < i && quote == NO_QUOTE)
-	{
+		end_of_process(user_input, &i);
 		arg = ft_substr(user_input, start, i - start);
-		argument_into_list(&line, arg);
+		printf("%s\n", arg);
+		start = i;
 		free(arg);
 	}
 	return (0);
 }
-
-// int	main(int argc, char **argv)
-// {
-// 	t_cmd	*line;
-
-// 	if (argc > 2)
-// 	{
-// 		lexer(argv[1], &line);
-// 	}
-// 	else
-// 		printf("NO");
-// 	return (0);
-// }
