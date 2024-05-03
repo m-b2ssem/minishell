@@ -81,5 +81,14 @@ typedef enum quote_status
 int	lexer(char *user_input, t_cmd **line);
 t_quote_status	get_quote_status(char c, t_quote_status stat);
 int	is_pipe(char c);
+int	check_for_unclosed_quotes(char *str);
+
+t_cmd	*arg_last(t_cmd *lst);
+void	arg_add_back(t_cmd **stack, t_cmd *new);
+void	init_node(t_cmd *new);
+
+void	print_list(t_cmd *head);
+void	free_list(t_cmd **head);
+int	argument_into_struct(char *str, t_cmd **line);
 
 #endif
