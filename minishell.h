@@ -107,5 +107,10 @@ void	print_list(t_env *head);
 void	free_list(t_env *head);
 
 // parsing
+int	lexer(char *user_input, t_cmd **line);
+t_quote_status	get_quote_status(char c, t_quote_status stat);
+int	is_space(char c);
+t_cmd	*init_arg_list(t_cmd *new);
+t_cmd	*argument_into_list(t_cmd **line, char *arg);
 
 #endif

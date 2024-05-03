@@ -17,11 +17,11 @@ char *my_getenv(char *name, char **env)
     return NULL;
 }
 
-int main(int argc, char **argv, char **env)
-{
-    char *val;
+// int main(int argc, char **argv, char **env)
+// {
+//     char *val;
 
-    val = my_getenv("USER", env);
-    printf("thisis the value %s\n", val);
-    return 0;
-}
+//     val = my_getenv("USER", env);
+//     printf("thisis the value %s\n", val);
+//     return 0;
+// }
