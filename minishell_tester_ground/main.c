@@ -19,7 +19,7 @@ int	main(int argc, char *argv[])
 		else
 		{
 			lexer(argv[1], &line);
-			// print_list(line);
+			print_list(line);
 			free_list(&line);
 		}
 	}
