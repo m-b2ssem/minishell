@@ -4,7 +4,6 @@
 
 # include "libft/libft.h"
 # include <errno.h>
-# include <readline/readline.h>
 # include <signal.h>
 # include <stdio.h>
 # include <stdlib.h>

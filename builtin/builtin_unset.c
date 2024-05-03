@@ -13,7 +13,7 @@ int builtin_unset(t_env **head, t_cmd *cmd)
         curr = *head;
         while (curr != NULL)
         {
-            if (strcmp(curr->name, cmd->arg_arr[i]) == 0)
+            if (ft_strcmp(curr->name, cmd->arg_arr[i]) == 0)
             {
                 if (prev == NULL)
                 {
@@ -32,5 +32,5 @@ int builtin_unset(t_env **head, t_cmd *cmd)
         }
         i++;
     }
-    return (1);
+    return (0);
 }
