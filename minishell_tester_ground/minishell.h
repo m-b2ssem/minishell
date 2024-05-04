@@ -87,8 +87,11 @@ t_cmd	*arg_last(t_cmd *lst);
 void	arg_add_back(t_cmd **stack, t_cmd *new);
 void	init_node(t_cmd *new);
 
-void	print_list(t_cmd *head);
-void	free_list(t_cmd **head);
+void	print_list(t_cmd **head);
+void	free_list(t_cmd *head);
 int	argument_into_struct(char *str, t_cmd **line);
+
+char	**ft_split_cmd(char const *s, char c);
+void	initialize_arguments(t_cmd **line, char **user);
 
 #endif

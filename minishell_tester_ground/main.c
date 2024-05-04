@@ -1,32 +1,46 @@
 
 #include "minishell.h"
 
+void	free_str(char *str)
+{
+	if (str)
+		free(str);
+}
+
 int	main(int argc, char *argv[])
 {
 	t_cmd	*line;
-	char	*str;
+	char	*user;
+	char	**arr;
 	int		i;
+	int		res;
 
 	line = NULL;
+	arr = NULL;
+	// line = NULL;
 	i = 0;
-	// memset(line, 0, sizeof(t_cmd));
-	if (argc > 1)
+	if (!argc && !argv)
+		return (0);
+	while (1)
 	{
-		str = argv[1];
-		i = check_for_unclosed_quotes(str);
-		if (i != 0)
+		user = readline("💅 🧠 minishell> ");
+		add_history(user);
+		if (user == NULL)
+			continue ;
+		res = check_for_unclosed_quotes(user);
+		if (res != 0)
 			printf("Unclosed detected\n");
 		else
 		{
-			lexer(argv[1], &line);
-			print_list(line);
-			free_list(&line);
+			arr = ft_split_cmd(user, '|');
+			initialize_arguments(&line, arr);
+			print_list(&line);
 		}
-	}
-	else
-	{
-		printf("minishell: missing arguments\n");
-		// Inform about missing arguments
+		// free(arr);
+		// // ;
+		// if (user != NULL)
+		// 	free(user);
+		// free_list(line);
 	}
 	return (0);
 }

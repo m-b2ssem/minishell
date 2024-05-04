@@ -34,7 +34,7 @@ static int	split_words(char **result, char const *s, char c, int word)
 			{
 				while (--word >= 0)
 					free(result[word]);
-				return (0);
+				return (0); 
 			}
 			ft_strlcpy(result[word], (s + start_cur), end_cur - start_cur + 2);
 			word++;
