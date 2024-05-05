@@ -116,8 +116,8 @@ void	init_node(t_cmd *new)
 	new->env = NULL;
 	new->args = NULL;
 	new->arg_arr = NULL;
-	new->name_file = NULL;
-	new->path = NULL;
+	//new->name_file = NULL;
+	//new->path = NULL;
 	new->next = NULL;
 	new->fd_in = 0;
 	new->fd_out = 0;

@@ -2,7 +2,7 @@ NAME = test
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -g
 LIBFT = ./libft/libft.a
-SRC =	main.c parsing.c
+SRC =	main.c parsing.c tokenizing.c
 
 
 OBJ = $(SRC:.c=.o)
