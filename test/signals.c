@@ -28,22 +28,12 @@ void sigint_handler(int sig_num) {
 int main(int argc, char *argv[], char *env[]) {
     (void)argc;
     (void)argv;
-    
+
     printf("Press Ctrl+C to send SIGINT signal.\n");
     //int i;
     char *str;
     while(1) {
         signal(SIGINT, sigint_handler);
-        while (*env != NULL)
-        {
-            printf("%s\n", *env);
-            env++;
-        }
-        {
-            /* code */
-        }
-        
-
         str = readline("minishell> ");
         if (str == NULL)
         {
