@@ -16,6 +16,7 @@ static int ft_isnumbers(char *str)
 
 void builtin_exit(t_cmd *cmd, t_cmd *tmp, pid_t *pross_id)
 {
+    int exit_status = 0;
     printf("exit\n");
     if (cmd->arg_arr[1] != NULL)
     {

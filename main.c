@@ -1,6 +1,5 @@
 #include "minishell.h"
 
-int exit_status;
 
 int main(int argc,char *argv[], char *env[])
 {
@@ -24,11 +23,8 @@ int main(int argc,char *argv[], char *env[])
     cmd->env = NULL;
     initialize_env_variables(&cmd->env, env);
     // Initialize all fields
-    cmd->token->type.REDIR_DIN = 0;
-    cmd->token->type.REDIR_IN = 0;
-    cmd->token->type.REDIR_OUT = 0;
-    cmd->token->type.REDIR_DOUT = 0;
-    cmd->token->path = NULL;
+    cmd->token->type = 4;
+    cmd->token->str = "out";
     cmd->token->next = NULL;
     cmd->arg_arr = malloc(sizeof(char *) * 5);
     if (!cmd->arg_arr)
@@ -38,12 +34,11 @@ int main(int argc,char *argv[], char *env[])
     cmd->arg_arr[2] = NULL;
     cmd->fd_in = 0;
     cmd->fd_out = 1;
-    cmd->name_file = NULL;
-    cmd->token->builtin = NULL;
+    cmd->file = NULL;
     cmd->next = NULL;
     //cmd->path = "/bin/ls";
 
-    cmd->next = malloc(sizeof(t_cmd));
+    /*cmd->next = malloc(sizeof(t_cmd));
     if (!cmd->next) {
         free(cmd);
         return 1;
@@ -55,11 +50,10 @@ int main(int argc,char *argv[], char *env[])
         free(cmd);
         return 1;
     }
-    cmd->next->token->type.REDIR_DIN = 0;
-    cmd->next->token->type.REDIR_IN = 0;
-    cmd->next->token->type.REDIR_OUT = 0;
-    cmd->next->token->type.REDIR_DOUT = 0;
-    cmd->next->token->path = NULL;
+    cmd->next->token->type = 0;
+    cmd->next->token->type = 0;
+    cmd->next->token->type = 0;
+    cmd->next->token->type = 0;
     cmd->next->token->next = NULL;
     cmd->next->env = cmd->env;
     cmd->next->arg_arr = malloc(sizeof(char *) * 3);
@@ -74,16 +68,14 @@ int main(int argc,char *argv[], char *env[])
     cmd->next->arg_arr[2] = NULL;
     cmd->next->fd_in = 0;
     cmd->next->fd_out = 1;
-    cmd->next->name_file = NULL;
-    cmd->next->token->builtin = "export";
+    cmd->next->file = NULL;
     cmd->next->next = NULL;
-    //cmd->next->path = "/usr/bin/wc";
+    //cmd->next->path = "/usr/bin/wc";*/
     
     execute(cmd, cmd->env);
-    print_list(cmd->next->env);
-    free(cmd->next->arg_arr);
+    /*free(cmd->next->arg_arr);
     free(cmd->next->token);
-    free(cmd->next);
+    free(cmd->next);*/
     free_list(&cmd->env);
     free(cmd->arg_arr);
     free(cmd->token);
