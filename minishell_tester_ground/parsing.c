@@ -116,8 +116,8 @@ void	init_node(t_cmd *new)
 	new->env = NULL;
 	new->args = NULL;
 	new->arg_arr = NULL;
-	//new->name_file = NULL;
-	//new->path = NULL;
+	// new->name_file = NULL;
+	// new->path = NULL;
 	new->next = NULL;
 	new->fd_in = 0;
 	new->fd_out = 0;
@@ -130,6 +130,8 @@ t_cmd	*init_new_node(char *arr, t_cmd *new)
 		return (NULL);
 	init_node(new);
 	new->args = ft_strdup(arr);
+	if (new->args == NULL)
+		return (NULL);
 	return (new);
 }
 
@@ -168,21 +170,6 @@ void	arg_add_back(t_cmd **stack, t_cmd *new)
 		}
 		new = NULL;
 	}
-}
-
-void	print_list(t_cmd **head)
-{
-	t_cmd	*current;
-
-	if (head == NULL)
-		return ;
-	current = *head;
-	while (current != NULL)
-	{
-		printf("Node: %s\n", current->args);
-		current = current->next;
-	}
-	printf("NULL\n");
 }
 
 t_cmd	*arg_last(t_cmd *lst)

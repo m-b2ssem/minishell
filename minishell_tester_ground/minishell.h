@@ -34,6 +34,23 @@
 
 typedef struct s_cmd t_cmd;
 
+typedef enum token_status
+{
+	NON, // init type
+	// first round of checks
+	BUILTIN,   // string matches a builtin
+	D_QUOTE,   // string inside double quotes, can also be ""
+	S_QUOTE,   // string inside single quotes, can also be ''
+	HERE_DOC,  // string is <<
+	APPEND,    // string matches >>
+	REDIR_IN,  // string matches <
+	REDIR_OUT, // string matches >
+	//second round of checks
+	ARG,// string w/o any special (type can be changed)
+	A_FILE, // string after >>
+	DELIM  // string after a heredoc
+} t_token_status;
+
 typedef struct s_env
 {
 	char *name;
@@ -63,22 +80,6 @@ typedef struct s_cmd
 	struct s_cmd *next;
 } t_cmd;
 
-typedef enum token_status
-{
-	NON,      // init type
-	BUILTIN,  // string matches a builtin
-	D_QUOTE,  // string inside double quotes, can also be ""
-	S_QUOTE,  // string inside single quotes, can also be ''
-	ARG,
-		// string w/o any special (can be changed into files after a redirection symbol)
-	HERE_DOC, // string is <<
-	APPEND,   // string matches >>
-	A_FILE,   // string after >>
-	DELIM,    // string after a heredoc
-	REDIR_IN, // string matches <
-	REDIR_OUT // string matches >
-} t_token_status;
-
 typedef enum quote_status
 {
 	NO_QUOTE,
@@ -95,7 +96,6 @@ t_cmd	*arg_last(t_cmd *lst);
 void	arg_add_back(t_cmd **stack, t_cmd *new);
 void	init_node(t_cmd *new);
 
-void	print_list(t_cmd **head);
 void	free_list(t_cmd *head);
 // int	argument_into_struct(char *str, t_cmd **line);
 
@@ -105,12 +105,25 @@ void	iterate_through_cmd_args(t_cmd **line);
 int	split_into_tokens(t_cmd **line);
 void	get_redirection(char *str, int *i);
 
-t_token	*new_token(char *arg, t_token **begin);
 void	init_node_tokens(t_token *new);
 
 int	is_redirection(char c);
 int	is_other_separator(char c);
 void	get_quote_words(char *str, int *i, t_quote_status stat);
 void	get_arguments(char *str, int *i, t_quote_status stat);
+
+t_token	*token_last(t_token *lst);
+void	token_add_back(t_token **begin, t_token *new);
+int	initialize_tokens(char *arg, t_token **type);
+t_token	*new_token(char *arg, t_token *new);
+void	init_node_tokens(t_token *new);
+void	print_list(t_cmd *head);
+
+int	token_type_builtin(char *s);
+void	token_type(t_token *tok);
+int	decide_token_type(t_cmd **line); 
+
+
+
 
 #endif

@@ -34,8 +34,8 @@ int	main(int argc, char *argv[])
 		{
 			arr = ft_split_cmd(user, '|');
 			initialize_arguments(&line, arr);
-			print_list(&line);
 			iterate_through_cmd_args(&line);
+			print_list(line);
 		}
 		// free(arr);
 		// // ;

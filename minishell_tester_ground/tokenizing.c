@@ -1,6 +1,26 @@
 
 #include "minishell.h"
 
+void	print_list(t_cmd *head)
+{
+	t_cmd	*cmd;
+	t_token	*tok;
+
+	cmd = head;
+	while (cmd != NULL)
+	{
+		printf("Node: %s\n", cmd->args);
+		tok = cmd->token;
+		while (tok != NULL)
+		{
+			printf("\tTOK: %s\n", tok->string);
+			printf("\tTYPE: %d\n", tok->type); 
+			tok = tok->next;
+		}
+		cmd = cmd->next;
+	}
+}
+
 void	iterate_through_cmd_args(t_cmd **line)
 {
 	t_cmd	*current;
@@ -8,7 +28,7 @@ void	iterate_through_cmd_args(t_cmd **line)
 	current = *line;
 	while (current != NULL)
 	{
-		if (split_into_tokens(&current))
+		if (split_into_tokens(&current) > 0)
 			return ;
 		current = current->next;
 	}
@@ -93,11 +113,14 @@ int	split_into_tokens(t_cmd **line)
 			get_arguments(curr->args, &i, stat);
 		// printf("Start is %d\n", start);
 		arg = ft_substr(curr->args, start, i - start);
-		if (arg != NULL)
+		if (arg && arg[0] != '\0')
 		{
-			// printf("Start is %i\n", start);
-			printf("ARG is %s\n", arg);
+			// printf("			Potential token: %s\n", arg);
+			if (initialize_tokens(arg, (&(*line)->token)))
+				return (30);
 		}
+		else
+			free(arg);
 	}
-	return (0); 
+	return (0);
 }
