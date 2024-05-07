@@ -35,6 +35,7 @@ int	main(int argc, char *argv[])
 			arr = ft_split_cmd(user, '|');
 			initialize_arguments(&line, arr);
 			iterate_through_cmd_args(&line);
+			decide_token_type(&line);
 			print_list(line);
 		}
 		// free(arr);

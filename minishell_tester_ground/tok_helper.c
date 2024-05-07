@@ -58,7 +58,7 @@ void	token_type(t_token *tok)
 	else if (tok->string[0] == '\'' && tok->string[ft_strlen(tok->string)
 		- 1] == '\'')
 		tok->type = S_QUOTE;
-	else if (ft_strlen(tok->string) != 0)
+	else if (ft_strlen(tok->string) != 0 && tok->type == NON)
 		tok->type = ARG;
 }
 
@@ -87,13 +87,11 @@ int	initialize_tokens(char *arg, t_token **type)
 
 	new = NULL;
 	new = new_token(arg, new);
-	//	printf("		Arg for token is %s\n", arg);
 	if (new == NULL)
 	{
 		free(arg);
-		return (30);
+		return (-1);
 	}
-	
 	token_add_back(type, new);
 	free(arg);
 	return (0);
