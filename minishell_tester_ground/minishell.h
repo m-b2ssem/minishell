@@ -45,10 +45,10 @@ typedef enum token_status
 	APPEND,    // string matches >>
 	REDIR_IN,  // string matches <
 	REDIR_OUT, // string matches >
-	//second round of checks
-	ARG,// string w/o any special (type can be changed)
+	// second round of checks
+	ARG,    // string w/o any special (type can be changed)
 	A_FILE, // string after >>
-	DELIM  // string after a heredoc
+	DELIM   // string after a heredoc
 } t_token_status;
 
 typedef struct s_env
@@ -109,8 +109,8 @@ void	init_node_tokens(t_token *new);
 
 int	is_redirection(char c);
 int	is_other_separator(char c);
-void	get_quote_words(char *str, int *i, t_quote_status stat);
-void	get_arguments(char *str, int *i, t_quote_status stat);
+void	get_arguments(char *str, int *i);
+
 
 t_token	*token_last(t_token *lst);
 void	token_add_back(t_token **begin, t_token *new);
@@ -121,9 +121,9 @@ void	print_list(t_cmd *head);
 
 int	token_type_builtin(char *s);
 void	token_type(t_token *tok);
-int	decide_token_type(t_cmd **line); 
+int	decide_token_type(t_cmd **line);
 
-
-
+int	is_quotes(char c);
+void	get_string_in_quotes(char *str, int *i);
 
 #endif
