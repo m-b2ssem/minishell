@@ -36,6 +36,7 @@ int	main(int argc, char *argv[])
 			initialize_arguments(&line, arr);
 			iterate_through_cmd_args(&line);
 			decide_token_type(&line);
+			check_correct_heredoc_usage(&line);
 			print_list(line);
 		}
 		// free(arr);
