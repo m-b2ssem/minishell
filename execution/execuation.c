@@ -74,10 +74,14 @@ void custom_exe_on_child(t_cmd *cmd, pid_t *pross_id, t_cmd *tmp)
         cmd->path = get_path(cmd->arg_arr[0]);
         printf("path: %s\n", cmd->path);
         if (cmd->path == NULL)
+        {
+            //cmd->exit_status = 127;
             clean_exit(tmp, pross_id, 127);
+        }
         new_env = env_to_char(cmd->env);
         if (new_env == NULL)
             clean_exit(tmp, pross_id, 127);
+        printf("there\n");
         execve(cmd->path, cmd->arg_arr, new_env);
         if(stat(cmd->arg_arr[0], &fileStat) == 0)
         {
@@ -124,9 +128,11 @@ int    execute(t_cmd *cmd, t_env *env)
     int     len;
     int     res;
     int     i;
+    int     status;
     (void)env;
 
     i = 0;
+    status = 0;
     tmp = cmd;
     len = cmd_lenth(cmd);
     pross_ids = ft_calloc(len, sizeof(pid_t));
@@ -138,10 +144,10 @@ int    execute(t_cmd *cmd, t_env *env)
     if (builtin(cmd) && cmd_lenth(cmd) == 1)
     {
         redirections(cmd);
-        custom_exe(cmd, tmp, pross_ids);
+        status = custom_exe(cmd, tmp, pross_ids);
         close_fd(tmp);
         free(pross_ids);
-        return (0);
+        return (status);
     }
     else
     {
@@ -157,8 +163,9 @@ int    execute(t_cmd *cmd, t_env *env)
         }
     }
     parent_signals(); // check
-    wait_pid(pross_ids, len);
+    status = wait_pid(pross_ids, len);
+    printf("status: %d\n", status);
     parent_signals(); // check
     free(pross_ids);
-    return (0);
+    return (status);
 }

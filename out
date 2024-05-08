@@ -1,0 +1,20 @@
+path: /usr/bin/ls
+total 52
+-rwxrwxrwx 1 bassem bassem   687 May  8 09:03 Makefile
+-rwxrwxrwx 1 bassem bassem    11 Mar 20 13:44 README.md
+drwxrwxrwx 1 bassem bassem  4096 May  8 09:14 builtin
+-rwxrwxrwx 1 bassem bassem  2215 May  2 16:44 env_var.c
+-rwxrwxrwx 1 bassem bassem  3576 May  8 09:14 env_var.o
+drwxrwxrwx 1 bassem bassem  4096 May  8 09:14 execution
+drwxrwxrwx 1 bassem bassem  4096 May  8 09:14 libft
+-rwxrwxrwx 1 bassem bassem  2188 May  8 09:14 main.c
+-rwxrwxrwx 1 bassem bassem  3336 May  8 09:14 main.o
+-rwxrwxrwx 1 bassem bassem 32600 May  8 09:14 minishell
+-rwxrwxrwx 1 bassem bassem  2190 May  8 09:10 minishell.h
+-rwxrwxrwx 1 bassem bassem    18 May  8 09:14 out
+drwxrwxrwx 1 bassem bassem  4096 Mar 20 15:40 parser
+-rwxrwxrwx 1 bassem bassem   257 May  2 14:53 readline_suppression.supp
+drwxrwxrwx 1 bassem bassem  4096 May  8 09:14 redirections
+drwxrwxrwx 1 bassem bassem  4096 Mar 20 15:02 signals
+drwxrwxrwx 1 bassem bassem  4096 May  8 09:03 test
+-rwxrwxrwx 1 bassem bassem   158 Mar 26 17:14 valgrind.sh

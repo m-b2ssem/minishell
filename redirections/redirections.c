@@ -49,10 +49,8 @@ int redirections(t_cmd *cmd)
     t_token *tmp;
 
     tmp = cmd->token;
-    printf("redirections\n");
     while (tmp)
     {
-        printf("%d\n", tmp->type);
         if (tmp->type == REDIR_IN || tmp->type == DELIM)
         {
             if (redirections_in(cmd, tmp))

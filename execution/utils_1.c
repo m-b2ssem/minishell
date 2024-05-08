@@ -103,18 +103,24 @@ void free_cmd(t_cmd *cmd)
     }
 }
 
-void wait_pid(pid_t *pross_id, int len)
+int wait_pid(pid_t *pross_id, int len)
 {
     int i;
+    int exit_status;
     int status;
 
     i = 0;
     while (i < len)
     {
-        waitpid(pross_id[i], &status, 0);
-        printf("status: %d\n", WEXITSTATUS(status));
+        waitpid(pross_id[i], &exit_status, 0);
+        if (WIFEXITED(exit_status))
+            status = WEXITSTATUS(exit_status);
+        else if (WIFSIGNALED(exit_status))
+            status = 128 + WTERMSIG(exit_status);
         i++;
     }
+    printf("exit status: %d\n", status);
+    return (status);
 }
 
 int    builtin(t_cmd *cmd)

@@ -53,6 +53,7 @@ typedef struct		s_cmd
 	int				fd_out;
 	char			*file;
 	char			*path;
+	int				exit_status;
 	struct s_cmd	*next;
 }           t_cmd;
 
@@ -76,7 +77,7 @@ int 	piping(t_cmd *cmd);
 // utils
 int cmd_lenth(t_cmd *cmd);
 int close_fd(t_cmd *cmd);
-void wait_pid(pid_t *pross_id, int len);
+int wait_pid(pid_t *pross_id, int len);
 char *get_path(char *command);
 void free_cmd(t_cmd *cmd);
 void clean_exit(t_cmd *tmp, pid_t *pross_id, int status);
