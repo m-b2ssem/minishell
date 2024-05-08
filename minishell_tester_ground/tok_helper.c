@@ -4,7 +4,7 @@
 void	init_node_tokens(t_token *new)
 {
 	new->string = NULL;
-	new->expansion = 0;
+	new->expansion = -1;
 	new->next = NULL;
 	new->type = NON;
 }
@@ -48,9 +48,11 @@ void	token_type(t_token *tok)
 		tok->type = REDIR_IN;
 	else if (tok->string[0] == '>' && tok->string[1] == '\0')
 		tok->type = REDIR_OUT;
-	else if (tok->string[0] == '<' && tok->string[1] == '<')
+	else if (tok->string[0] == '<' && tok->string[1] == '<'
+		&& tok->string[2] == '\0')
 		tok->type = HERE_DOC;
-	else if (tok->string[0] == '>' && tok->string[1] == '>')
+	else if (tok->string[0] == '>' && tok->string[1] == '>'
+		&& tok->string[2] == '\0')
 		tok->type = APPEND;
 	else if (tok->string[0] == '"' && tok->string[ft_strlen(tok->string)
 		- 1] == '"')
