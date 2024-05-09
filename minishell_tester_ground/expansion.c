@@ -53,6 +53,7 @@ int	redirection_spell_check(t_cmd **line)
 			{
 				if (is_type_redir(curr_tok) || curr_tok->type == BUILTIN)
 					return (-1);
+				redir = 0;
 			}
 			curr_tok = curr_tok->next;
 		}
@@ -77,12 +78,11 @@ void	change_redir_relation(t_token *tok, int *redir)
 		if (tok->type == ARG)
 		{
 			tok->type = DELIM;
-			tok->expansion = 1;
 		}
 		else if (tok->type == D_QUOTE || tok->type == S_QUOTE)
 		{
 			tok->type = DELIM;
-			tok->expansion = 0;
+			tok->expansion = 1;
 		}
 	}
 	else if (*redir == 6 && is_type_arg(tok))
@@ -90,12 +90,12 @@ void	change_redir_relation(t_token *tok, int *redir)
 		if (tok->type == ARG)
 		{
 			tok->type = A_FILE;
-			tok->expansion = 1;
+			// tok->expansion = 1;
 		}
 		else if (tok->type == D_QUOTE || tok->type == S_QUOTE)
 		{
 			tok->type = A_FILE;
-			tok->expansion = 0;
+			// tok->expansion = 0;
 		}
 	}
 	else if (*redir == 7 && is_type_arg(tok))
@@ -103,7 +103,7 @@ void	change_redir_relation(t_token *tok, int *redir)
 		if (tok->type == ARG || tok->type == D_QUOTE || tok->type == S_QUOTE)
 		{
 			tok->type = INFILE;
-			tok->expansion = 1;
+			// tok->expansion = 1;
 		}
 	}
 	else if (*redir == 8 && is_type_arg(tok))
@@ -111,7 +111,7 @@ void	change_redir_relation(t_token *tok, int *redir)
 		if (tok->type == ARG || tok->type == D_QUOTE || tok->type == S_QUOTE)
 		{
 			tok->type = OUTFILE;
-			tok->expansion = 1;
+			// tok->expansion = 1;
 		}
 	}
 	*redir = 0;

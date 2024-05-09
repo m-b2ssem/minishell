@@ -48,6 +48,8 @@ int	main(int argc, char *argv[])
 				printf("WRONG__________\n");
 			}
 			print_list(line);
+			the_expander(&line);
+			print_list(line);
 		}
 		// free(arr);
 		// // ;
