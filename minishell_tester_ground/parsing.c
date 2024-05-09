@@ -5,13 +5,9 @@ int	check_for_unclosed_quotes(char *str)
 {
 	int				i;
 	t_quote_status	stat;
-	t_quote_status	dominant;
-	int				j;
 
-	j = 0;
 	i = 0;
 	stat = NO_QUOTE;
-	dominant = NO_QUOTE;
 	while (str[i])
 	{
 		stat = get_quote_status(str[i], stat);
