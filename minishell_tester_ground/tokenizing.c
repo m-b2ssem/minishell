@@ -28,7 +28,7 @@ void	iterate_through_cmd_args(t_cmd **line)
 	current = *line;
 	while (current != NULL)
 	{
-		if (split_into_tokens(&current) > 0)
+		if (split_into_tokens(&current) == -1)
 			return ;
 		current = current->next;
 	}
@@ -110,24 +110,17 @@ int	split_into_tokens(t_cmd **line)
 	{
 		while (curr->args[i] && curr->args[i] == ' ')
 			i++;
-		// stat = get_quote_status(curr->args[i], stat);
 		start = i;
 		if (is_redirection(curr->args[i]) && stat == NO_QUOTE)
 			get_redirection(curr->args, &i);
 		else if (is_quotes((curr->args[i])))
-		//&& (stat == SINGLE|| stat == DOUBLE))
 		{
 			get_string_in_quotes(curr->args, &i);
 			++i;
-			// if (curr->args[i + 1] != ' ')
-			// 	++i;
 		}
 		else
 			get_arguments(curr->args, &i);
-		// if (is_quotes(curr->args[i]))
-		// 	stat = get_quote_status(curr->args[i], stat);
 		arg = ft_substr(curr->args, start, i - start);
-		// printf("\n\nArg is::: %s\n\n", arg);
 		if (initialize_tokens(arg, (&curr->token)) == -1)
 			return (-1);
 	}

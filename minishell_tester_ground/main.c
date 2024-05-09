@@ -29,14 +29,24 @@ int	main(int argc, char *argv[])
 			continue ;
 		res = check_for_unclosed_quotes(user);
 		if (res != 0)
+		{
+			printf("Result %d\n", res);
 			printf("Unclosed detected\n");
+		}
 		else
 		{
 			arr = ft_split_cmd(user, '|');
 			initialize_arguments(&line, arr);
 			iterate_through_cmd_args(&line);
 			decide_token_type(&line);
-			check_correct_heredoc_usage(&line);
+			if (redirection_spell_check(&line) == -1)
+			{
+				printf("Syntax error in redirection\n");
+			}
+			if (heredoc_usage(&line) == -1)
+			{
+				printf("WRONG__________\n");
+			}
 			print_list(line);
 		}
 		// free(arr);
