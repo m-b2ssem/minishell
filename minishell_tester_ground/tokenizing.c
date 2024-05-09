@@ -15,6 +15,7 @@ void	print_list(t_cmd *head)
 		{
 			printf("\tTOK: %s\n", tok->string);
 			printf("\tTYPE: %d\n", tok->type);
+			printf("\tEXPANSION: %d\n", tok->expansion);
 			tok = tok->next;
 		}
 		cmd = cmd->next;

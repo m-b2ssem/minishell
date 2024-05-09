@@ -62,6 +62,8 @@ void	token_type(t_token *tok)
 		tok->type = S_QUOTE;
 	else if (ft_strlen(tok->string) != 0 && tok->type == NON)
 		tok->type = ARG;
+	else
+		tok->type = NON;
 }
 
 int	decide_token_type(t_cmd **line)
