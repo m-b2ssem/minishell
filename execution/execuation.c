@@ -1,5 +1,6 @@
 #include "../minishell.h"
 
+extern sig_atomic_t g_signal;
 
 int    custom_exe(t_cmd *cmd, t_cmd *tmp, pid_t *pross_id)
 {
@@ -19,7 +20,7 @@ int    custom_exe(t_cmd *cmd, t_cmd *tmp, pid_t *pross_id)
     if (ft_strcmp("unset", cmd->arg_arr[0]) == 0)
         status = builtin_unset(&cmd->env, cmd);
     if (ft_strcmp("exit", cmd->arg_arr[0]) == 0)
-        builtin_exit(cmd, tmp, pross_id);
+        status = builtin_exit(cmd, tmp, pross_id);
     return (status);
 }
 
@@ -66,6 +67,7 @@ void custom_exe_on_child(t_cmd *cmd, pid_t *pross_id, t_cmd *tmp)
     status = 0;
     if (builtin(cmd))
     {
+        (void)status;
         status = custom_exe(cmd, tmp, pross_id);
         clean_exit(tmp, pross_id, status);
     }
@@ -75,13 +77,11 @@ void custom_exe_on_child(t_cmd *cmd, pid_t *pross_id, t_cmd *tmp)
         printf("path: %s\n", cmd->path);
         if (cmd->path == NULL)
         {
-            //cmd->exit_status = 127;
             clean_exit(tmp, pross_id, 127);
         }
         new_env = env_to_char(cmd->env);
         if (new_env == NULL)
             clean_exit(tmp, pross_id, 127);
-        printf("there\n");
         execve(cmd->path, cmd->arg_arr, new_env);
         if(stat(cmd->arg_arr[0], &fileStat) == 0)
         {
@@ -99,8 +99,8 @@ void custom_exe_on_child(t_cmd *cmd, pid_t *pross_id, t_cmd *tmp)
 
 int child_process(t_cmd *cmd,  pid_t *pross_id, int i, t_cmd *tmp)
 {
-    //signal(SIGINT, SIG_IGN);
-	//signal(SIGQUIT, SIG_IGN);
+    signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
     pross_id[i] = fork();
     if (pross_id[i] == -1)
     {
@@ -137,17 +137,17 @@ int    execute(t_cmd *cmd, t_env *env)
     len = cmd_lenth(cmd);
     pross_ids = ft_calloc(len, sizeof(pid_t));
     if (!pross_ids)
-        return (2);
+        return (10);
     res = piping(cmd);
     if (res)
-        return (free(pross_ids),3); // check which value you should return.
+        return (free(pross_ids),11); // check which value you should return.
     if (builtin(cmd) && cmd_lenth(cmd) == 1)
     {
         redirections(cmd);
         status = custom_exe(cmd, tmp, pross_ids);
         close_fd(tmp);
         free(pross_ids);
-        return (status);
+        return ((status + g_signal));
     }
     else
     {
@@ -164,7 +164,6 @@ int    execute(t_cmd *cmd, t_env *env)
     }
     parent_signals(); // check
     status = wait_pid(pross_ids, len);
-    printf("status: %d\n", status);
     parent_signals(); // check
     free(pross_ids);
     return (status);

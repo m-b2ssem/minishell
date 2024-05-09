@@ -29,8 +29,8 @@ int main(int argc,char *argv[], char *env[])
     cmd->arg_arr = malloc(sizeof(char *) * 5);
     if (!cmd->arg_arr)
         return 5;
-    cmd->arg_arr[0] = "ls";
-    cmd->arg_arr[1] = "-l";
+    cmd->arg_arr[0] = "hi";
+    cmd->arg_arr[1] = NULL;
     cmd->arg_arr[2] = NULL;
     //cmd->fd_in = 0;
     //cmd->fd_out = 1;
@@ -38,7 +38,7 @@ int main(int argc,char *argv[], char *env[])
     cmd->next = NULL;
     //cmd->path = "/bin/ls";
 
-    cmd->next = malloc(sizeof(t_cmd));
+    /*cmd->next = malloc(sizeof(t_cmd));
     if (!cmd->next) {
         free(cmd);
         return 1;
@@ -63,7 +63,7 @@ int main(int argc,char *argv[], char *env[])
         free(cmd);
         return 5;
     }
-    cmd->next->arg_arr[0] = "ls";
+    cmd->next->arg_arr[0] = "lsssss";
     cmd->next->arg_arr[1] = "-l";
     cmd->next->arg_arr[2] = NULL;
     //cmd->next->fd_in = 0;
@@ -100,22 +100,23 @@ int main(int argc,char *argv[], char *env[])
         free(cmd);
         return 5;
     }
-    cmd->next->next->arg_arr[0] = "lsssssss";
-    cmd->next->next->arg_arr[1] = "-l";
+    cmd->next->next->arg_arr[0] = "export";
+    cmd->next->next->arg_arr[1] = NULL;
     cmd->next->next->arg_arr[2] = NULL;
     //cmd->next->next->fd_in = 0;
     //cmd->next->next->fd_out = 0;
     cmd->next->next->file = NULL;
     cmd->next->next->next = NULL;
-    //t_cmd *tmp = cmd;
-    execute(cmd, cmd->env);
-    //printf("status: %d\n", cmd->next->exit_status);
-    free(cmd->next->next->arg_arr);
+    //t_cmd *tmp = cmd;*/
+    int status = 0;
+    status = execute(cmd, cmd->env);
+    printf("status: %d\n", status);
+    /*free(cmd->next->next->arg_arr);
     free(cmd->next->next->token);
     free(cmd->next->next);
     free(cmd->next->arg_arr);
     free(cmd->next->token);
-    free(cmd->next);
+    free(cmd->next);*/
     free_list(&cmd->env);
     free(cmd->arg_arr);
     free(cmd->token);

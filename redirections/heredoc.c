@@ -92,9 +92,9 @@ char   *check_for_env_value(char *str, t_env *env)
         else
         {
             i++;
-            after_doller = malloc(sizeof(char *) * (strlen(str) + 1));
+            after_doller = malloc(sizeof(char) * (strlen(str) + 1));
             if (!after_doller)
-                return (NULL);
+                return (free(new_str), NULL);
             while (str[i] != '\0' && str[i] != ' ')
             {
                 after_doller[k++] = str[i++];

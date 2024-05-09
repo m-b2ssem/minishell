@@ -103,23 +103,52 @@ void free_cmd(t_cmd *cmd)
     }
 }
 
+int last_exit_status(int *exit_statuses, int len)
+{
+    int i;
+    int status;
+
+    i = 0;
+    status = 0;
+    while (i < len)
+    {
+        if (i == len - 1)
+        {
+            status = exit_statuses[i];
+            break;
+        }
+        i++;
+    }
+    return (status);
+}
+
 int wait_pid(pid_t *pross_id, int len)
 {
     int i;
+    int *exit_statuses;
     int exit_status;
     int status;
 
     i = 0;
+    status = 0;
+    exit_statuses  = malloc(sizeof(int) * len);
+    if (!exit_statuses)
+        return (-1);
     while (i < len)
     {
         waitpid(pross_id[i], &exit_status, 0);
         if (WIFEXITED(exit_status))
-            status = WEXITSTATUS(exit_status);
-        else if (WIFSIGNALED(exit_status))
-            status = 128 + WTERMSIG(exit_status);
+        {
+            exit_statuses[i] = WEXITSTATUS(exit_status);
+        }
+        /*else if (WIFSIGNALED(exit_status))
+        {
+            exit_statuses[i] = 128 + WEXITSTATUS(exit_status);
+        }*/
         i++;
     }
-    printf("exit status: %d\n", status);
+    status = last_exit_status(exit_statuses, len);
+    free(exit_statuses);
     return (status);
 }
 
