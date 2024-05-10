@@ -1,4 +1,3 @@
-
 #include "minishell.h"
 
 void	print_list(t_env *head) // Single pointer to head
