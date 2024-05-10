@@ -4,7 +4,7 @@ CFLAGS = -Wall -Wextra -Werror
 LIBFT = ./libft/libft.a
 SRC =	main.c redirections/redirections.c redirections/heredoc.c builtin/builtin_pwd.c builtin/builtin_cd.c \
 		builtin/builtin_echo.c builtin/builtin_export.c builtin/builtin_env.c builtin/builtin_unset.c builtin/builtin_exit.c\
-		execution/execuation.c execution/piping.c execution/utils_1.c parsing/pars_idea.c 
+		execution/execuation.c execution/piping.c execution/signals.c execution/utils_1.c env_var.c
 
 
 OBJ = $(SRC:.c=.o)

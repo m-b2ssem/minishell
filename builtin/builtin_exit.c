@@ -14,24 +14,28 @@ static int ft_isnumbers(char *str)
     return (1);
 }
 
-void builtin_exit(t_cmd *cmd, t_cmd *tmp, pid_t *pross_id)
+int builtin_exit(t_cmd *cmd, t_cmd *tmp, pid_t *pross_id)
 {
+    int exit_status = 0;
+
+    if (cmd->arg_arr[1] && cmd->arg_arr[2] != NULL)
+    {
+        printf("minishell: exit: too many arguments\n");
+        return (1);
+    }
     printf("exit\n");
     if (cmd->arg_arr[1] != NULL)
     {
-        if (cmd->arg_arr[1] && cmd->arg_arr[2] != NULL)
-        {
-            printf("minishell: exit: too many arguments\n");
-            exit_status = 1;
-            return ;
-        }
         if (!ft_isnumbers(cmd->arg_arr[1]))
         {
-            printf("minishell: exit: %s: numeric argument required\n", cmd->arg_arr[1]);
+            write(2, "minishell: exit: ", 17);
+            write(2, cmd->arg_arr[1], ft_strlen(cmd->arg_arr[1]));
+            write(2, ": numeric argument required\n", 29);
             clean_exit(tmp, pross_id, 2);
         }
         exit_status = ft_atoi(cmd->arg_arr[1]);
         clean_exit(tmp, pross_id, exit_status);
     }
     clean_exit(tmp, pross_id, 0);
+    return (0);
 }

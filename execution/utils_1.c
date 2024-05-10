@@ -1,5 +1,6 @@
 #include "../minishell.h"
 
+
 static void free_paths(char **paths)
 {
     int i = 0;
@@ -12,7 +13,7 @@ static void free_paths(char **paths)
 }
 
 
-char *get_bin_path(char *command)
+char *get_path(char *command)
 {
     char *path;
     char **paths;
@@ -21,6 +22,8 @@ char *get_bin_path(char *command)
     int i;
     
     i = 0;
+    if (command && (command[0] == '.' || command[0] == '/'))
+		return (command);
     path = getenv("PATH");
     if (path == NULL)
         return (NULL);
@@ -100,17 +103,71 @@ void free_cmd(t_cmd *cmd)
     }
 }
 
-void wait_pid(pid_t *pross_id, int len)
+int last_exit_status(int *exit_statuses, int len)
 {
     int i;
     int status;
 
     i = 0;
+    status = 0;
     while (i < len)
     {
-        waitpid(pross_id[i], &status, 0);
-        printf("status: %d\n", WEXITSTATUS(status));
+        if (i == len - 1)
+        {
+            status = exit_statuses[i];
+            break;
+        }
         i++;
     }
+    return (status);
+}
+
+int wait_pid(pid_t *pross_id, int len)
+{
+    int i;
+    int *exit_statuses;
+    int exit_status;
+    int status;
+
+    i = 0;
+    status = 0;
+    exit_statuses  = malloc(sizeof(int) * len);
+    if (!exit_statuses)
+        return (-1);
+    while (i < len)
+    {
+        waitpid(pross_id[i], &exit_status, 0);
+        if (WIFEXITED(exit_status))
+        {
+            exit_statuses[i] = WEXITSTATUS(exit_status);
+        }
+        /*else if (WIFSIGNALED(exit_status))
+        {
+            exit_statuses[i] = 128 + WEXITSTATUS(exit_status);
+        }*/
+        i++;
+    }
+    status = last_exit_status(exit_statuses, len);
+    free(exit_statuses);
+    return (status);
+}
+
+int    builtin(t_cmd *cmd)
+{
+    if (ft_strcmp("pwd", cmd->arg_arr[0]) == 0)
+        return (1);
+    if (ft_strcmp("cd", cmd->arg_arr[0]) == 0)
+        return (1);
+    if (ft_strcmp("echo", cmd->arg_arr[0]) == 0)
+        return (1);
+    if (ft_strcmp("export", cmd->arg_arr[0]) == 0)
+        return (1);
+    if (ft_strcmp("env", cmd->arg_arr[0]) == 0)
+        return (1);
+    if (ft_strcmp("unset", cmd->arg_arr[0]) == 0)
+        return (1);
+    if (ft_strcmp("exit", cmd->arg_arr[0]) == 0)
+        return (1);
+    return (0);
 }
 

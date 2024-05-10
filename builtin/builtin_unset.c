@@ -1,41 +1,36 @@
 #include "../minishell.h"
 
-int builtin_unset(t_cmd *cmd, char *unset)
+int builtin_unset(t_env **head, t_cmd *cmd)
 {
-    char **new_env;
-    char    **curr_env;
+    t_env *prev;
+    t_env *curr;
     int     i;
-    int     j;
 
     i = 0;
-    j = 0;
-    curr_env = cmd->env;
-    while(curr_env[i])
-        i++;
-    new_env = (char **)malloc(sizeof(char *) * (i + 1));
-    if (!new_env)
+    prev = NULL;
+    while (cmd->arg_arr[i] != NULL)
     {
-        printf("can't allocate memory!");
-        return (1);
-    }
-    i = 0;
-    while (curr_env[i])
-    {
-        if (ft_strncmp(unset, curr_env[i], ft_strlen(unset)) != 0)
+        curr = *head;
+        while (curr != NULL)
         {
-            new_env[j] = curr_env[i];
-            j++;
+            if (ft_strcmp(curr->name, cmd->arg_arr[i]) == 0)
+            {
+                if (prev == NULL)
+                {
+                    *head = curr->next;
+                }
+                else
+                {
+                    prev->next = curr->next;
+                }
+                free(curr->name);
+                free(curr->value);
+                free(curr);
+            }
+            prev = curr;
+            curr = curr->next;
         }
         i++;
     }
-    new_env[j] = NULL;
-    cmd->env = new_env; // set it back to the env
-    // for testing
-    /*i = 0;
-    while (new_env[i] != NULL)
-    {
-        printf("%s\n", new_env[i]);
-        i++;
-    }*/
     return (0);
 }
