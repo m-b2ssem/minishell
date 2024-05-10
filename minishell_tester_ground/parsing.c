@@ -123,7 +123,10 @@ t_cmd	*init_new_node(char *arr, t_cmd *new)
 {
 	new = malloc(sizeof(t_cmd));
 	if (!new)
+	{
+		free(arr);
 		return (NULL);
+	}
 	init_node(new);
 	new->args = ft_strdup(arr);
 	if (new->args == NULL)
@@ -145,6 +148,7 @@ void	initialize_arguments(t_cmd **line, char **user)
 			free(user[i]);
 			return ;
 		}
+		free(user[i]);
 		arg_add_back(line, new);
 		i++;
 	}

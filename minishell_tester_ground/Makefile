@@ -2,8 +2,8 @@ NAME = test
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -g
 LIBFT = ./libft/libft.a
-SRC =	main.c parsing.c tokenizing.c tok_helper.c expansion.c helper.c
-
+SRC =	main.c parsing.c tokenizing.c tok_helper.c expansion.c helper.c organise.c
+SUP=readline_suppression.supp
 
 OBJ = $(SRC:.c=.o)
 
@@ -22,5 +22,7 @@ fclean	: clean
 	@rm -rf $(NAME)
 	@make -C ./libft fclean
 
-
 re		: fclean all
+
+debug:
+	valgrind --leak-check=full --show-leak-kinds=all --suppressions=$(SUP) ./test
