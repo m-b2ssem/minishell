@@ -1,5 +1,5 @@
 
-#include "minishell.h"
+#include "../minishell.h"
 
 static int	nbr_arg_cmd(t_cmd *cmd)
 {

@@ -18,7 +18,7 @@
 // the cmd before the redir can be any cmd that accepts input from standard input
 // the delimiter has to match the exact word in the redir
 
-#include "minishell.h"
+#include "../minishell.h"
 
 int	is_type_redir(t_token *tok)
 {

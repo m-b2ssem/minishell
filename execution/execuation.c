@@ -7,6 +7,7 @@ int    custom_exe(t_cmd *cmd, t_cmd *tmp, pid_t *pross_id)
     int status;
 
     status = 0;
+    printf("arg: %s\n", cmd->arg_arr[0]);
     if (ft_strcmp("pwd", cmd->arg_arr[0]) == 0)
         status = builtin_pwd();
     if (ft_strcmp("cd", cmd->arg_arr[0]) == 0)
@@ -121,7 +122,7 @@ int child_process(t_cmd *cmd,  pid_t *pross_id, int i, t_cmd *tmp)
 }
 
 
-int    execute(t_cmd *cmd, t_env *env)
+int    execute(t_cmd **cmd1, t_env *env)
 {
     pid_t   *pross_ids;
     t_cmd    *tmp;
@@ -130,11 +131,18 @@ int    execute(t_cmd *cmd, t_env *env)
     int     i;
     int     status;
     (void)env;
+    t_cmd *cmd;
 
     i = 0;
     status = 0;
+    cmd = *cmd1;
     tmp = cmd;
+    len = 0;
+    printf("here\n");
+
+
     len = cmd_lenth(cmd);
+    printf("len: %d\n", len);
     pross_ids = ft_calloc(len, sizeof(pid_t));
     if (!pross_ids)
         return (10);

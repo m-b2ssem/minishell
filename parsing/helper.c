@@ -1,5 +1,5 @@
 
-#include "minishell.h"
+#include "../minishell.h"
 
 void	update_eof_expansion(t_token *tok)
 {
@@ -61,13 +61,13 @@ char	*create_expansion(t_env *curr, char *org, int start, char *tmp)
 		}
 		start = j;
 		j = 0;
-		while (i <= ft_strlen(curr->value))
+		while ((size_t)i <= ft_strlen(curr->value))
 		{
 			expanded[i] = tmp_value[j];
 			j++;
 			i++;
 		}
-		while (start <= ft_strlen(org))
+		while ((size_t)start <= ft_strlen(org))
 		{
 			expanded[i] = org[start];
 			start++;
@@ -81,17 +81,18 @@ char	*create_expansion(t_env *curr, char *org, int start, char *tmp)
 
 char	*get_env_value(char *new, char *org, t_env **list, int *i)
 {
-	t_env	*curr;
+	t_env	*curr = NULL;
 	char	*tmp;
 	int		start;
-	char	*new;
+
+	(void)list; 
 
 	start = 0;
 	while (org[*i] != '\0' && org[*i] == '$')
-		(*i++);
+		(*i)++;
 	start = *i + 1;
 	while (org[*i] != '\0' && org[*i] != ' ' && org[*i] != '$')
-		(*i++);
+		(*i)++;
 	tmp = ft_substr(org, start, *i - start);
 	if (tmp == NULL)
 		return (NULL);
@@ -112,8 +113,9 @@ char	*double_quote_expansion(t_token *tok, char *str, char *new)
 {
 	int		i;
 	char	s1[] = "\"";
-	t_env	**list;
+	t_env	**list = NULL;
 
+(void)tok; 
 	if (str == NULL)
 		return (NULL);
 	i = 0;
@@ -154,9 +156,9 @@ int	update_string_expansion(t_token *tok)
 		if (!tok->string)
 			return (-1);
 	}
-	else if (tok->string == D_QUOTE)
+	else if (tok->type == D_QUOTE)
 	{
-		expand = double_quote_expansion(tok, tok->string, expand)
+		expand = double_quote_expansion(tok, tok->string, expand); 
 	}
 	return (0);
 }

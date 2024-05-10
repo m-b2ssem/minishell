@@ -1,5 +1,5 @@
 
-#include "minishell.h"
+#include "../minishell.h"
 
 int	check_for_unclosed_quotes(char *str)
 {
@@ -108,12 +108,13 @@ char	**ft_split_cmd(char const *s, char c)
 
 void	init_node(t_cmd *new)
 {
+	
 	new->token = NULL;
 	new->env = NULL;
 	new->args = NULL;
 	new->arg_arr = NULL;
-	// new->name_file = NULL;
-	// new->path = NULL;
+	new->file = NULL;
+	new->path = NULL;
 	new->next = NULL;
 	new->fd_in = 0;
 	new->fd_out = 0;
@@ -186,15 +187,4 @@ t_cmd	*arg_last(t_cmd *lst)
 	return (current);
 }
 
-void	free_list(t_cmd *head)
-{
-	t_cmd	*current;
 
-	while (head != NULL)
-	{
-		current = head;
-		head = head->next;
-		free(current);
-	}
-	printf("HERE\n");
-}

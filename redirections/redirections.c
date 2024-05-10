@@ -6,7 +6,7 @@ static int redirections_in(t_cmd *cmd, t_token *token)
     {
         if (cmd->fd_in != 0)
             close(cmd->fd_in);
-        cmd->fd_in = open(token->str, O_RDONLY);
+        cmd->fd_in = open(token->string, O_RDONLY);
         if (cmd->fd_in == -1)
             return (-1);
     }
@@ -26,9 +26,10 @@ static int redirections_out(t_cmd *cmd, t_token *token)
 {
     if (token->type == REDIR_OUT)
     {
+        printf("Redir\n");
         if (cmd->fd_out != 1)
             close(cmd->fd_out);
-        cmd->fd_out = open(token->str, O_CREAT | O_RDWR | O_TRUNC, 0644);
+        cmd->fd_out = open(token->next->string, O_CREAT | O_RDWR | O_TRUNC, 0644);
         if (cmd->fd_out == -1)
             return (-1);
     }
@@ -36,7 +37,7 @@ static int redirections_out(t_cmd *cmd, t_token *token)
     {
         if (cmd->fd_out != 1)
             close(cmd->fd_out);
-        cmd->fd_out = open(token->str, O_CREAT | O_RDWR | O_APPEND, 0644);
+        cmd->fd_out = open(token->string, O_CREAT | O_RDWR | O_APPEND, 0644);
         if (cmd->fd_out == -1)
             return (-1);
     }
@@ -51,6 +52,7 @@ int redirections(t_cmd *cmd)
     tmp = cmd->token;
     while (tmp)
     {
+        printf("Redirections type : %d\n", tmp->type);
         if (tmp->type == REDIR_IN || tmp->type == DELIM)
         {
             if (redirections_in(cmd, tmp))
