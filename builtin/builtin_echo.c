@@ -3,6 +3,7 @@
 int builtin_echo(t_cmd *cmd)
 {
     int checker;
+    char *str;
     int i;
 
     checker = 0;
@@ -14,7 +15,10 @@ int builtin_echo(t_cmd *cmd)
     }
     while (cmd->arg_arr[i])
     {
-        printf("%s", cmd->arg_arr[i]);
+        str = check_for_env_value(cmd->arg_arr[i], cmd->env);
+        if (str == NULL)
+            return (10);
+        printf("%s", str);
         i++;
     }
     if (checker)

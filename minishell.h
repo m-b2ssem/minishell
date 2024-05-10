@@ -20,21 +20,19 @@
 
 typedef struct		s_cmd t_cmd;
 
-
-typedef struct s_rid
+typedef enum token
 {
-	int	REDIR_IN;
-	int REDIR_DIN;
-	int REDIR_OUT;
-	int REDIR_DOUT;
-} t_rid;
-
+	NONE,
+	REDIR_IN,
+	DELIM,
+	APPEND,
+	REDIR_OUT
+}				t_e_token;
 
 typedef struct		s_token
 {
-	char			*builtin;
-	t_rid			type;
-	char			*path;
+	char			*str;
+	t_e_token		type;
 	struct s_token	*next;
 }					t_token;
 
@@ -53,8 +51,9 @@ typedef struct		s_cmd
 	char			**arg_arr;
 	int				fd_in;
 	int				fd_out;
-	char			*name_file;
+	char			*file;
 	char			*path;
+	int				exit_status;
 	struct s_cmd	*next;
 }           t_cmd;
 
@@ -65,23 +64,31 @@ int     builtin_echo(t_cmd *cmd);
 int     builtin_export(t_cmd *cmd);
 int     builtin_env(t_env *env);
 int 	builtin_unset(t_env **head, t_cmd *cmd);
-void builtin_exit(t_cmd *cmd, t_cmd *tmp, pid_t *pross_id);
-int		heredoc(t_cmd *cmd, t_token *token);
+int		builtin_exit(t_cmd *cmd, t_cmd *tmp, pid_t *pross_id);
+int		heredoc(t_cmd *cmd);
 
 // exec
 int    execute(t_cmd *cmd, t_env *env);
 int    custom_exe(t_cmd *cmd, t_cmd *tmp, pid_t *pross_id);
-int 	child_procces(t_cmd *cmd,  pid_t *pross_id, int i, t_cmd *tmp);
+int 	child_process(t_cmd *cmd,  pid_t *pross_id, int i, t_cmd *tmp);
 void    custom_exe_on_child(t_cmd *cmd, pid_t *pross_id, t_cmd *tmp);
 int 	piping(t_cmd *cmd);
 
 // utils
 int cmd_lenth(t_cmd *cmd);
 int close_fd(t_cmd *cmd);
-void wait_pid(pid_t *pross_id, int len);
-char *get_bin_path(char *command);
+int wait_pid(pid_t *pross_id, int len);
+char *get_path(char *command);
 void free_cmd(t_cmd *cmd);
 void clean_exit(t_cmd *tmp, pid_t *pross_id, int status);
+int    builtin(t_cmd *cmd);
+void    signal_handler(int signum);
+int last_exit_status(int *exit_statuses, int len);
+char   *check_for_env_value(char *str, t_env *env);
+
+/* signals */
+void	child_signal(void);
+void	parent_signals(void);
 
 void				initialize_env_variables(t_env **head, char **env);
 void				print_list(t_env *head);

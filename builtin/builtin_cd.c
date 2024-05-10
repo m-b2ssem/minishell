@@ -5,49 +5,44 @@
 int builtin_cd(t_cmd *cmd)
 {
     //char *odl_pwd = getcwd(NULL, 0);
-    if (cmd->token->builtin == NULL)
-    {
-        printf("no builtin was passed\n");
-        return (1);
-    }
-    if (cmd->token->path == NULL)
+    if (cmd->arg_arr[1] == NULL)
     {
         //here I should pass the home dirctory 
         if (chdir("/Users/bassem") != 0)
         {
-            printf("no dirctory with this name\n");
+            ft_putstr_fd("no dirctory with this name\n", 2);
             return (1);
         }
     }
-    else if (ft_strcmp("--", cmd->token->path) == 0)
+    else if (ft_strcmp("--", cmd->arg_arr[1]) == 0)
     {
         if (chdir(HOME) != 0)
         {
-            printf("no dirctory with this name\n");
+            ft_putstr_fd("no dirctory with this name\n", 2);
             return (1);
         }
     }
-    else if (ft_strcmp("-",  cmd->token->path) == 0)
+    else if (ft_strcmp("-",  cmd->arg_arr[1]) == 0)
     {
         if (chdir("/Users/bassem") != 0)
         {
-            printf("no dirctory with this name\n");
+            ft_putstr_fd("no dirctory with this name\n", 2);
             return (1);
         }
     }
-    else if (ft_strcmp("..",  cmd->token->path) == 0)
+    else if (ft_strcmp("..",  cmd->arg_arr[1]) == 0)
     {
         if (chdir("..") != 0)
         {
-            printf("no dirctory with this name\n");
+            ft_putstr_fd("no dirctory with this name\n", 2);
             return (1);
         }
     }
     else
     {
-        if(chdir( cmd->token->path) != 0)
+        if(chdir(cmd->arg_arr[1]) != 0)
         {
-            printf("no dirctory with this name\n");
+            ft_putstr_fd("no dirctory with this name\n", 2);
             return (1);
         }
     }

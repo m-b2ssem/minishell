@@ -6,7 +6,7 @@ t_env *copy_env_list(t_env *env) {
     t_env *temp;
 
     if (env->next == NULL)
-        return (printf("here"),NULL);
+        return (NULL);
 
     new_env = NULL;
     while (env != NULL)

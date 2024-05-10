@@ -92,9 +92,9 @@ char   *check_for_env_value(char *str, t_env *env)
         else
         {
             i++;
-            after_doller = malloc(sizeof(char *) * (strlen(str) + 1));
+            after_doller = malloc(sizeof(char) * (strlen(str) + 1));
             if (!after_doller)
-                return (NULL);
+                return (free(new_str), NULL);
             while (str[i] != '\0' && str[i] != ' ')
             {
                 after_doller[k++] = str[i++];
@@ -125,7 +125,6 @@ int write_inside_file(t_cmd *cmd, char *path, int fd)
 {
     char    *str;
 
-    (void)cmd;
     str = NULL;
     while (1)
     {
@@ -149,41 +148,27 @@ int write_inside_file(t_cmd *cmd, char *path, int fd)
 }
 
 
-int heredoc(t_cmd *cmd, t_token *token)
+int heredoc(t_cmd *cmd)
 {
     int fd;
     char *file;
-    char buffer[1024];
-    ssize_t bytesRead;
 
     file = random_name();
     if (!file)
         return -1;
-
     fd = open(file, O_CREAT | O_RDWR, 0644);
-    if (fd == -1) {
-        free(file);
-        return (-1);
-    }
-    // this is to write inside the file 
-    write_inside_file(cmd ,token->path, fd);
-    close(fd);
-
+    if (fd == -1)
+        return(free(file), -1);
+    write_inside_file(cmd ,cmd->file, fd);
     fd = open(file, O_RDONLY);
-    if (fd == -1) {
-        free(file);
-        return (-1);
-    }
-    // this is will write from the file to the stdin
-    while ((bytesRead = read(fd, buffer, sizeof(buffer))) > 0) {
-        write(STDIN_FILENO, buffer, bytesRead);
-    }
-    close(fd);
+    if (fd == -1)
+        return(free(file), -1);
+    cmd->fd_in = fd;
     if (unlink(file) == -1)
     {
         printf("there is an error deleting the file\n");
         return(-1);
     }
-    free(file);
+    cmd->file = file;
     return (fd);
 }
