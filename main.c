@@ -29,7 +29,7 @@ int main(int argc,char *argv[], char *env[])
     cmd->arg_arr = malloc(sizeof(char *) * 5);
     if (!cmd->arg_arr)
         return 5;
-    cmd->arg_arr[0] = "hi";
+    cmd->arg_arr[0] = "ls";
     cmd->arg_arr[1] = NULL;
     cmd->arg_arr[2] = NULL;
     //cmd->fd_in = 0;
