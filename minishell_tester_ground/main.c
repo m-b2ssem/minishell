@@ -9,18 +9,23 @@ void	free_str(char *str)
 
 int	main(int argc, char *argv[])
 {
-	t_cmd	*line;
-	char	*user;
-	char	**arr;
-	int		i;
-	int		res;
+	t_cmd		*line;
+	char		*user;
+	char		**arr;
+	int			i;
+	int			res;
+	extern char	**__environ;
+	char		**env;
+	t_env		*var;
 
+	var = NULL;
+	env = __environ;
 	line = NULL;
 	arr = NULL;
-	// line = NULL;
 	i = 0;
 	if (!argc && !argv)
 		return (0);
+	initialize_env_variables(&var, env);
 	while (1)
 	{
 		user = readline("💅 🧠 minishell> ");
@@ -47,15 +52,15 @@ int	main(int argc, char *argv[])
 			{
 				printf("WRONG__________\n");
 			}
-			print_list(line);
-			the_expander(&line);
+			// print_list(line);
+			// the_expander(&line);
+			organise_arg(&line);
 			print_list(line);
 		}
 		// free(arr);
 		// // ;
 		// if (user != NULL)
 		// 	free(user);
-		// free_list(line);
 	}
 	return (0);
 }

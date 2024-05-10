@@ -2,9 +2,9 @@
 
 void	*ft_memmove(void *dst, const void *src, size_t len)
 {
-	char	*s;
-	char	*d;
-	size_t	i;
+	char *s;
+	char *d;
+	size_t i;
 
 	if (dst == 0 && src == 0)
 		return (dst);
@@ -31,13 +31,15 @@ void	*ft_memmove(void *dst, const void *src, size_t len)
 #include <stdio.h>
 #include <string.h>
 
-int main () {
-   char dest[] = "oldstring";
-   const char src[]  = "newstring";
+int	main(void)
+{
+	char dest[] = "oldstring";
+	const char src[] = "newstring";
 
-   printf("Before memmove dest = %s, src = %s\n", dest, src);
-   ft_memmove(dest, src, 9);
-   printf("After memmove dest = %s, src = %s\n", dest, src);
+	printf("Before memmove dest = %s, src = %s\n", dest, src);
+	ft_memmove(dest, src, 9);
+	printf("After memmove dest = %s, src = %s\n", dest, src);
 
-   return(0);
-}*/
+	return (0);
+}
+*/

@@ -56,10 +56,16 @@ void	token_type(t_token *tok)
 		tok->type = APPEND;
 	else if (tok->string[0] == '"' && tok->string[ft_strlen(tok->string)
 		- 1] == '"')
+	{
+		tok->expansion = 1;
 		tok->type = D_QUOTE;
+	}
 	else if (tok->string[0] == '\'' && tok->string[ft_strlen(tok->string)
 		- 1] == '\'')
+	{
+		tok->expansion = 1;
 		tok->type = S_QUOTE;
+	}
 	else if (ft_strlen(tok->string) != 0 && tok->type == NON)
 		tok->type = ARG;
 	else
