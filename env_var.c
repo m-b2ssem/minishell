@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void	print_list(t_env *head) // Single pointer to head
+void	print_list_env(t_env *head) // Single pointer to head
 {
 	t_env *current = head;
 
@@ -72,7 +72,6 @@ int	find_char(char *s)
 	int	i;
 
 	i = 0;
-	// handle cases where '=' is not found in the string
 	while (s[i] != '=')
 		i++;
 	return (i);
@@ -80,6 +79,8 @@ int	find_char(char *s)
 
 void	initialize_env_variables(t_env **head, char **env)
 {
+
+	//ATTCH to main struct
 	int		i;
 	char	*name;
 	char	*value;

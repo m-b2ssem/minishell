@@ -4,7 +4,9 @@ CFLAGS = -Wall -Wextra -Werror
 LIBFT = ./libft/libft.a
 SRC =	main.c redirections/redirections.c redirections/heredoc.c builtin/builtin_pwd.c builtin/builtin_cd.c \
 		builtin/builtin_echo.c builtin/builtin_export.c builtin/builtin_env.c builtin/builtin_unset.c builtin/builtin_exit.c\
-		execution/execuation.c execution/piping.c execution/signals.c execution/utils_1.c env_var.c
+		execution/execuation.c execution/piping.c execution/signals.c execution/utils_1.c env_var.c \
+		parsing/expansion.c parsing/helper.c parsing/organise.c parsing/parsing.c parsing/tokenizing.c parsing/tok_helper.c 
+
 
 
 OBJ = $(SRC:.c=.o)
@@ -26,3 +28,6 @@ fclean	: clean
 
 
 re		: fclean all
+
+debug:
+	valgrind --leak-check=full --show-leak-kinds=all --suppressions=$(SUP) ./minishell
