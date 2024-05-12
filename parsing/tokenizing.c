@@ -5,6 +5,7 @@ void	print_list(t_cmd **head)
 {
 	t_cmd	*cmd;
 	t_token	*tok;
+
 	cmd = *head;
 	// if (head == NULL)
 	// {
@@ -117,10 +118,10 @@ int	split_into_tokens(t_cmd **line)
 	flag = 0;
 	start = 0;
 	i = 0;
+	while (curr->args[i] && curr->args[i] == ' ')
+		i++;
 	while (i < size)
 	{
-		while (curr->args[i] && curr->args[i] == ' ')
-			i++;
 		start = i;
 		if (is_redirection(curr->args[i]) && stat == NO_QUOTE)
 			get_redirection(curr->args, &i);
@@ -134,6 +135,7 @@ int	split_into_tokens(t_cmd **line)
 		arg = ft_substr(curr->args, start, i - start);
 		if (initialize_tokens(arg, (&curr->token)) == -1)
 			return (-1);
+		i++;
 	}
 	return (0);
 }

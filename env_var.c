@@ -77,16 +77,16 @@ int	find_char(char *s)
 	return (i);
 }
 
-void	initialize_env_variables(t_env **head, char **env)
+t_env	*initialize_env_variables(t_cmd *cmd, t_env **head, char **env)
 {
-
-	//ATTCH to main struct
 	int		i;
 	char	*name;
 	char	*value;
 	t_env	*new;
 
+	(void)cmd;
 	i = 0;
+	//printf("-------HELLO\n");
 	while (env[i] != NULL)
 	{
 		name = ft_substr(env[i], 0, find_char(env[i]));
@@ -95,12 +95,13 @@ void	initialize_env_variables(t_env **head, char **env)
 		if (!new)
 		{
 			free(name);
-			return ;
+			return (NULL);
 		}
 		lst_addback(head, new);
 		free(name);
 		i++;
 	}
+	return (*head);
 }
 void	free_list(t_env **head)
 {
@@ -117,18 +118,3 @@ void	free_list(t_env **head)
 		current = next;
 	}
 }
-/*
-int	main(int argc, char **argv, char **env)
-{
-	extern char	**__environ;
-	t_env		*var;
-
-	var = NULL;
-	env = __environ;
-	(void)argc;
-	(void)argv;
-	initialize_env_variables(&var, env);
-	print_list(var);
-	free_list(var);
-	return (0);
-}*/
