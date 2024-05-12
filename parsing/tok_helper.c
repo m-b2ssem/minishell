@@ -5,6 +5,7 @@ void	init_node_tokens(t_token *new)
 {
 	new->string = NULL;
 	new->expansion = -1;
+	new->join = 0;
 	new->next = NULL;
 	new->type = NON;
 }
@@ -70,6 +71,39 @@ void	token_type(t_token *tok)
 		tok->type = ARG;
 	else
 		tok->type = NON;
+}
+
+int	try_solve_join(t_cmd **cmd)
+{
+	t_cmd	*curr_cmd;
+	t_token	*curr_tok;
+	t_token	*start;
+	int		join;
+
+	join = 0;
+	curr_cmd = *cmd;
+	while (curr_cmd != NULL)
+	{
+		curr_tok = curr_cmd->token;
+		while (curr_tok != NULL)
+		{
+			if (curr_tok->type == D_QUOTE || curr_tok->type == S_QUOTE)
+				join = 1;
+			else if (join == 1 && (curr_tok->type == NON
+					|| curr_tok->type == ARG))
+			{
+				start = curr_tok;
+				while(curr_tok->type != D_QUOTE && curr_tok->type != S_QUOTE)
+				{
+					curr_tok->join = 1; 
+					curr_tok = curr_tok->next;
+				}
+			}
+			curr_tok = curr_tok->next;
+		}
+		curr_cmd = curr_cmd->next;
+	}
+	return (0);
 }
 
 int	decide_token_type(t_cmd **line)
