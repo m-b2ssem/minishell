@@ -106,11 +106,10 @@ char	**ft_split_cmd(char const *s, char c)
 	return (result);
 }
 
-void	init_node(t_cmd *new)
+void	init_node(t_cmd *new, t_env *list)
 {
-	
 	new->token = NULL;
-	new->env = NULL;
+	new->env = list;
 	new->args = NULL;
 	new->arg_arr = NULL;
 	new->file = NULL;
@@ -120,7 +119,7 @@ void	init_node(t_cmd *new)
 	new->fd_out = 0;
 }
 
-t_cmd	*init_new_node(char *arr, t_cmd *new)
+t_cmd	*init_new_node(char *arr, t_cmd *new, t_env *env)
 {
 	new = malloc(sizeof(t_cmd));
 	if (!new)
@@ -128,22 +127,23 @@ t_cmd	*init_new_node(char *arr, t_cmd *new)
 		free(arr);
 		return (NULL);
 	}
-	init_node(new);
+	init_node(new, env);
 	new->args = ft_strdup(arr);
 	if (new->args == NULL)
 		return (NULL);
 	return (new);
 }
 
-void	initialize_arguments(t_cmd **line, char **user)
+void	initialize_arguments(t_cmd **line, char **user, t_env *env)
 {
 	t_cmd	*new;
 	int		i;
 
+	new = NULL;
 	i = 0;
 	while (user[i])
 	{
-		new = init_new_node(user[i], new);
+		new = init_new_node(user[i], new, env);
 		if (new == NULL)
 		{
 			free(user[i]);
@@ -153,6 +153,11 @@ void	initialize_arguments(t_cmd **line, char **user)
 		arg_add_back(line, new);
 		i++;
 	}
+}
+
+void add_back(t_cmd**stack, t_cmd*lst)
+{
+	
 }
 
 void	arg_add_back(t_cmd **stack, t_cmd *new)
@@ -186,5 +191,3 @@ t_cmd	*arg_last(t_cmd *lst)
 	}
 	return (current);
 }
-
-

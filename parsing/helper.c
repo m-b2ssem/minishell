@@ -22,8 +22,6 @@ void	update_eof_expansion(t_token *tok)
 	}
 	if (tok->string == NULL)
 		return ;
-	// What to do when seperate strings.
-	// string join??
 }
 
 char	*create_expansion(t_env *curr, char *org, int start, char *tmp)
@@ -35,7 +33,6 @@ char	*create_expansion(t_env *curr, char *org, int start, char *tmp)
 	int		j;
 	char	*tmp_value;
 
-	printf("HELLLOOOOO____________\n");
 	i = 0;
 	j = 0;
 	diff = 0;
@@ -81,12 +78,12 @@ char	*create_expansion(t_env *curr, char *org, int start, char *tmp)
 
 char	*get_env_value(char *new, char *org, t_env **list, int *i)
 {
-	t_env	*curr = NULL;
+	t_env	*curr;
 	char	*tmp;
 	int		start;
 
-	(void)list; 
-
+	curr = NULL;
+	(void)list;
 	start = 0;
 	while (org[*i] != '\0' && org[*i] == '$')
 		(*i)++;
@@ -113,9 +110,10 @@ char	*double_quote_expansion(t_token *tok, char *str, char *new)
 {
 	int		i;
 	char	s1[] = "\"";
-	t_env	**list = NULL;
+	t_env	**list;
 
-(void)tok; 
+	list = NULL;
+	(void)tok;
 	if (str == NULL)
 		return (NULL);
 	i = 0;
@@ -158,7 +156,7 @@ int	update_string_expansion(t_token *tok)
 	}
 	else if (tok->type == D_QUOTE)
 	{
-		expand = double_quote_expansion(tok, tok->string, expand); 
+		expand = double_quote_expansion(tok, tok->string, expand);
 	}
 	return (0);
 }
@@ -179,10 +177,13 @@ int	the_expander(t_cmd **line)
 			if (curr_tok->string && curr_tok->string[0]
 				&& curr_tok->expansion == 1)
 			{
-				if (curr_tok->type == DELIM)
+				if (curr_tok->type == D_QUOTE || curr_tok->type == S_QUOTE)
 					update_eof_expansion(curr_tok);
-				else if (curr_tok->type == D_QUOTE || curr_tok->type == S_QUOTE)
-					update_string_expansion(curr_tok);
+				// if (curr_tok->type == DELIM)
+				// 	update_eof_expansion(curr_tok);
+				// else if (curr_tok->type == D_QUOTE
+				//|| curr_tok->type == S_QUOTE)
+				// 	update_string_expansion(curr_tok);
 			}
 			curr_tok = curr_tok->next;
 		}

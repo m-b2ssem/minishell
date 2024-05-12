@@ -5,6 +5,7 @@ void	init_node_tokens(t_token *new)
 {
 	new->string = NULL;
 	new->expansion = -1;
+	new->join = 0;
 	new->next = NULL;
 	new->type = NON;
 }
@@ -66,10 +67,81 @@ void	token_type(t_token *tok)
 		tok->expansion = 1;
 		tok->type = S_QUOTE;
 	}
+	else if (tok->string[0] == ' ' && tok->string[1] == '\0')
+		tok->type = BLANK;
 	else if (ft_strlen(tok->string) != 0 && tok->type == NON)
 		tok->type = ARG;
 	else
 		tok->type = NON;
+}
+
+char	*join_strings(t_token **head)
+{
+	char	*new;
+	int		total_len;
+	t_token	*curr_tok;
+
+	total_len = 0;
+	curr_tok = *head;
+	while (curr_tok != NULL)
+	{
+		if (curr_tok->join == 1)
+			total_len += (ft_strlen(curr_tok->string) + 1);
+		curr_tok = curr_tok->next;
+	}
+	if (total_len > 0)
+	{
+		new = malloc(sizeof(char) * (total_len + 1));
+		if (!new)
+			return (NULL);
+		new[0] = '\0';
+	}
+	curr_tok = *head;
+	while (curr_tok != NULL)
+	{
+		if (curr_tok->join == 1)
+		{
+			new = strcat(new, curr_tok->string);
+			if (new == NULL)
+				return (NULL);
+			new = strcat(new, "");
+		}
+		curr_tok = curr_tok->next;
+	}
+	return (new);
+}
+
+int	try_solve_join(t_cmd **cmd)
+{
+	t_cmd	*curr_cmd;
+	t_token	*curr_tok;
+	t_cmd	*start;
+	char	*join;
+	int		flag;
+
+	start = NULL;
+	join = NULL;
+	flag = 0;
+	curr_cmd = *cmd;
+	while (curr_cmd != NULL)
+	{
+		curr_tok = curr_cmd->token;
+		while (curr_tok != NULL)
+		{
+			if (curr_tok->type == HERE_DOC)
+				flag = 1;
+			else if (flag == 1 && curr_tok->string && curr_tok != NULL
+				&& curr_tok->string[0] != '\0' && curr_tok->type != BLANK)
+				curr_tok->join = 1;
+			curr_tok = curr_tok->next;
+		}
+		curr_cmd = curr_cmd->next;
+	}
+	join = join_strings(&(*cmd)->token);
+	init_new_node(join, start, NULL);
+	
+	printf("JOIN: %s\n", join);
+	return (0);
 }
 
 int	decide_token_type(t_cmd **line)
