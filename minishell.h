@@ -31,8 +31,7 @@ typedef enum token_status
 	BUILTIN, // string matches a builtin
 	D_QUOTE, // string inside double quotes, can also be ""
 	S_QUOTE, // string inside single quotes, can also be ''
-	ARG,
-	// string w/o any special (can be changed into files after a redirection symbol)
+	ARG, // string w/o any special (can be changed into files after a redirection symbol)
 	HERE_DOC,  // string matches <<
 	APPEND,    // string matches >>
 	REDIR_IN,  // string matches <
@@ -40,7 +39,8 @@ typedef enum token_status
 	INFILE,    // string after <
 	OUTFILE,   // string after >
 	A_FILE,    // string after >>
-	DELIM      // string after a <<
+	DELIM,     // string after a <<
+	BLANK
 } t_token_status;
 
 typedef enum quote_status
@@ -131,7 +131,7 @@ void	free_list_env(t_env *head);
 /*Creating the cmd list*/
 void	initialize_arguments(t_cmd **line, char **user, t_env *env);
 char	**ft_split_cmd(char const *s, char c);
-void    init_node(t_cmd *new, t_env *list);
+void	init_node(t_cmd *new, t_env *list);
 t_cmd	*init_new_node(char *arr, t_cmd *new, t_env *env);
 void	arg_add_back(t_cmd **stack, t_cmd *new);
 t_cmd	*arg_last(t_cmd *lst);
@@ -180,5 +180,6 @@ char	*get_env_value(char *new, char *org, t_env **list, int *i);
 char	*double_quote_expansion(t_token *tok, char *str, char *new);
 int	update_string_expansion(t_token *tok);
 int	try_solve_join(t_cmd **cmd);
+char	*join_strings(t_token **head); 
 
 #endif

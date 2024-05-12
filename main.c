@@ -22,14 +22,16 @@ int	parse_cmd(char *str, t_cmd **line, t_env *env)
 		{
 			printf("Syntax error in redirection\n");
 		}
-		if (heredoc_usage(line) == -1)
-		{
-			printf("WRONG__________\n");
-		}
+		// if (heredoc_usage(line) == -1)
+		// {
+		// 	printf("WRONG__________\n");
+		// }
 		the_expander(line);
 		try_solve_join(line);
-		print_list(line);
+
 		organise_arg(line);
+		print_list(line);
+		exit(1);
 	}
 	return (0);
 }
@@ -70,7 +72,7 @@ void	free_everything(t_cmd **line)
 
 int	main(int argc, char **argv, char **env)
 {
-	int status = 0;
+	// int status = 0;
 	char *str;
 	extern char **__environ;
 	env = __environ;
@@ -93,8 +95,8 @@ int	main(int argc, char **argv, char **env)
 		add_history(str);
 		parse_cmd(str, &cmd, envp);
 		print_list(&cmd);
-		status = execute(&cmd, envp);
-		printf("Status: %d\n", status);
+		// status = execute(&cmd, envp);
+		// printf("Status: %d\n", status);
 		free_everything(&cmd);
 	}
 	return (0);
