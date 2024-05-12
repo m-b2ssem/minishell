@@ -72,32 +72,31 @@ void	free_everything(t_cmd **line)
 
 int	main(int argc, char **argv, char **env)
 {
-	// int status = 0;
-	char *str;
-	extern char **__environ;
-	env = __environ;
-	t_cmd *cmd = NULL;
-	t_env *envp = NULL;
+    (void)argc;
+    (void)argv;
+    int status;
+    char *str;
+    t_cmd *cmd = NULL;
+    t_env **envp = NULL;
+    (void)env;
+    (void)envp;
 
-	if (!argc && !argv)
-		return (0);
-	envp = initialize_env_variables(&envp, env);
-	if (env == NULL)
-		return (0);
-	while (1)
-	{
-		str = readline(PROMPT);
-		if (str == NULL)
-		{
-			return (0);
-			// free_everything_exit(cmd);
-		}
-		add_history(str);
-		parse_cmd(str, &cmd, envp);
-		print_list(&cmd);
-		// status = execute(&cmd, envp);
-		// printf("Status: %d\n", status);
-		free_everything(&cmd);
-	}
-	return (0);
+    status = 0;
+    initialize_env_variables(envp, env);
+    while (1)
+    {
+        str = readline("minishell> ");
+        if (str == NULL)
+        {
+            free_everything(&cmd);
+            return (0);
+        }
+        add_history(str);
+        parse_cmd(str, &cmd);
+        //print_list(&cmd);
+        status = execute(&cmd, cmd->env);
+        printf("Status: %d\n", status);
+        free_everything(&cmd);
+    }
+    return (0);
 }

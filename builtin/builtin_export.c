@@ -1,27 +1,28 @@
 #include "../minishell.h"
 
 
-t_env *copy_env_list(t_env *env) {
-    t_env *new_env;
+void copy_env_list(t_env **new_env, t_env *env) {
     t_env *temp;
 
     if (env->next == NULL)
-        return (NULL);
+        return;
 
-    new_env = NULL;
+    *new_env = NULL;
     while (env != NULL)
     {
         temp = (t_env *)malloc(sizeof(t_env));
         if (!temp)
-            return (free_list(&new_env), NULL);
+        {
+            free_list(new_env);
+            return;
+        }
         temp->name = env->name ? strdup(env->name) : strdup(" ");
         temp->value = env->value ? strdup(env->value) : strdup(" ");
         temp->export = env->export;
-        temp->next = new_env;
-        new_env = temp;
+        temp->next = *new_env;
+        *new_env = temp;
         env = env->next;
     }
-    return new_env;
 }
 
 void swap(t_env *a, t_env *b)
@@ -138,7 +139,6 @@ int    add_variable(t_cmd *cmd)
 int builtin_export(t_cmd *cmd)
 {
     t_env *temp = NULL;
-    t_env *head = NULL;
 
     if (cmd->arg_arr[1] != NULL)
     {
@@ -146,12 +146,12 @@ int builtin_export(t_cmd *cmd)
                 return(1);
         return(0);
     }
-    temp = copy_env_list(cmd->env);
+    printf("%s\n", cmd->env->name);
+    //copy_env_list(&temp, cmd->env);
     if (!temp)
         return (1);/// Error copying environment variables
-    head = temp; // Keep a reference to the head of the list
-    bubble_sort(&temp);  // Sort the environment variables
-    while (temp != NULL)
+    //bubble_sort(&temp);  // Sort the environment variables
+    /*while (temp != NULL)
     {
         if (temp->export == 1)
         {
@@ -159,6 +159,6 @@ int builtin_export(t_cmd *cmd)
         }
         temp = temp->next;
     }
-    free_list(&head); // Free the head of the list
+    free_list(&temp); // Free the head of the list*/
     return (0);
 }

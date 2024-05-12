@@ -81,6 +81,7 @@ typedef struct s_cmd
 	struct s_cmd *next;
 } t_cmd;
 
+<<<<<<< HEAD
 int	redirections(t_cmd *cmd);
 int	builtin_pwd(void);
 int	builtin_cd(t_cmd *cmd);
@@ -90,6 +91,17 @@ int	builtin_env(t_env *env);
 int	builtin_unset(t_env **head, t_cmd *cmd);
 int	builtin_exit(t_cmd *cmd, t_cmd *tmp, pid_t *pross_id);
 int	heredoc(t_cmd *cmd);
+=======
+int 	redirections(t_cmd *cmd);
+int		builtin_pwd();
+int		builtin_cd(t_cmd *cmd);
+int     builtin_echo(t_cmd *cmd);
+int     builtin_export(t_cmd *cmd);
+int     builtin_env(t_env *env);
+int 	builtin_unset(t_env **head, t_cmd *cmd);
+int		builtin_exit(t_cmd *cmd, t_cmd *tmp, pid_t *pross_id);
+int 	heredoc(t_cmd *cmd, char *limiter);
+>>>>>>> 70ce852 (fix the heredoc)
 
 // exec
 int	execute(t_cmd **cmd1, t_env *env);

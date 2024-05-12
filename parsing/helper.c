@@ -168,6 +168,7 @@ int	the_expander(t_cmd **line)
 	char	*new;
 
 	new = NULL;
+	(void)new; // check if we need to use this
 	curr_cmd = *line;
 	while (curr_cmd != NULL)
 	{
