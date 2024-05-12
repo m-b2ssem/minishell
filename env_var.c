@@ -77,16 +77,15 @@ int	find_char(char *s)
 	return (i);
 }
 
-t_env	*initialize_env_variables(t_cmd *cmd, t_env **head, char **env)
+t_env	*initialize_env_variables(t_env **head, char **env)
 {
 	int		i;
 	char	*name;
 	char	*value;
 	t_env	*new;
 
-	(void)cmd;
 	i = 0;
-	//printf("-------HELLO\n");
+	// printf("-------HELLO\n");
 	while (env[i] != NULL)
 	{
 		name = ft_substr(env[i], 0, find_char(env[i]));
