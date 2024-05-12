@@ -129,10 +129,10 @@ int	find_char(char *s);
 void	free_list_env(t_env *head);
 
 /*Creating the cmd list*/
-void	initialize_arguments(t_cmd **line, char **user);
+void	initialize_arguments(t_cmd **line, char **user, t_env *env);
 char	**ft_split_cmd(char const *s, char c);
-void	init_node(t_cmd *new);
-t_cmd	*init_new_node(char *arr, t_cmd *new);
+void    init_node(t_cmd *new, t_env *list);
+t_cmd	*init_new_node(char *arr, t_cmd *new, t_env *env);
 void	arg_add_back(t_cmd **stack, t_cmd *new);
 t_cmd	*arg_last(t_cmd *lst);
 int	is_redirection(char c);
@@ -171,7 +171,7 @@ int	is_space(char c);
 
 /*HELPER*/
 int	organise_arg(t_cmd **cmd);
-t_env	*initialize_env_variables(t_cmd *cmd, t_env **head, char **env);
+t_env	*initialize_env_variables(t_env **head, char **env);
 int	the_expander(t_cmd **line);
 void	update_eof_expansion(t_token *tok);
 int	the_expander(t_cmd **line);

@@ -1,9 +1,8 @@
 #include "minishell.h"
 
 
-int	parse_cmd(char *str, t_cmd **line)
+int	parse_cmd(char *str, t_cmd **line, t_env *env)
 {
-	// attach the address of env ölist to cmd
 	char **arr;
 	int res;
 
@@ -16,7 +15,7 @@ int	parse_cmd(char *str, t_cmd **line)
 	else
 	{
 		arr = ft_split_cmd(str, '|');
-		initialize_arguments(line, arr);
+		initialize_arguments(line, arr, env);
 		iterate_through_cmd_args(line);
 		decide_token_type(line);
 		if (redirection_spell_check(line) == -1)
@@ -69,21 +68,20 @@ void	free_everything(t_cmd **line)
 	*line = NULL;
 }
 
-int	main(int argc, char *argv[])
+int	main(int argc, char **argv, char **env)
 {
 	int status = 0;
 	char *str;
 	extern char **__environ;
-	char **env = __environ;
+	env = __environ;
 	t_cmd *cmd = NULL;
 	t_env *envp = NULL;
 
 	if (!argc && !argv)
 		return (0);
-	envp = initialize_env_variables(cmd, &envp, env);
+	envp = initialize_env_variables(&envp, env);
 	if (env == NULL)
 		return (0);
-
 	while (1)
 	{
 		str = readline(PROMPT);
@@ -93,7 +91,7 @@ int	main(int argc, char *argv[])
 			// free_everything_exit(cmd);
 		}
 		add_history(str);
-		parse_cmd(str, &cmd);
+		parse_cmd(str, &cmd, envp);
 		print_list(&cmd);
 		status = execute(&cmd, envp);
 		printf("Status: %d\n", status);
