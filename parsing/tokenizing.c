@@ -26,6 +26,7 @@ void	print_list(t_cmd **head)
 		{
 			printf("\tTOK: %s\n", tok->string);
 			printf("\tTYPE: %d\n", tok->type);
+			printf("\tJOIN: %d\n", tok->join);
 			printf("\tEXPANSION: %d\n", tok->expansion);
 			tok = tok->next;
 		}
@@ -118,8 +119,6 @@ int	split_into_tokens(t_cmd **line)
 	flag = 0;
 	start = 0;
 	i = 0;
-	while (curr->args[i] && curr->args[i] == ' ')
-		i++;
 	while (i < size)
 	{
 		start = i;
@@ -130,12 +129,16 @@ int	split_into_tokens(t_cmd **line)
 			get_string_in_quotes(curr->args, &i);
 			++i;
 		}
+		else if (curr->args[i] == ' ')
+			i++;
 		else
+		{
 			get_arguments(curr->args, &i);
+			// i++;
+		}
 		arg = ft_substr(curr->args, start, i - start);
 		if (initialize_tokens(arg, (&curr->token)) == -1)
 			return (-1);
-		i++;
 	}
 	return (0);
 }
