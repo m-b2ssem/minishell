@@ -63,7 +63,7 @@ void bubble_sort(t_env **head)
         ptr1 = *head;
         while (ptr1->next != lptr)
         {
-            if (strcmp(ptr1->name, ptr1->next->name) > 0) { 
+            if (strcmp(ptr1->name, ptr1->next->name) > 0) {
                 swap(ptr1, ptr1->next);
                 swapped = 1;
             }
@@ -82,7 +82,7 @@ int    add_variable(t_cmd *cmd)
     char    *name;
     char    *value;
     t_env   *new;
-    
+
 
     i = 1;
     k = 0;

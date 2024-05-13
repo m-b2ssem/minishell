@@ -1,16 +1,5 @@
-#include "minishell.h"
 
-void	print_list_env(t_env *head) // Single pointer to head
-{
-	t_env *current = head;
-
-	while (current != NULL)
-	{
-		printf("Name: %s\n", current->name);
-		printf("Value: %s\n", current->value);
-		current = current->next; // Move to the next node
-	}
-}
+#include "../minishell.h"
 
 t_env	*lst_last(t_env *lst)
 {
@@ -20,9 +9,7 @@ t_env	*lst_last(t_env *lst)
 	if (lst == 0)
 		return (0);
 	while (current->next != 0)
-	{
 		current = current->next;
-	}
 	return (current);
 }
 
@@ -32,9 +19,7 @@ t_env	*lst_new(char *name, char *value, t_env *new, int export)
 	if (!new)
 		return (NULL);
 	new->name = ft_strdup(name);
-	// printf("---> %s\n", new->name);
 	new->value = ft_strdup(value);
-	// printf("---> %s\n", new->value);
 	if (!new->name || !new->value)
 	{
 		free(new->name);
@@ -67,16 +52,6 @@ void	lst_addback(t_env **list, t_env *new)
 	}
 }
 
-int	find_char(char *s)
-{
-	int	i;
-
-	i = 0;
-	while (s[i] != '=')
-		i++;
-	return (i);
-}
-
 t_env	*initialize_env_variables(t_env **head, char **env)
 {
 	int		i;
@@ -85,7 +60,6 @@ t_env	*initialize_env_variables(t_env **head, char **env)
 	t_env	*new;
 
 	i = 0;
-	// printf("-------HELLO\n");
 	while (env[i] != NULL)
 	{
 		name = ft_substr(env[i], 0, find_char(env[i]));
@@ -101,19 +75,4 @@ t_env	*initialize_env_variables(t_env **head, char **env)
 		i++;
 	}
 	return (*head);
-}
-void	free_list(t_env **head)
-{
-	t_env	*current;
-	t_env	*next;
-
-	current = *head;
-	while (current != NULL)
-	{
-		next = current->next;
-		free(current->name);
-		free(current->value);
-		free(current);
-		current = next;
-	}
 }

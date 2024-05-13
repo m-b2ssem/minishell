@@ -20,49 +20,10 @@
 
 #include "../minishell.h"
 
-int	is_type_redir(t_token *tok)
-{
-	if (tok->type == HERE_DOC || tok->type == APPEND || tok->type == REDIR_IN
-		|| tok->type == REDIR_OUT)
-		return (1);
-	return (0);
-}
-
 // int	is_possible_eof(t_token *tok)
 // {
 // 	if (tok->type == ARG || tok->type == D_QUOTE || tok->type == S_QUOTE)
 // }
-
-int	redirection_spell_check(t_cmd **line)
-{
-	t_cmd	*curr_cmd;
-	t_token	*curr_tok;
-	int		redir;
-
-	redir = 0;
-	curr_cmd = *line;
-	while (curr_cmd != NULL)
-	{
-		curr_tok = curr_cmd->token;
-		while (curr_tok != NULL)
-		{
-			if (is_type_redir(curr_tok))
-				redir = 1;
-			else if (redir == 1 && curr_tok->string != 0
-				&& curr_tok->string[0] != '\0')
-			{
-				if (is_type_redir(curr_tok) || curr_tok->type == BUILTIN)
-					return (-1);
-				redir = 0;
-			}
-			curr_tok = curr_tok->next;
-		}
-		if (redir == 1)
-			return (-1);
-		curr_cmd = curr_cmd->next;
-	}
-	return (0);
-}
 
 int	is_type_arg(t_token *tok)
 {
@@ -75,15 +36,7 @@ void	change_redir_relation(t_token *tok, int *redir)
 {
 	if (*redir == 5 && is_type_arg(tok))
 	{
-		if (tok->type == ARG)
-		{
-			tok->type = DELIM;
-		}
-		else if (tok->type == D_QUOTE || tok->type == S_QUOTE)
-		{
-			tok->type = DELIM;
-			tok->expansion = 1;
-		}
+		tok->type = DELIM;
 	}
 	else if (*redir == 6 && is_type_arg(tok))
 	{
@@ -147,7 +100,7 @@ int	heredoc_usage(t_cmd **line)
 			if (is_type_redir(curr_tok))
 				change_redirection_relation(curr_tok, &redir);
 			else if (redir > 0 && curr_tok->string != 0
-				&& curr_tok->string[0] != '\0')
+				&& curr_tok->string[0] != '\0' && join_quoted_helper(curr_tok))
 				change_redir_relation(curr_tok, &redir);
 			curr_tok = curr_tok->next;
 		}

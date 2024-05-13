@@ -1,73 +1,44 @@
+
 #include "minishell.h"
 
 
-int	parse_cmd(char *str, t_cmd **line, t_env *env)
+void	print_list_env(t_env *head)
 {
-	char **arr;
-	int res;
+	t_env *current;
 
-	res = check_for_unclosed_quotes(str);
-	if (res != 0)
-	{
-		printf("Result %d\n", res);
-		printf("Unclosed detected\n");
-	}
-	else
-	{
-		arr = ft_split_cmd(str, '|');
-		initialize_arguments(line, arr, env);
-		iterate_through_cmd_args(line);
-		decide_token_type(line);
-		if (redirection_spell_check(line) == -1)
-		{
-			printf("Syntax error in redirection\n");
-		}
-		// if (heredoc_usage(line) == -1)
-		// {
-		// 	printf("WRONG__________\n");
-		// }
-		the_expander(line);
-		try_solve_join(line);
-
-		organise_arg(line);
-		print_list(line);
-		exit(1);
-	}
-	return (0);
-}
-
-void	free_list_tokens(t_token **head)
-{
-	t_token *current;
-	t_token *tmp;
-
-	current = *head;
+	current = head;
 	while (current != NULL)
 	{
-		tmp = current;
+		printf("Name: %s\n", current->name);
+		printf("Value: %s\n", current->value);
 		current = current->next;
-		free(tmp->string);
-		free(tmp);
 	}
-	*head = NULL;
 }
 
-void	free_everything(t_cmd **line)
+t_quote_status	get_quote_status(char c, t_quote_status stat)
 {
-	t_cmd *current;
-	t_cmd *tmp;
+	if (c == '\'' && stat != SINGLE && stat != DOUBLE)
+		stat = SINGLE;
+	else if (c == '"' && stat != DOUBLE && stat != SINGLE)
+		stat = DOUBLE;
+	else if ((c == '\'' && stat == SINGLE) || (c == '"' && stat == DOUBLE))
+		stat = NO_QUOTE;
+	return (stat);
+}
 
-	current = *line;
-	while (current != NULL)
+int	check_for_unclosed_quotes(char *str)
+{
+	int i;
+	t_quote_status stat;
+
+	i = 0;
+	stat = NO_QUOTE;
+	while (str[i])
 	{
-		tmp = current;
-		current = current->next;
-		free(tmp->args);
-		free(tmp->arg_arr);
-		free_list_tokens(&tmp->token);
-		free(tmp);
+		stat = get_quote_status(str[i], stat);
+		i++;
 	}
-	*line = NULL;
+	return (stat);
 }
 
 int	main(int argc, char **argv, char **env)
@@ -88,15 +59,17 @@ int	main(int argc, char **argv, char **env)
 	{
 		str = readline(PROMPT);
 		if (str == NULL)
-		{
 			return (0);
-			// free_everything_exit(cmd);
-		}
 		add_history(str);
-		parse_cmd(str, &cmd, envp);
+		if (parse_cmd(str, &cmd, envp) == 1)
+		{
+			free_everything(&cmd);
+			return (free_list(&envp));
+		}
+
 		print_list(&cmd);
-		// status = execute(&cmd, envp);
-		// printf("Status: %d\n", status);
+		// // status = execute(&cmd, envp);
+		// // printf("Status: %d\n", status);
 		free_everything(&cmd);
 	}
 	return (0);
