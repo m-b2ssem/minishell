@@ -57,7 +57,7 @@ void	free_env_list(t_env *head)
 
 int	main(int argc, char **argv, char **env)
 {
-	int status = 0;
+	// int status = 0;
 	char *str;
 	extern char **__environ;
 	env = __environ;
@@ -67,10 +67,12 @@ int	main(int argc, char **argv, char **env)
 	if (!argc && !argv)
 		return (0);
 	envp = initialize_env_variables(&envp, env);
-	if (env == NULL)
+	if (envp == NULL)
 		return (0);
 	while (1)
 	{
+		signal(SIGINT, signal_handler);
+		signal(SIGQUIT, SIG_IGN);
 		str = readline(PROMPT);
 		if (str == NULL)
 		{
@@ -80,20 +82,16 @@ int	main(int argc, char **argv, char **env)
 		add_history(str);
 		if (parse_cmd(str, &cmd, envp) == 1)
 		{
+			free(str);
+			free_list(&envp);
 			free_everything(&cmd);
-			// free(str);
-			return (free_list(&envp));
+			return (1);
 		}
-		print_list(&cmd);
-		status = execute(&cmd, envp);
-		printf("Status: %d\n", status);
-		free_everything(&cmd);
-		// free(str);
-		free_list(&envp);
-		// exit(1);
-		// free_env_list(envp);
-	}
+		// status = execute(&cmd, envp);
+		// printf("Status: %d\n", status);
 
+		free_everything(&cmd);
+	}
 	free_list(&envp);
 	free_everything(&cmd);
 	return (0);

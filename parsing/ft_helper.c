@@ -7,11 +7,11 @@ void	print_list(t_cmd **head)
 	t_token	*tok;
 
 	cmd = *head;
-	// if (head == NULL)
-	// {
-	// 	printf("Head\n");
-	// 	return ;
-	// }
+	if (head == NULL)
+	{
+		printf("Head\n");
+		return ;
+	}
 	// if (head)
 	// {
 	// 	int d = cmd_lenth(cmd);

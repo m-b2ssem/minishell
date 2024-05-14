@@ -81,7 +81,7 @@ int	initialize_arguments(t_cmd **line, char **user, t_env *env)
 			while (user[i]) // Free remaining user elements in case of failure
 			{
 				free(user[i]);
-				i--;
+				--i;
 			}
 			free(user);
 			return (1);

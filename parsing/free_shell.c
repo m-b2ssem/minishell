@@ -10,10 +10,8 @@ int	free_list(t_env **head)
 	while (current != NULL)
 	{
 		next = current->next;
-		if (current->name)
-			free(current->name);
-		if (current->value)
-			free(current->value);
+		free(current->name);
+		free(current->value);
 		free(current);
 		current = next;
 	}
