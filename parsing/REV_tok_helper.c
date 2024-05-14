@@ -54,6 +54,9 @@ int	assign_join_variable(t_cmd **cmd)
 	char	*new;
 
 	new = NULL;
+	curr_cmd = NULL;
+	curr_tok = NULL;
+	first = NULL;
 	curr_cmd = *cmd;
 	while (curr_cmd != NULL)
 	{
@@ -78,8 +81,6 @@ int	assign_join_variable(t_cmd **cmd)
 			curr_tok = curr_tok->next;
 		}
 		new = join_strings(&curr_cmd->token);
-		if (new == NULL)
-			return (1);
 		if (find_node_and_modify(new, &curr_cmd->token, first) == 1)
 			return (1);
 		curr_cmd = curr_cmd->next;
@@ -89,8 +90,7 @@ int	assign_join_variable(t_cmd **cmd)
 
 int	join_quoted_strings(t_cmd **cmd)
 {
-	if (assign_join_variable(cmd) == 1)
-		return (1);
+	assign_join_variable(cmd);
 	return (0);
 }
 

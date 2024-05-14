@@ -41,9 +41,23 @@ int	check_for_unclosed_quotes(char *str)
 	return (stat);
 }
 
+void	free_env_list(t_env *head)
+{
+	t_env *tmp;
+
+	while (head != NULL)
+	{
+		tmp = head;
+		head = head->next;
+		free(tmp->name);
+		free(tmp->value);
+		free(tmp);
+	}
+}
+
 int	main(int argc, char **argv, char **env)
 {
-	// int status = 0;
+	int status = 0;
 	char *str;
 	extern char **__environ;
 	env = __environ;
@@ -59,18 +73,28 @@ int	main(int argc, char **argv, char **env)
 	{
 		str = readline(PROMPT);
 		if (str == NULL)
+		{
+			free_list(&envp);
 			return (0);
+		}
 		add_history(str);
 		if (parse_cmd(str, &cmd, envp) == 1)
 		{
 			free_everything(&cmd);
+			// free(str);
 			return (free_list(&envp));
 		}
-
 		print_list(&cmd);
-		// // status = execute(&cmd, envp);
-		// // printf("Status: %d\n", status);
+		status = execute(&cmd, envp);
+		printf("Status: %d\n", status);
 		free_everything(&cmd);
+		// free(str);
+		free_list(&envp);
+		// exit(1);
+		// free_env_list(envp);
 	}
+
+	free_list(&envp);
+	free_everything(&cmd);
 	return (0);
 }

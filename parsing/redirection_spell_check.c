@@ -28,7 +28,9 @@ int	redirection_spell_check(t_cmd **line)
 				&& curr_tok->string[0] != '\0')
 			{
 				if (is_type_redir(curr_tok) || curr_tok->type == BUILTIN)
+				{
 					return (1);
+				}
 				redir = 0;
 			}
 			curr_tok = curr_tok->next;

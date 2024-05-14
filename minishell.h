@@ -187,10 +187,11 @@ int	join_quoted_strings(t_cmd **cmd);
 char	*join_strings(t_token **head);
 int	find_node_and_modify(char *join, t_token **tok, t_token *find);
 int	find_and_modify_unused_nodes(t_token *tok);
-void	free_env_list(t_env **list);
+void	free_env_list(t_env *list);
 void	error_msg(char *str);
 int	join_quoted_strings(t_cmd **cmd);
 int	assign_join_variable(t_cmd **cmd);
 int	join_quoted_helper(t_token *curr_tok);
+int	check_unexpected_token(char *str);
 
 #endif

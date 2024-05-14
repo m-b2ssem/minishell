@@ -57,7 +57,10 @@ t_cmd	*init_new_node(char *arr, t_cmd *new, t_env *env)
 	init_node(new, env);
 	new->args = ft_strdup(arr);
 	if (new->args == NULL)
+	{
+		free(new);
 		return (NULL);
+	}
 	return (new);
 }
 
@@ -75,12 +78,18 @@ int	initialize_arguments(t_cmd **line, char **user, t_env *env)
 		new = init_new_node(user[i], new, env);
 		if (new == NULL)
 		{
-			free(user[i]);
+			while (user[i]) // Free remaining user elements in case of failure
+			{
+				free(user[i]);
+				i--;
+			}
+			free(user);
 			return (1);
 		}
 		free(user[i]);
 		arg_add_back(line, new);
 		i++;
 	}
+	free(user);
 	return (0);
 }

@@ -33,4 +33,4 @@ fclean	: clean
 re		: fclean all
 
 debug:
-	valgrind -s --leak-check=full --suppressions=$(SUP) ./minishell
+	valgrind -s --leak-check=full --show-leak-kinds=all --suppressions=$(SUP) ./minishell

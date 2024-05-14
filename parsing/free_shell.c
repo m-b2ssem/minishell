@@ -17,7 +17,7 @@ int	free_list(t_env **head)
 		free(current);
 		current = next;
 	}
-	return (1);
+	return (0);
 }
 
 void	free_list_tokens(t_token **head)

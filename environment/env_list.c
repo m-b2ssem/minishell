@@ -59,19 +59,20 @@ t_env	*initialize_env_variables(t_env **head, char **env)
 	char	*value;
 	t_env	*new;
 
+	
 	i = 0;
 	while (env[i] != NULL)
 	{
 		name = ft_substr(env[i], 0, find_char(env[i]));
 		value = getenv(name);
 		new = lst_new(name, value ? value : "", new, 1);
+		free(name);
 		if (!new)
 		{
-			free(name);
+			free_env_list(*head);
 			return (NULL);
 		}
 		lst_addback(head, new);
-		free(name);
 		i++;
 	}
 	return (*head);
