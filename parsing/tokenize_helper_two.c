@@ -38,3 +38,11 @@ int	find_char(char *s)
 		i++;
 	return (i);
 }
+
+int	join_quoted_helper(t_token *curr_tok)
+{
+	if (curr_tok->type == D_QUOTE || curr_tok->type == S_QUOTE
+		|| curr_tok->type == ARG)
+		return (1);
+	return (0);
+}

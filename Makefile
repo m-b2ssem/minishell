@@ -32,5 +32,5 @@ fclean	: clean
 
 re		: fclean all
 
-debug:
+debug: re
 	valgrind -s --leak-check=full --show-leak-kinds=all --suppressions=$(SUP) ./minishell

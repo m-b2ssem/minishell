@@ -89,7 +89,7 @@ int	main(int argc, char **argv, char **env)
 		}
 		// status = execute(&cmd, envp);
 		// printf("Status: %d\n", status);
-
+		// print_list(&cmd);
 		free_everything(&cmd);
 	}
 	free_list(&envp);

@@ -131,6 +131,7 @@ t_env	*lst_last(t_env *lst);
 void	lst_addback(t_env **list, t_env *new);
 int	find_char(char *s);
 void	free_everything(t_cmd **line);
+int	contains_join(t_cmd **cmd);
 
 /*Creating the cmd list*/
 int	initialize_arguments(t_cmd **line, char **user, t_env *env);
@@ -170,28 +171,30 @@ int	is_type_arg(t_token *tok);
 int	is_type_redir(t_token *tok);
 int	redirection_spell_check(t_cmd **line);
 int	redirection_spell_check(t_cmd **line);
-int	is_pipe(char c);
+
 int	is_space(char c);
 
 /*HELPER*/
 int	organise_arg(t_cmd **cmd);
 t_env	*initialize_env_variables(t_env **head, char **env);
-int	the_expander(t_cmd **line);
+
+t_token	*find_first(t_cmd **cmd);
 void	update_quote_strings(t_token *tok);
 int	search_quotes_modify(t_cmd **line);
 char	*create_expansion(t_env *curr, char *org, int start, char *tmp);
 char	*get_env_value(char *new, char *org, t_env **list, int *i);
 char	*double_quote_expansion(t_token *tok, char *str, char *new);
 int	update_string_expansion(t_token *tok);
-int	join_quoted_strings(t_cmd **cmd);
+int	join_quoted_strings(t_cmd **head);
 char	*join_strings(t_token **head);
 int	find_node_and_modify(char *join, t_token **tok, t_token *find);
-int	find_and_modify_unused_nodes(t_token *tok);
 void	free_env_list(t_env *list);
-void	error_msg(char *str);
+int	find_and_modify_unused_nodes(t_token *tok);
 int	join_quoted_strings(t_cmd **cmd);
 int	assign_join_variable(t_cmd **cmd);
 int	join_quoted_helper(t_token *curr_tok);
 int	check_unexpected_token(char *str);
+int	join_redir_helper(t_token *token);
+int	contains_join(t_cmd **cmd);
 
 #endif

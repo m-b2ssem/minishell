@@ -37,6 +37,7 @@ int	parse_cmd(char *str, t_cmd **line, t_env *env)
 		join_quoted_strings(line);
 		heredoc_usage(line);
 		organise_arg(line);
+		print_list(line);
 	}
 	return (0);
 }
