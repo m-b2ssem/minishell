@@ -33,8 +33,6 @@ static int     setup_pipe(t_cmd *cmd, int **pipefd, int index)
     }
     else
         cmd->fd_out = pipefd[index][1];
-    //printf("fd_in: %d\n", cmd->fd_in);
-    //printf("fd_out: %d\n", cmd->fd_out);
     return (0);
 }
 

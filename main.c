@@ -1,11 +1,12 @@
 #include "minishell.h"
 
 
-int	parse_cmd(char *str, t_cmd **line, t_env *env)
+int	parse_cmd(char *str, t_cmd **line, t_env *env, int status)
 {
 	char **arr;
 	int res;
 
+	printf("status: %d\n", status);
 	res = check_for_unclosed_quotes(str);
 	if (res != 0)
 	{
@@ -30,8 +31,6 @@ int	parse_cmd(char *str, t_cmd **line, t_env *env)
 		try_solve_join(line);
 
 		organise_arg(line);
-		print_list(line);
-		exit(1);
 	}
 	return (0);
 }
@@ -72,10 +71,8 @@ void	free_everything(t_cmd **line)
 
 int	main(int argc, char **argv, char **env)
 {
-	// int status = 0;
+	int status = 0;
 	char *str;
-	extern char **__environ;
-	env = __environ;
 	t_cmd *cmd = NULL;
 	t_env *envp = NULL;
 
@@ -86,17 +83,15 @@ int	main(int argc, char **argv, char **env)
 		return (0);
 	while (1)
 	{
-		str = readline(PROMPT);
+		str = readline("minishell>");
 		if (str == NULL)
 		{
 			return (0);
-			// free_everything_exit(cmd);
+			free_everything(&cmd);
 		}
 		add_history(str);
-		parse_cmd(str, &cmd, envp);
-		print_list(&cmd);
-		// status = execute(&cmd, envp);
-		// printf("Status: %d\n", status);
+		parse_cmd(str, &cmd, envp, status);
+		status = execute(&cmd);
 		free_everything(&cmd);
 	}
 	return (0);

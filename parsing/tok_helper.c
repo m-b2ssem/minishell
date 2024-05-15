@@ -140,7 +140,6 @@ int	try_solve_join(t_cmd **cmd)
 	join = join_strings(&(*cmd)->token);
 	init_new_node(join, start, NULL);
 	
-	printf("JOIN: %s\n", join);
 	return (0);
 }
 

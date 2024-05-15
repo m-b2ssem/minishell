@@ -4,7 +4,17 @@ int builtin_env(t_env *env)
 {
     if (!env)
         return (1);
-    printf("builtin_env\n");
-    print_list_env(env);
+    while (env)
+    {
+        if (env->export == 1)
+        {
+            printf("%s=%s\n", env->name, env->value);
+        }
+        if (env->export == 0)
+        {
+            printf("%s=\n", env->name);
+        }
+        env = env->next;
+    }
     return (0);
 }

@@ -1,14 +1,18 @@
 #include "../minishell.h"
 
-//https://github.com/cclaude42/minishell.git
-
-int builtin_cd(t_cmd *cmd)
+int cd_home(t_cmd *cmd)
 {
-    //char *odl_pwd = getcwd(NULL, 0);
+    char *home;
+
+    home = my_getenv("HOME", cmd->env);
+    if (home == NULL)
+    {
+        ft_putstr_fd("no dirctory with this name\n", 2);
+        return (1);
+    }
     if (cmd->arg_arr[1] == NULL)
     {
-        //here I should pass the home dirctory 
-        if (chdir("/Users/bassem") != 0)
+        if (chdir(home) != 0)
         {
             ft_putstr_fd("no dirctory with this name\n", 2);
             return (1);
@@ -16,7 +20,7 @@ int builtin_cd(t_cmd *cmd)
     }
     else if (ft_strcmp("--", cmd->arg_arr[1]) == 0)
     {
-        if (chdir(HOME) != 0)
+        if (chdir(home) != 0)
         {
             ft_putstr_fd("no dirctory with this name\n", 2);
             return (1);
@@ -24,12 +28,20 @@ int builtin_cd(t_cmd *cmd)
     }
     else if (ft_strcmp("-",  cmd->arg_arr[1]) == 0)
     {
-        if (chdir("/Users/bassem") != 0)
+        if (chdir(home) != 0)
         {
             ft_putstr_fd("no dirctory with this name\n", 2);
             return (1);
         }
     }
+    free(home);
+    return (0);
+}
+
+int builtin_cd(t_cmd *cmd)
+{
+    if (cd_home(cmd))
+        return (1);
     else if (ft_strcmp("..",  cmd->arg_arr[1]) == 0)
     {
         if (chdir("..") != 0)
@@ -46,9 +58,5 @@ int builtin_cd(t_cmd *cmd)
             return (1);
         }
     }
-    // for testing
-    char *new_pwd = getcwd(NULL, 0);
-    // we need to update the old pwd and the new pwd in the env arry
-    printf("%s", new_pwd);
     return (0);
 }
