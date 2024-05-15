@@ -57,7 +57,7 @@ void	free_env_list(t_env *head)
 
 int	main(int argc, char **argv, char **env)
 {
-	// int status = 0;
+	int status = 0;
 	char *str;
 	extern char **__environ;
 	env = __environ;
@@ -87,8 +87,8 @@ int	main(int argc, char **argv, char **env)
 			free_everything(&cmd);
 			return (1);
 		}
-		// status = execute(&cmd, envp);
-		// printf("Status: %d\n", status);
+		status = execute(&cmd, envp);
+		printf("Status: %d\n", status);
 		// print_list(&cmd);
 		free_everything(&cmd);
 	}
