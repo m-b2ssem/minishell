@@ -60,7 +60,7 @@ int	parse_cmd(char *str, t_cmd **line, t_env *env)
 		join_quoted_strings(line);
 		heredoc_usage(line);
 		create_arr_for_exec(line);
-		print_arr(line);
+		//print_arr(line);
 	}
 	return (0);
 }
@@ -85,4 +85,15 @@ int	check_unexpected_token(char *str)
 		i++;
 	}
 	return (0);
+}
+
+t_quote_status	get_quote_status(char c, t_quote_status stat)
+{
+	if (c == '\'' && stat != SINGLE && stat != DOUBLE)
+		stat = SINGLE;
+	else if (c == '"' && stat != DOUBLE && stat != SINGLE)
+		stat = DOUBLE;
+	else if ((c == '\'' && stat == SINGLE) || (c == '"' && stat == DOUBLE))
+		stat = NO_QUOTE;
+	return (stat);
 }

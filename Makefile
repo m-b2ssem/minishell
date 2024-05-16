@@ -4,8 +4,8 @@ CFLAGS = -Wall -Wextra -Werror -g
 LIBFT = ./libft/libft.a
 SRC =	main.c redirections/redirections.c redirections/heredoc.c builtin/builtin_pwd.c builtin/builtin_cd.c \
 		builtin/builtin_echo.c builtin/builtin_export.c builtin/builtin_env.c builtin/builtin_unset.c builtin/builtin_exit.c \
-		execution/execuation.c execution/piping.c execution/signals.c execution/utils_1.c environment/env_list.c \
-		parsing/free_shell.c parsing/ft_helper.c parsing/init_arguments.c parsing/init_tokens.c \
+		execution/execuation.c execution/piping.c execution/signals.c execution/utils_1.c execution/utils_2.c environment/env_list.c \
+		parsing/free_shell.c parsing/ft_helper.c parsing/init_arguments.c parsing/init_tokens.c execution/utils_3.c \
 		parsing/redirection_spell_check.c parsing/redir_relations.c parsing/create_array_exec.c parsing/quote_joining.c \
 		parsing/split_cmd.c parsing/start_parse.c parsing/token_type.c parsing/tokenize_arguments.c parsing/tokenize_helper_two.c \
 		parsing/tokenize_helper.c parsing/trim_quotes.c parsing/expansion.c parsing/expansion_helper.c \

@@ -112,16 +112,16 @@ void	signal_handler(int signum);
 int	last_exit_status(int *exit_statuses, int len);
 char	*check_for_env_value(char *str, t_env *env);
 void	free_list_tokens(t_token **head);
-int env_len(t_env *env);
+int	env_len(t_env *env);
 char	**env_to_char(t_env *env);
 int	one_operation(t_cmd *cmd, t_cmd *tmp, pid_t *pross_ids);
 void	loop_inside_execute(t_cmd *cmd, pid_t *pross_id, t_cmd *tmp);
-char *my_getenv(char *name, t_env *env);
+char	*my_getenv(char *name, t_env *env);
 
 /* signals */
 void	child_signal(void);
 void	parent_signals(void);
-void sig_ign(void);
+void	sig_ign(void);
 
 int	free_list(t_env **head);
 t_env	*lst_last(t_env *lst);
@@ -210,7 +210,8 @@ int	is_valid_char_rest(char c);
 int	is_valid_char_begin(char c);
 
 void	initialize_arg_array(t_cmd *cmd);
-int	count_arg(t_cmd *line);
+
 int	create_arr_for_exec(t_cmd **line);
+int	count_arg(t_token **token);
 
 #endif

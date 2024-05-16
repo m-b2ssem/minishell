@@ -22,13 +22,13 @@ void	initialize_arg_array(t_cmd *cmd)
 	cmd->arg_arr[i] = NULL;
 }
 
-int	count_arg(t_cmd *line)
+int	count_arg(t_token **token)
 {
-	t_token	*tok;
 	int		size;
+	t_token	*tok;
 
+	tok = *token;
 	size = 0;
-	tok = line->token;
 	while (tok != NULL)
 	{
 		if (tok->type == ARG || tok->type == BUILTIN || tok->type == D_QUOTE
@@ -36,23 +36,24 @@ int	count_arg(t_cmd *line)
 			size++;
 		tok = tok->next;
 	}
-	return (0);
+	return (size);
 }
 
 int	create_arr_for_exec(t_cmd **line)
 {
 	t_cmd	*curr_cmd;
-	int		size;
 	char	**arg_arr;
+	int		d;
 
 	curr_cmd = NULL;
-	size = 0;
 	arg_arr = NULL;
 	curr_cmd = *line;
 	while (curr_cmd != NULL)
 	{
-		size = count_arg(curr_cmd);
-		arg_arr = malloc(sizeof(char *) * (size + 1));
+		// size = cmd_lenth(curr_cmd);
+		d = count_arg(&curr_cmd->token);
+		// printf("SIZEIST :__________%d\n", d);
+		arg_arr = malloc(sizeof(char *) * (d + 1));
 		if (!arg_arr)
 			return (1);
 		curr_cmd->arg_arr = arg_arr;

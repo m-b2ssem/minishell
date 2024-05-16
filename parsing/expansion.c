@@ -43,6 +43,7 @@ char	*create_expansion(t_env *curr, char *org, int start, char *tmp)
 	while (org[start])
 		expanded[j++] = org[start++];
 	expanded[j] = '\0';
+	// free the memory here
 	return (expanded);
 }
 
@@ -103,7 +104,7 @@ void	possible_expansion(t_cmd **cmd, t_token *tok)
 				tok->string = expand;
 
 			}
-			
+
 		}
 	}
 }
