@@ -52,5 +52,3 @@ int	iterate_through_cmd_args(t_cmd **line)
 	}
 	return (0);
 }
-
-

@@ -1,57 +1,63 @@
 
 #include "../minishell.h"
 
-static int	nbr_arg_cmd(t_cmd *cmd)
+void	initialize_arg_array(t_cmd *cmd)
 {
-	t_token	*cur_t;
-	int		len;
-
-	len = 0;
-	cur_t = cmd->token;
-	while (cur_t)
-	{
-		if (cur_t->type == ARG || cur_t->type == BUILTIN)
-			len++;
-		cur_t = cur_t->next;
-	}
-	return (len);
-}
-
-static void	init_arg(t_cmd *cmd)
-{
-	t_token	*cur_t;
+	t_token	*tok;
 	int		i;
 
-	cur_t = cmd->token;
+	tok = NULL;
 	i = 0;
-	while (cur_t)
+	tok = cmd->token;
+	while (tok != NULL)
 	{
-		if (cur_t->type == ARG || cur_t->type == BUILTIN)
+		if (tok->type == ARG || tok->type == BUILTIN || tok->type == D_QUOTE
+			|| tok->type == S_QUOTE)
 		{
-			cmd->arg_arr[i] = cur_t->string;
+			cmd->arg_arr[i] = tok->string;
 			i++;
 		}
-		cur_t = cur_t->next;
+		tok = tok->next;
 	}
 	cmd->arg_arr[i] = NULL;
 }
 
-int	organise_arg(t_cmd **cmd)
+int	count_arg(t_cmd *line)
 {
-	t_cmd	*cur_b;
-	int				len_arg;
-	char			**new;
+	t_token	*tok;
+	int		size;
 
-	cur_b = *cmd;
-	while (cur_b)
+	size = 0;
+	tok = line->token;
+	while (tok != NULL)
 	{
-		len_arg = nbr_arg_cmd(cur_b);
-		new = malloc(sizeof(char *) * (len_arg + 1));
-		if (new == NULL)
-			return (50);
-		cur_b->arg_arr = new;
-		init_arg(cur_b);
-		cur_b = cur_b->next;
+		if (tok->type == ARG || tok->type == BUILTIN || tok->type == D_QUOTE
+			|| tok->type == S_QUOTE)
+			size++;
+		tok = tok->next;
+	}
+	return (0);
+}
+
+int	create_arr_for_exec(t_cmd **line)
+{
+	t_cmd	*curr_cmd;
+	int		size;
+	char	**arg_arr;
+
+	curr_cmd = NULL;
+	size = 0;
+	arg_arr = NULL;
+	curr_cmd = *line;
+	while (curr_cmd != NULL)
+	{
+		size = count_arg(curr_cmd);
+		arg_arr = malloc(sizeof(char *) * (size + 1));
+		if (!arg_arr)
+			return (1);
+		curr_cmd->arg_arr = arg_arr;
+		initialize_arg_array(curr_cmd);
+		curr_cmd = curr_cmd->next;
 	}
 	return (0);
 }

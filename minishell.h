@@ -57,7 +57,6 @@ typedef struct s_token
 {
 	char *string;
 	int join;
-	int expansion;
 	t_token_status type;
 	struct s_token *next;
 } t_token;
@@ -178,11 +177,9 @@ int	is_space(char c);
 int	organise_arg(t_cmd **cmd);
 t_env	*initialize_env_variables(t_env **head, char **env);
 
-t_token	*find_first(t_cmd **cmd);
 void	update_quote_strings(t_token *tok);
 int	search_quotes_modify(t_cmd **line);
 char	*create_expansion(t_env *curr, char *org, int start, char *tmp);
-char	*get_env_value(char *new, char *org, t_env **list, int *i);
 char	*double_quote_expansion(t_token *tok, char *str, char *new);
 int	update_string_expansion(t_token *tok);
 int	join_quoted_strings(t_cmd **head);
@@ -195,6 +192,19 @@ int	assign_join_variable(t_cmd **cmd);
 int	join_quoted_helper(t_token *curr_tok);
 int	check_unexpected_token(char *str);
 int	join_redir_helper(t_token *token);
-int	contains_join(t_cmd **cmd);
+
+/*Expansion*/
+int	handle_expansion(t_cmd **line);
+void	possible_expansion(t_cmd **cmd, t_token *tok);
+char	*get_env_value(char *tmp_name, char *org_str, t_env **list, int start);
+t_env	*find_accord_env_name(char *tmp, t_env **list);
+char	*create_expansion(t_env *curr, char *org, int start, char *tmp);
+int	calculate_size(t_env *curr, char *org, char *tmp);
+int	is_valid_char_rest(char c);
+int	is_valid_char_begin(char c);
+
+void	initialize_arg_array(t_cmd *cmd);
+int	count_arg(t_cmd *line);
+int	create_arr_for_exec(t_cmd **line);
 
 #endif

@@ -27,7 +27,6 @@ void	print_list(t_cmd **head)
 			printf("\tTOK:%s\n", tok->string);
 			printf("\tTYPE: %d\n", tok->type);
 			printf("\tJOIN: %d\n", tok->join);
-			// printf("\tEXPANSION: %d\n", tok->expansion);
 			tok = tok->next;
 		}
 		cmd = cmd->next;

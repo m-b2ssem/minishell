@@ -34,7 +34,6 @@ void	token_add_back(t_token **begin, t_token *new)
 void	init_node_tokens(t_token *new)
 {
 	new->string = NULL;
-	new->expansion = -1;
 	new->join = 0;
 	new->next = NULL;
 	new->type = NON;

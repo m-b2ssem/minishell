@@ -6,9 +6,9 @@ SRC =	main.c redirections/redirections.c redirections/heredoc.c builtin/builtin_
 		builtin/builtin_echo.c builtin/builtin_export.c builtin/builtin_env.c builtin/builtin_unset.c builtin/builtin_exit.c \
 		execution/execuation.c execution/piping.c execution/signals.c execution/utils_1.c environment/env_list.c \
 		parsing/free_shell.c parsing/ft_helper.c parsing/init_arguments.c parsing/init_tokens.c parsing/quote_handling.c \
-		parsing/redirection_spell_check.c parsing/REV_expansion.c parsing/REV_helper.c parsing/REV_organise.c parsing/quote_joining.c \
+		parsing/redirection_spell_check.c parsing/redir_relations.c parsing/REV_organise.c parsing/quote_joining.c \
 		parsing/split_cmd.c parsing/start_parse.c parsing/token_type.c parsing/tokenize_arguments.c parsing/tokenize_helper_two.c \
-		parsing/tokenize_helper.c
+		parsing/tokenize_helper.c parsing/trim_quotes.c parsing/expansion.c parsing/expansion_helper.c \
 
 SUP = readline_suppression.supp
 

@@ -24,12 +24,11 @@ void	free_list_tokens(t_token **head)
 	t_token	*tmp;
 
 	current = *head;
-	while (current != NULL)
+	while (current->next != NULL)
 	{
 		tmp = current;
-		current = current->next;
 		free(tmp->string);
-		free(tmp);
+		current = current->next;
 	}
 	*head = NULL;
 }

@@ -1,6 +1,28 @@
 
 #include "../minishell.h"
 
+void	print_arr(t_cmd **cmd)
+{
+	t_cmd	*curr;
+	int		i;
+
+	curr = *cmd;
+	i = 0;
+	while (curr != NULL)
+	{
+		if (curr->arg_arr)
+		{
+			i = 0;
+			while (curr->arg_arr[i])
+			{
+				printf("\t%s\n", curr->arg_arr[i]);
+				i++;
+			}
+		}
+		curr = curr->next;
+	}
+}
+
 int	parse_cmd(char *str, t_cmd **line, t_env *env)
 {
 	char	**arr;
@@ -34,10 +56,11 @@ int	parse_cmd(char *str, t_cmd **line, t_env *env)
 			return (1);
 		}
 		search_quotes_modify(line);
+		handle_expansion(line);
 		join_quoted_strings(line);
 		heredoc_usage(line);
-		organise_arg(line);
-		print_list(line);
+		create_arr_for_exec(line);
+		print_arr(line);
 	}
 	return (0);
 }
