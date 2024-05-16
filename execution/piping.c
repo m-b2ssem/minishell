@@ -1,6 +1,6 @@
 #include "../minishell.h"
 
-static int free_pipe(int **pipefd)
+static int  free_pipe(int **pipefd)
 {
     int i;
 
@@ -14,7 +14,7 @@ static int free_pipe(int **pipefd)
     return (0);
 }
 
-static int     setup_pipe(t_cmd *cmd, int **pipefd, int index)
+static int  setup_pipe(t_cmd *cmd, int **pipefd, int index)
 {
     if (pipe(pipefd[index]) == -1)
     {
@@ -63,4 +63,3 @@ int piping(t_cmd *cmd)
     free_pipe(pipefd);
     return (0);
 }
-

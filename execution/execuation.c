@@ -2,47 +2,46 @@
 
 extern sig_atomic_t	g_signal;
 
-
-void handle_non_builtin(t_cmd *cmd, pid_t *pross_id, t_cmd *tmp)
+void	handle_non_builtin(t_cmd *cmd, pid_t *pross_id, t_cmd *tmp)
 {
-    struct stat	fileStat;
-    char		**new_env;
+	struct stat	file_stat;
+	char		**new_env;
 
-    cmd->path = get_path(cmd->arg_arr[0], cmd->env);
-    if (cmd->path == NULL)
-    {
-        clean_exit(tmp, pross_id, 127);
-    }
-    new_env = env_to_char(cmd->env);
-    if (new_env == NULL)
-        clean_exit(tmp, pross_id, 127);
-    execve(cmd->path, cmd->arg_arr, new_env);
-    if (stat(cmd->arg_arr[0], &fileStat) == 0)
-    {
-        ft_putstr_fd("minishell: ", 2);
-        ft_putstr_fd(cmd->arg_arr[0], 2);
-        ft_putstr_fd(": Permission denied\n", 2);
-        free(new_env);
-        clean_exit(tmp, pross_id, 126);
-    }
-    free(new_env);
-    clean_exit(tmp, pross_id, 127);
+	cmd->path = get_path(cmd->arg_arr[0], cmd->env);
+	if (cmd->path == NULL)
+	{
+		clean_exit(tmp, pross_id, 127);
+	}
+	new_env = env_to_char(cmd->env);
+	if (new_env == NULL)
+		clean_exit(tmp, pross_id, 127);
+	execve(cmd->path, cmd->arg_arr, new_env);
+	if (stat(cmd->arg_arr[0], &file_stat) == 0)
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(cmd->arg_arr[0], 2);
+		ft_putstr_fd(": Permission denied\n", 2);
+		free(new_env);
+		clean_exit(tmp, pross_id, 126);
+	}
+	free(new_env);
+	clean_exit(tmp, pross_id, 127);
 }
 
 void	custom_exe_on_child(t_cmd *cmd, pid_t *pross_id, t_cmd *tmp)
 {
-    int	status;
+	int	status;
 
-    status = 0;
-    if (builtin(cmd))
-    {
-        status = custom_exe(cmd, tmp, pross_id);
-        clean_exit(tmp, pross_id, status);
-    }
-    else
-    {
-        handle_non_builtin(cmd, pross_id, tmp);
-    }
+	status = 0;
+	if (builtin(cmd))
+	{
+		status = custom_exe(cmd, tmp, pross_id);
+		clean_exit(tmp, pross_id, status);
+	}
+	else
+	{
+		handle_non_builtin(cmd, pross_id, tmp);
+	}
 }
 
 void	loop_inside_execute(t_cmd *cmd, pid_t *pross_id, t_cmd *tmp)
@@ -74,7 +73,6 @@ void	loop_inside_execute(t_cmd *cmd, pid_t *pross_id, t_cmd *tmp)
 	}
 }
 
-
 int	execute(t_cmd **cmd1)
 {
 	pid_t	*pross_ids;
@@ -93,7 +91,7 @@ int	execute(t_cmd **cmd1)
 	if (res)
 		return (free(pross_ids), 11); // check which value you should return.
 	if (builtin(cmd) && cmd_lenth(cmd) == 1)
-		return(one_operation(cmd, tmp, pross_ids) + g_signal);
+		return (one_operation(cmd, tmp, pross_ids) + g_signal);
 	else
 		loop_inside_execute(cmd, pross_ids, tmp);
 	parent_signals(); // check
