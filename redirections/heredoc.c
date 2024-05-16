@@ -121,7 +121,7 @@ char   *check_for_env_value(char *str, t_env *env)
 }
 
 
-int write_inside_file(t_cmd *cmd, char *path, int fd)
+int write_inside_file(t_cmd *cmd, char *word, int fd)
 {
     char    *str;
 
@@ -133,7 +133,7 @@ int write_inside_file(t_cmd *cmd, char *path, int fd)
         {
             return (-1);
         }
-        if (strcmp(path, str) == 0)
+        if (strcmp(word, str) == 0)
             break;
         if (str != NULL)
         {
@@ -148,7 +148,7 @@ int write_inside_file(t_cmd *cmd, char *path, int fd)
 }
 
 
-int heredoc(t_cmd *cmd)
+int heredoc(t_cmd *cmd, char *word)
 {
     int fd;
     char *file;
@@ -159,7 +159,7 @@ int heredoc(t_cmd *cmd)
     fd = open(file, O_CREAT | O_RDWR, 0644);
     if (fd == -1)
         return(free(file), -1);
-    write_inside_file(cmd ,cmd->file, fd);
+    write_inside_file(cmd ,word, fd);
     fd = open(file, O_RDONLY);
     if (fd == -1)
         return(free(file), -1);

@@ -13,6 +13,7 @@ static void	free_paths(char **paths)
 	free(paths);
 }
 
+<<<<<<< HEAD
 char	*get_path(char *command)
 {
 	char	*path;
@@ -66,6 +67,49 @@ int	close_fd(t_cmd *cmd)
 		cur = cur->next;
 	}
 	return (0);
+=======
+static char *search_paths(char **paths, char *command)
+{
+    char *bin_path;
+    char *tmp;
+    int i = 0;
+
+    while (paths[i] != NULL)
+    {
+        bin_path = ft_strjoin(paths[i], "/");
+        if (bin_path == NULL)
+            return (free_paths(paths), NULL);
+        tmp = ft_strjoin(bin_path, command);
+        if (tmp == NULL)
+            return (free_paths(paths), free(bin_path), NULL);
+        if (access(tmp, F_OK) == 0)
+        {
+            free(bin_path);
+            free_paths(paths);
+            return (tmp);
+        }
+        free(bin_path);
+        free(tmp);
+        i++;
+    }
+    free_paths(paths);
+    return (NULL);
+}
+char *get_path(char *command, t_env *env)
+{
+    char *path;
+    char **paths;
+
+    if (command && (command[0] == '.' || command[0] == '/'))
+        return (command);
+    path = my_getenv("PATH", env);
+    if (path == NULL)
+        return (NULL);
+    paths = ft_split(path, ':');
+    if (paths == NULL)
+        return (NULL);
+    return (search_paths(paths, command));
+>>>>>>> main
 }
 
 int	cmd_lenth(t_cmd *cmd)
@@ -82,6 +126,7 @@ int	cmd_lenth(t_cmd *cmd)
 	}
 	return (i);
 }
+<<<<<<< HEAD
 
 void	clean_exit(t_cmd *tmp, pid_t *pross_id, int status)
 {
@@ -171,3 +216,5 @@ int	builtin(t_cmd *cmd)
 		return (1);
 	return (0);
 }
+=======
+>>>>>>> main

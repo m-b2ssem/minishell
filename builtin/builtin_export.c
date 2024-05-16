@@ -73,11 +73,81 @@ void bubble_sort(t_env **head)
     }
 }
 
+int search_if_variable_exist(t_cmd *cmd, char *name)
+{
+    t_env *temp = cmd->env;
+
+    while (temp != NULL)
+    {
+        if (strcmp(temp->name, name) == 0)
+        {
+            return (1);
+        }
+        temp = temp->next;
+    }
+    return (0);
+}
+
+void return_name(char *arg, char **name)
+{
+    int i = 0;
+
+    while (arg[i] != '=' && arg[i] != '\0')
+    {
+        (*name)[i] = arg[i];
+        i++;
+    }
+    (*name)[i] = '\0';
+}
+
+int return_value(char *arg, char **value)
+{
+    int i = 0;
+    int j = 0;
+    int export = 0;
+
+    while (arg[i] != '=' && arg[i] != '\0')
+    {
+        i++;
+    }
+    if (arg[i] == '\0')
+    {
+        (*value)[j] = ' ';
+        (*value)[j + 1] = '\0';
+        return (export);
+    }
+    i++;
+    while (arg[i] != '\0')
+    {
+        export = 1;
+        (*value)[j] = arg[i];
+        i++;
+        j++;
+    }
+    (*value)[j] = '\0';
+    return (export);
+}
+
+void update_value(t_cmd *cmd, char *name, char *value, int export)
+{
+    t_env *temp = cmd->env;
+
+    while (temp != NULL)
+    {
+        if (strcmp(temp->name, name) == 0)
+        {
+            free(temp->value);
+            temp->value = strdup(value);
+            temp->export = export;
+            break;
+        }
+        temp = temp->next;
+    }
+}
+
 int    add_variable(t_cmd *cmd)
 {
     int     i;
-    int     j;
-    int     k;
     int     export;
     char    *name;
     char    *value;
@@ -85,48 +155,27 @@ int    add_variable(t_cmd *cmd)
 
 
     i = 1;
-    k = 0;
    name = ft_calloc(sizeof(char) ,(strlen(cmd->arg_arr[i]) + 1));
    if (!name)
-   	return (1);  // Error allocating memory for new environment variable
+   	return (1);
    value = ft_calloc(sizeof(char) ,(strlen(cmd->arg_arr[i]) + 1));
    if (!value)
    	return (free(name), 1);
     while(cmd->arg_arr[i] != NULL)
     {
-        j = 0;
-        k = 0;
-        while (cmd->arg_arr[i][j] != '=' && cmd->arg_arr[i][j] != '\0')
+        return_name(cmd->arg_arr[i], &name);
+        export = return_value(cmd->arg_arr[i], &value);
+        if (search_if_variable_exist(cmd, name))
         {
-            name[j] = cmd->arg_arr[i][j];
-            j++;
-        }
-        name[j] = '\0';
-        if (cmd->arg_arr[i][j] == '=')
-        {
-            export = 1;
-            j++;
-            while (cmd->arg_arr[i][j] != '\0')
-            {
-                value[k] = cmd->arg_arr[i][j];
-                k++;
-                j++;
-            }
-            value[k] = '\0';
+            update_value(cmd, name, value, export);
         }
         else
         {
-            export = 0;
-            value[k++] = ' ';
-            value[k] = '\0';
+            new = lst_new(name, value, new, export);
+            if (!new)
+                return (free(name), free(value), 1);
+            lst_addback(&cmd->env, new);
         }
-        printf("name: %s\n", name);
-        printf("value: %s\n", value);
-        printf("export: %d\n", export);
-        new = lst_new(name, value, new, export);
-        if (!new)
-            return (free(name), free(value), 1);  // Error allocating memory for new environment variable
-        lst_addback(&cmd->env, new);
         i++;
     }
     free(name);
@@ -148,9 +197,9 @@ int builtin_export(t_cmd *cmd)
     }
     temp = copy_env_list(cmd->env);
     if (!temp)
-        return (1);/// Error copying environment variables
-    head = temp; // Keep a reference to the head of the list
-    bubble_sort(&temp);  // Sort the environment variables
+        return (1);
+    head = temp;
+    bubble_sort(&temp);
     while (temp != NULL)
     {
         if (temp->export == 1)
@@ -159,6 +208,6 @@ int builtin_export(t_cmd *cmd)
         }
         temp = temp->next;
     }
-    free_list(&head); // Free the head of the list
+    free_list(&head);
     return (0);
 }
