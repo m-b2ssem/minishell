@@ -70,10 +70,10 @@ int	initialize_arguments(t_cmd **line, char **user, t_env *env)
 	int		i;
 
 	new = NULL;
-	i = 0;
+	i = -1;
 	if (user == NULL)
 		return (1);
-	while (user[i])
+	while (user[++i])
 	{
 		new = init_new_node(user[i], new, env);
 		if (new == NULL)
@@ -88,7 +88,6 @@ int	initialize_arguments(t_cmd **line, char **user, t_env *env)
 		}
 		free(user[i]);
 		arg_add_back(line, new);
-		i++;
 	}
 	free(user);
 	return (0);

@@ -16,7 +16,7 @@
 # include <unistd.h>
 
 # define HOME "/Users/bassem"
-# define PROMPT "💅🧠🐰minishell $> "
+# define PROMPT "minishell $> "
 # define QUOTES "minishell: syntax error: unclosed quotes detected\n"
 # define REDIR "minishell: syntax error near unexpected token\n"
 

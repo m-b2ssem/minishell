@@ -53,19 +53,3 @@ void	free_everything(t_cmd **line)
 	}
 	*line = NULL;
 }
-
-// void	free_env_list(t_env **list)
-// {
-// 	t_env	*current;
-// 	t_env	*next;
-
-// 	current = *list;
-// 	while (current != NULL)
-// 	{
-// 		next = current->next;
-// 		free(current->name);
-// 		free(current->value);
-// 		free(current);
-// 		current = next;
-// 	}
-// }
