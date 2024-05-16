@@ -110,6 +110,7 @@ int	split_into_tokens(t_cmd **line)
 	int				start;
 	int				i;
 
+	(void)flag; // check this
 	arg = NULL;
 	curr = *line;
 	size = ft_strlen(curr->args);

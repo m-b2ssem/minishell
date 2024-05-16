@@ -155,10 +155,6 @@ void	initialize_arguments(t_cmd **line, char **user, t_env *env)
 	}
 }
 
-void add_back(t_cmd**stack, t_cmd*lst)
-{
-	
-}
 
 void	arg_add_back(t_cmd **stack, t_cmd *new)
 {

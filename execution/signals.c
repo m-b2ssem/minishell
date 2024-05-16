@@ -2,6 +2,12 @@
 
 sig_atomic_t g_signal = 0;
 
+void sig_ign(void)
+{
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
+}
+
 void    signal_handler(int signum)
 {
     if (signum == SIGINT)
