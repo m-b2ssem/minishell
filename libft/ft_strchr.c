@@ -20,6 +20,7 @@ char	*ft_strchr(const char *s, int c)
 /*
 #include <stdio.h>
 
+
 int main () {
    const char str[] = "Hello word";
    const char ch = 'o';
@@ -28,6 +29,6 @@ int main () {
    ret = ft_strchr(str, ch);
 
    printf("String after is \n", ret);
-   
+
    return(0);
 }*/
