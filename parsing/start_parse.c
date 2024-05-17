@@ -7,6 +7,7 @@ int	parse_cmd(char *str, t_cmd **line, t_env *env)
 	int		check;
 
 	check = 0;
+	(void)check;
 	if (first_string_checks(str) == 1)
 		return (1);
 	arr = ft_split_cmd(str, '|');

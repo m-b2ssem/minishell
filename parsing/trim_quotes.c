@@ -31,6 +31,7 @@ int	search_quotes_modify(t_cmd **line)
 	t_token	*curr_tok;
 	char	*new;
 
+	(void)new;
 	new = NULL;
 	if (line == NULL)
 		return (1);

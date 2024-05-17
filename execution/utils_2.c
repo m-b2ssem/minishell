@@ -22,7 +22,8 @@ void free_cmd(t_cmd *cmd)
             free(cmd->file);
         if (cmd->path)
             free(cmd->path);
-        free_list(&cmd->env);
+        if (cmd->env)
+            free_list(&cmd->env);
         tmp = cmd;
         cmd = cmd->next;
         free(tmp);
