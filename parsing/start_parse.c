@@ -26,7 +26,7 @@ int	parse_cmd(char *str, t_cmd **line, t_env *env)
 	redirection_usage(line);
 	echo_option_checker(line);
 	create_arr_for_exec(line);
-	print_list(line);
-	// print_arr(line);
+	// print_list(line);
+	//print_arr(line);
 	return (0);
 }

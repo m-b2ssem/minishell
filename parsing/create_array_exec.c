@@ -19,9 +19,9 @@ void	initialize_arg_array(t_cmd *cmd)
 		while (tok != NULL)
 		{
 			if (tok->type == ARG || tok->type == BUILTIN || tok->type == D_QUOTE
-				|| tok->type == S_QUOTE)
+				|| tok->type == S_QUOTE || tok->type == OPTION)
 			{
-				if (i == 0)
+				if (i == 0 || tok->type == OPTION)
 					first_arg_found = 1;
 				else
 					first_arg_found = 0;
@@ -72,7 +72,7 @@ int	create_arr_for_exec(t_cmd **line)
 	while (curr_cmd != NULL)
 	{
 		size = count_arg(curr_cmd);
-		//printf("Size is: %d\n", size);
+		// printf("Size is: %d\n", size);
 		arg_arr = malloc(sizeof(char *) * (size + 1));
 		if (!arg_arr)
 			return (1);

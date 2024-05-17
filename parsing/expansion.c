@@ -45,7 +45,7 @@ char	*forbidden_variable_name(t_token *tok, char *tmp, int start)
 	i = 0;
 	expand = NULL;
 	new_size = 0;
-	new_size = ft_strlen(tok->string) - ft_strlen(tmp) + 1;
+	new_size = ft_strlen(tok->string) - ft_strlen(tmp);
 	expand = malloc(sizeof(char) * new_size);
 	if (!expand)
 		return (NULL);
