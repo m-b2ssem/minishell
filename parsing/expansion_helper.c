@@ -28,3 +28,20 @@ t_env	*find_accord_env_name(char *tmp, t_env **list)
 	}
 	return (NULL);
 }
+
+int	calculate_size(t_env *curr, char *org, char *tmp)
+{
+	int	res;
+	int	diff;
+
+	diff = 0;
+	res = 0;
+	if (!curr || !org || !tmp)
+		return (res);
+	if (ft_strlen(curr->value) >= ft_strlen(tmp))
+		diff = ft_strlen(curr->value) - ft_strlen(tmp);
+	else
+		diff = ft_strlen(tmp) - ft_strlen(curr->value);
+	res = ft_strlen(org) + diff;
+	return (res);
+}

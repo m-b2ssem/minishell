@@ -2,35 +2,6 @@
 #include "minishell.h"
 
 
-int	check_for_unclosed_quotes(char *str)
-{
-	int i;
-	t_quote_status stat;
-
-	i = 0;
-	stat = NO_QUOTE;
-	while (str[i])
-	{
-		stat = get_quote_status(str[i], stat);
-		i++;
-	}
-	return (stat);
-}
-
-void	free_env_list(t_env *head)
-{
-	t_env *tmp;
-
-	while (head != NULL)
-	{
-		tmp = head;
-		head = head->next;
-		free(tmp->name);
-		free(tmp->value);
-		free(tmp);
-	}
-}
-
 int	main(int argc, char **argv, char **env)
 {
 	char *str;
@@ -44,19 +15,20 @@ int	main(int argc, char **argv, char **env)
 		return (0);
 	while (1)
 	{
+		str = readline(PROMPT);
+		if (str != NULL && *str != '\0')
+			add_history(str);
 		signal(SIGINT, signal_handler);
 		signal(SIGQUIT, SIG_IGN);
-
-		//str = readline(PROMPT);
 		// if (isatty(fileno(stdin)))
-		// 	str = readline(str);
+		// 	str = readline(PROMPT);
 		// else
 		// {
 		// 	char *line;
 		// 	line = get_next_line(fileno(stdin));
 		// 	str = ft_strtrim(line, "\n");
-		// 	if(!str)
-		// 		break;
+		// 	if (!str)
+		// 		break ;
 		// 	free(line);
 		// }
 		if (str == NULL)
@@ -64,15 +36,15 @@ int	main(int argc, char **argv, char **env)
 			free_list(&envp);
 			return (0);
 		}
-		add_history(str);
+
 		if (parse_cmd(str, &cmd, envp) == 1)
 		{
 			free_list(&envp);
 			free_everything(&cmd);
-			exit(0);
 		}
 		execute(&cmd);
 		free_everything(&cmd);
+		free(str);
 	}
 	free_list(&envp);
 	free_everything(&cmd);

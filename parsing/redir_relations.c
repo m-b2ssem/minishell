@@ -38,7 +38,7 @@ void	change_redirection_relation(t_token *tok, int *redir)
 		*redir = 0;
 }
 
-int	heredoc_usage(t_cmd **line)
+int	redirection_usage(t_cmd **line)
 {
 	t_cmd	*curr_cmd;
 	t_token	*curr_tok;
@@ -59,7 +59,7 @@ int	heredoc_usage(t_cmd **line)
 			curr_tok = curr_tok->next;
 		}
 		if (redir > 0)
-			return (-1);
+			return (1);
 		curr_cmd = curr_cmd->next;
 	}
 	return (0);

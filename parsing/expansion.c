@@ -1,23 +1,6 @@
 
 #include "../minishell.h"
 
-int	calculate_size(t_env *curr, char *org, char *tmp)
-{
-	int	res;
-	int	diff;
-
-	diff = 0;
-	res = 0;
-	if (!curr || !org || !tmp)
-		return (res);
-	if (ft_strlen(curr->value) >= ft_strlen(tmp))
-		diff = ft_strlen(curr->value) - ft_strlen(tmp);
-	else
-		diff = ft_strlen(tmp) - ft_strlen(curr->value);
-	res = ft_strlen(org) + diff;
-	return (res);
-}
-
 char	*create_expansion(t_env *curr, char *org, int start, char *tmp)
 {
 	int		new_size;
@@ -43,20 +26,58 @@ char	*create_expansion(t_env *curr, char *org, int start, char *tmp)
 	while (org[start])
 		expanded[j++] = org[start++];
 	expanded[j] = '\0';
-	// free the memory here
+	if (!expanded || expanded[0] == '\0')
+		return (NULL);
 	return (expanded);
 }
 
-char	*get_env_value(char *tmp_name, char *org_str, t_env **list, int start)
+char	*forbidden_variable_name(t_token *tok, char *tmp, int start)
+{
+	char	*expand;
+	char	*org;
+	int		new_size;
+	int		i;
+	int		j;
+	int		new_start;
+
+	j = 0;
+	org = tok->string;
+	i = 0;
+	expand = NULL;
+	new_size = 0;
+	new_size = ft_strlen(tok->string) - ft_strlen(tmp) + 1;
+	expand = malloc(sizeof(char) * new_size);
+	if (!expand)
+		return (NULL);
+	while (i < (start - 1))
+	{
+		expand[i] = org[i];
+		i++;
+	}
+	j = i;
+	new_start = start + ft_strlen(tmp);
+	while (org[new_start])
+	{
+		expand[j] = org[new_start];
+		new_start++;
+		j++;
+	}
+	expand[j] = '\0';
+	return (expand);
+}
+
+char	*get_env_value(char *tmp_name, t_token *tok, t_env **list, int start)
 {
 	t_env	*curr;
+	char	*org_str;
 
+	org_str = tok->string;
 	curr = NULL;
 	if (tmp_name == NULL)
 		return (NULL);
 	curr = find_accord_env_name(tmp_name, list);
 	if (curr == NULL)
-		return (NULL);
+		return (forbidden_variable_name(tok, tmp_name, start));
 	return (create_expansion(curr, org_str, start, tmp_name));
 }
 
@@ -74,6 +95,8 @@ void	possible_expansion(t_cmd **cmd, t_token *tok)
 	i = 0;
 	start_name = 0;
 	size = ft_strlen(tok->string);
+	if (size == 0)
+		return ;
 	if (!tok || !tok->string)
 		return ;
 	while (i < size)
@@ -95,16 +118,13 @@ void	possible_expansion(t_cmd **cmd, t_token *tok)
 		tmp_name = ft_substr(tok->string, start_name, i - start_name);
 		if (tmp_name)
 		{
-			expand = get_env_value(tmp_name, tok->string, &(*cmd)->env,
-					start_name);
-			free(tmp_name);
+			expand = get_env_value(tmp_name, tok, &(*cmd)->env, start_name);
 			if (expand)
 			{
 				free(tok->string);
 				tok->string = expand;
-
 			}
-
+			free(tmp_name);
 		}
 	}
 }

@@ -18,7 +18,7 @@ int	free_list(t_env **head)
 	return (0);
 }
 
-void	free_list_tokens(t_token **head)
+/* void	free_list_tokens(t_token **head)
 {
 	t_token	*current;
 	t_token	*tmp;
@@ -31,6 +31,36 @@ void	free_list_tokens(t_token **head)
 		current = current->next;
 	}
 	*head = NULL;
+} */
+
+void free_list_tokens(t_token **head)
+{
+	t_token *current;
+	t_token *tmp;
+
+	//tmp = current;
+	current = *head;
+	while(current)
+	{
+		tmp = current->next;
+		free(current->string);
+		free(current);
+		current = tmp;
+	}
+}
+
+void	free_env_list(t_env *head)
+{
+	t_env *tmp;
+
+	while (head != NULL)
+	{
+		tmp = head;
+		head = head->next;
+		free(tmp->name);
+		free(tmp->value);
+		free(tmp);
+	}
 }
 
 void	free_everything(t_cmd **line)

@@ -45,15 +45,6 @@ char	*join_strings(t_token **head)
 	return (new);
 }
 
-int	join_redir_helper(t_token *token)
-{
-	if (token->type == BLANK || token->type == REDIR_IN
-		|| token->type == REDIR_OUT || token->type == APPEND
-		|| token->type == HERE_DOC)
-		return (1);
-	return (0);
-}
-
 int	assign_join_variable(t_cmd **cmd)
 {
 	t_cmd	*curr_cmd;
@@ -88,6 +79,38 @@ int	assign_join_variable(t_cmd **cmd)
 	return (flag);
 }
 
+int	find_node_and_modify(char *join, t_token **tok, t_token *find)
+{
+	t_token	*curr_tok;
+	t_token	*tmp_find;
+
+	curr_tok = *tok;
+	tmp_find = find;
+	while (curr_tok != NULL)
+	{
+		if (curr_tok == tmp_find)
+		{
+			if (curr_tok->next != NULL && curr_tok->next->string[0] != '\0')
+			{
+				if (join == NULL)
+					return (1);
+				if (join != curr_tok->string)
+				{
+					free(curr_tok->string);
+					curr_tok->string = join;
+					curr_tok->join = 0;
+					curr_tok->type = ARG;
+					// free(join);
+				}
+				if (curr_tok->string == NULL)
+					return (1);
+			}
+		}
+		curr_tok = curr_tok->next;
+	}
+	return (0);
+}
+
 int	join_quoted_strings(t_cmd **head)
 {
 	char	*new;
@@ -116,7 +139,7 @@ int	join_quoted_strings(t_cmd **head)
 						continue ;
 					}
 					else
-						break;
+						break ;
 				}
 				first = curr_tok;
 				new = join_strings(&curr_tok);
@@ -128,63 +151,6 @@ int	join_quoted_strings(t_cmd **head)
 				curr_tok = first->next;
 			}
 			curr_cmd = curr_cmd->next;
-		}
-	}
-	return (0);
-}
-
-int	find_node_and_modify(char *join, t_token **tok, t_token *find)
-{
-	t_token	*curr_tok;
-	t_token	*tmp_find;
-
-	curr_tok = *tok;
-	tmp_find = find;
-	while (curr_tok != NULL)
-	{
-		if (curr_tok == tmp_find)
-		{
-			if (curr_tok->next->string[0] != '\0' && curr_tok->next != NULL)
-			{
-				if (join == NULL)
-					return (1);
-				if (join != curr_tok->string)
-				{
-					free(curr_tok->string);
-					curr_tok->string = ft_strdup(join);
-					curr_tok->join = 0;
-					curr_tok->type = ARG;
-					free(join);
-				}
-				if (curr_tok->string == NULL)
-					return (1);
-			}
-		}
-		curr_tok = curr_tok->next;
-	}
-	return (0);
-}
-
-int	find_and_modify_unused_nodes(t_token *tok)
-{
-	t_token	*prev;
-	t_token	*tmp;
-
-	prev = NULL;
-	tmp = tok;
-	if (tmp == NULL)
-		return (1);
-	if (tmp->next != NULL && join_quoted_helper(tmp))
-	{
-		tmp = tmp->next;
-		while (tmp != NULL && tmp->join == 1)
-		{
-			if (tmp->type != BLANK && tmp->join == 1)
-			{
-				tmp->type = NON;
-				tmp->join = 0;
-			}
-			tmp = tmp->next;
 		}
 	}
 	return (0);
