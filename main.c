@@ -36,7 +36,6 @@ int	main(int argc, char **argv, char **env)
 			free_list(&envp);
 			return (0);
 		}
-
 		if (parse_cmd(str, &cmd, envp) == 1)
 		{
 			free_list(&envp);
