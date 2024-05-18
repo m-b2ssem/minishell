@@ -25,7 +25,11 @@ int	is_quotes(char c)
 int	is_space(char c)
 {
 	if (c == ' ' || c == '\t')
+	{
+		if (c == '\t')
+			c = ' ';
 		return (1);
+	}
 	return (0);
 }
 
@@ -38,5 +42,3 @@ int	find_char(char *s)
 		i++;
 	return (i);
 }
-
-

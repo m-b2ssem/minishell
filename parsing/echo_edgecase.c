@@ -72,7 +72,6 @@ int	echo_option_checker(t_cmd **line)
 				{
 					modify_echo_option(curr_tok);
 					curr_tok->type = OPTION;
-					echo = 0;
 				}
 			}
 			curr_tok = curr_tok->next;

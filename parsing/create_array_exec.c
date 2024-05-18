@@ -4,13 +4,15 @@
 void	initialize_arg_array(t_cmd *cmd)
 {
 	t_token	*tok;
+	int		option;
 	int		i;
-	int		flag;
+	int		space;
 	int		first_arg_found;
 
+	option = 0;
 	tok = cmd->token;
 	i = 0;
-	flag = 0;
+	space = 0;
 	first_arg_found = 0;
 	while (tok != NULL)
 	{
@@ -18,23 +20,26 @@ void	initialize_arg_array(t_cmd *cmd)
 			tok = tok->next;
 		while (tok != NULL)
 		{
-			if (tok->type == ARG || tok->type == BUILTIN || tok->type == D_QUOTE
-				|| tok->type == S_QUOTE || tok->type == OPTION)
+			if (tok->type == BUILTIN || tok->type == ARG || tok->type == D_QUOTE
+				|| tok->type == S_QUOTE)
 			{
-				if (i == 0 || tok->type == OPTION)
+				if (i == 0)
 					first_arg_found = 1;
 				else
 					first_arg_found = 0;
 				cmd->arg_arr[i++] = tok->string;
-				flag = 0;
+				space = 0;
+				option = 0;
 			}
-			else if (tok->type == BLANK)
+			else if (tok->type == OPTION && !option)
 			{
-				if (!flag && !first_arg_found)
-				{
-					cmd->arg_arr[i++] = tok->string;
-					flag = 1;
-				}
+				option = 1;
+				cmd->arg_arr[i++] = tok->string;
+			}
+			else if (tok->type == BLANK && !first_arg_found && !space && !option)
+			{
+				cmd->arg_arr[i++] = tok->string;
+				space = 1;
 			}
 			tok = tok->next;
 		}
@@ -52,7 +57,8 @@ int	count_arg(t_cmd *cmd)
 	while (tok != NULL)
 	{
 		if (tok->type == ARG || tok->type == BUILTIN || tok->type == D_QUOTE
-			|| tok->type == S_QUOTE || tok->type == BLANK)
+			|| tok->type == S_QUOTE || tok->type == BLANK
+			|| tok->type == OPTION)
 			size++;
 		tok = tok->next;
 	}
