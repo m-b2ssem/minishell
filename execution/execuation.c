@@ -12,10 +12,12 @@ void	handle_non_builtin(t_cmd *cmd, pid_t *pross_id, t_cmd *tmp)
 	{
 		clean_exit(tmp, pross_id, 127);
 	}
+	printf("path: %s\n", cmd->path);
 	new_env = env_to_char(cmd->env);
 	if (new_env == NULL)
 		clean_exit(tmp, pross_id, 127);
 	execve(cmd->path, cmd->arg_arr, new_env);
+	printf("here");
 	if (stat(cmd->arg_arr[0], &file_stat) == 0)
 	{
 		ft_putstr_fd("minishell: ", 2);
@@ -51,6 +53,7 @@ void	loop_inside_execute(t_cmd *cmd, pid_t *pross_id, t_cmd *tmp)
 	i = 0;
 	while (cmd != NULL)
 	{
+		redirections(cmd);
 		sig_ign();
 		pross_id[i] = fork();
 		if (pross_id[i] == -1)

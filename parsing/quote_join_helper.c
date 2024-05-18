@@ -23,6 +23,7 @@ int	find_and_modify_unused_nodes(t_token *tok)
 	t_token	*prev;
 	t_token	*tmp;
 
+	(void)prev;
 	prev = NULL;
 	tmp = tok;
 	if (tmp == NULL)
