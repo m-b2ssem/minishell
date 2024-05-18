@@ -5,11 +5,13 @@
 int	main(int argc, char **argv, char **env)
 {
 	char *str;
+	int		status;
 	t_cmd *cmd = NULL;
 	t_env *envp = NULL;
 
 	if (!argc && !argv)
 		return (0);
+	status = 0;
 	envp = initialize_env_variables(&envp, env);
 	if (envp == NULL)
 		return (0);
@@ -36,16 +38,14 @@ int	main(int argc, char **argv, char **env)
 			free_list(&envp);
 			return (0);
 		}
-		if (parse_cmd(str, &cmd, envp) == 1)
+		if (parse_cmd(str, &cmd, envp, status) == 1)
 		{
 			free_list(&envp);
 			free_everything(&cmd);
 		}
-		execute(&cmd);
+		status = execute(&cmd);
 		free_everything(&cmd);
 		free(str);
 	}
-	free_list(&envp);
-	free_everything(&cmd);
 	return (0);
 }

@@ -3,14 +3,14 @@
 
 int	is_valid_char_begin(char c)
 {
-	if (ft_isalpha(c) || c == '_')
+	if (ft_isalpha(c) || c == '_' || c == '?')
 		return (1);
 	return (0);
 }
 
 int	is_valid_char_rest(char c)
 {
-	if (ft_isalnum(c) || c == '_')
+	if (ft_isalnum(c) || c == '_' || c == '?')
 		return (1);
 	return (0);
 }

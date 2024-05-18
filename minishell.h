@@ -97,7 +97,7 @@ int	builtin_pwd(void);
 int	builtin_cd(t_cmd *cmd);
 int	builtin_echo(t_cmd *cmd);
 int	builtin_export(t_cmd *cmd);
-int	builtin_env(t_env *env);
+int builtin_env(t_env *env, t_cmd *cmd);
 int	builtin_unset(t_env **head, t_cmd *cmd);
 int	builtin_exit(t_cmd *cmd, t_cmd *tmp, pid_t *pross_id);
 int	heredoc(t_cmd *cmd, char *word);
@@ -153,7 +153,7 @@ t_env	*lst_last(t_env *lst);
 char	**ft_split_cmd(char const *s, char c);
 
 /*START_PARSE.c*/
-int	parse_cmd(char *str, t_cmd **line, t_env *env);
+int	parse_cmd(char *str, t_cmd **line, t_env *env, int status);
 
 /*START_PARSE_CHECKER.c*/
 int	first_string_checks(char *str);
@@ -206,8 +206,8 @@ int	search_quotes_modify(t_cmd **line);
 int	update_quote_strings(t_token *tok);
 
 /*EXPANSION.C*/
-int	handle_expansion(t_cmd **line);
-void	possible_expansion(t_cmd **cmd, t_token *tok);
+int	handle_expansion(t_cmd **line, int status);
+void    possible_expansion(t_cmd **cmd, t_token *tok, int status);
 char	*get_env_value(char *tmp_name, t_token *tok, t_env **list, int start);
 char	*create_expansion(t_env *curr, char *org, int start, char *tmp);
 char	*forbidden_variable_name(t_token *tok, char *tmp, int start);

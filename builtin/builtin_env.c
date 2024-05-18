@@ -1,9 +1,10 @@
 #include "../minishell.h"
 
-int builtin_env(t_env *env)
+int builtin_env(t_env *env, t_cmd *cmd)
 {
     if (!env)
         return (1);
+    (void)cmd;
     while (env)
     {
         if (env->export == 1)

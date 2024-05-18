@@ -1,7 +1,7 @@
 
 #include "../minishell.h"
 
-int	parse_cmd(char *str, t_cmd **line, t_env *env)
+int	parse_cmd(char *str, t_cmd **line, t_env *env, int status)
 {
 	char	**arr;
 	int		check;
@@ -24,7 +24,7 @@ int	parse_cmd(char *str, t_cmd **line, t_env *env)
 	}
 	search_quotes_modify(line);
 	handle_backslash(line);
-	handle_expansion(line);
+	handle_expansion(line, status);
 	join_quoted_strings(line);
 	redirection_usage(line);
 	echo_option_checker(line);

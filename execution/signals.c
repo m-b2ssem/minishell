@@ -29,5 +29,5 @@ void	parent_signals(void)
 void	child_signal(void)
 {
 	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_DFL); // check this line
+	signal(SIGQUIT, SIG_DFL);
 }
