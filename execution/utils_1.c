@@ -47,7 +47,7 @@ char *get_path(char *command, t_env *env)
 
     if (command && (command[0] == '.' || command[0] == '/'))
         return (command);
-    path = my_getenv("PATH", env);
+    path = my_getenv("PATH", env); // us my my_getenv
     if (path == NULL)
         return (NULL);
     paths = ft_split(path, ':');
