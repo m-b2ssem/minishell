@@ -149,7 +149,8 @@ int	handle_expansion(t_cmd **line)
 			else if (curr_tok->string != NULL && curr_tok->string[0] != '\0'
 				&& here != 1)
 			{
-				if (curr_tok->type == D_QUOTE || curr_tok->type == ARG)
+				if ((curr_tok->type == D_QUOTE || curr_tok->type == ARG)
+					&& curr_tok->expansion != 1)
 					if (ft_strchr(curr_tok->string, '$') != NULL)
 						possible_expansion(line, curr_tok);
 			}

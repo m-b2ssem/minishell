@@ -10,17 +10,10 @@ int	parse_cmd(char *str, t_cmd **line, t_env *env)
 	(void)check;
 	if (first_string_checks(str) == 1)
 		return (1);
-	
-
-
-
-
-	//should not go into the split_cmd function
+	// should not go into the split_cmd function
 	arr = ft_split_cmd(str, '|');
-	printf("STRING -%s-\n", arr[0]);
 	if (arr == NULL || arr[0] == NULL || arr[0][0] == '\0')
 		return (1);
-	printf("STRING IS -%s-\n", str);
 	initialize_arguments(line, arr, env);
 	iterate_through_cmd_args(line);
 	decide_token_type(line);
@@ -30,10 +23,12 @@ int	parse_cmd(char *str, t_cmd **line, t_env *env)
 		return (1);
 	}
 	search_quotes_modify(line);
+	handle_backslash(line);
 	handle_expansion(line);
 	join_quoted_strings(line);
 	redirection_usage(line);
 	echo_option_checker(line);
 	create_arr_for_exec(line);
+	//print_list(line);
 	return (0);
 }

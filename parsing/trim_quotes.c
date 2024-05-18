@@ -18,7 +18,6 @@ int	update_quote_strings(t_token *tok)
 	{
 		free(tok->string);
 		tok->string = new;
-		// free(new);
 	}
 	if (tok->string == NULL)
 		return (1);

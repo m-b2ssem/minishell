@@ -48,6 +48,12 @@ typedef enum token_status
 	OPTION
 } t_token_status;
 
+typedef enum slash_status
+{
+	NO_SLASH,
+	OPEN
+} t_slash_status;
+
 typedef enum quote_status
 {
 	NO_QUOTE,
@@ -58,6 +64,7 @@ typedef enum quote_status
 typedef struct s_token
 {
 	char *string;
+	int expansion;
 	int join;
 	t_token_status type;
 	struct s_token *next;
@@ -249,5 +256,11 @@ int	free_list(t_env **head);
 /*FT_HELPER.c*/
 void	print_list(t_cmd **head);
 void	print_arr(t_cmd **cmd);
+
+/*HANDLE_BACKSLASH.c*/
+t_slash_status	get_backslash_status(char c, t_slash_status stat);
+void	modify_string_backslash(t_token *tok, char *str);
+int	handle_backslash(t_cmd **line);
+
 
 #endif

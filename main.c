@@ -15,22 +15,22 @@ int	main(int argc, char **argv, char **env)
 		return (0);
 	while (1)
 	{
-		str = readline(PROMPT);
-		if (str != NULL && *str != '\0')
-			add_history(str);
+		// str = readline(PROMPT);
 		signal(SIGINT, signal_handler);
 		signal(SIGQUIT, SIG_IGN);
-		// if (isatty(fileno(stdin)))
-		// 	str = readline(PROMPT);
-		// else
-		// {
-		// 	char *line;
-		// 	line = get_next_line(fileno(stdin));
-		// 	str = ft_strtrim(line, "\n");
-		// 	if (!str)
-		// 		break ;
-		// 	free(line);
-		// }
+		if (isatty(fileno(stdin)))
+			str = readline(PROMPT);
+		else
+		{
+			char *line;
+			line = get_next_line(fileno(stdin));
+			str = ft_strtrim(line, "\n");
+			if (!str)
+				break ;
+			free(line);
+		}
+		if (str != NULL && *str != '\0')
+			add_history(str);
 		if (str == NULL)
 		{
 			free_list(&envp);
