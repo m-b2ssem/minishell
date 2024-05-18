@@ -108,7 +108,7 @@ void	possible_expansion(t_cmd **cmd, t_token *tok, int status)
 		while (tok->string[i] == '$')
 			i++;
 		start_name = i;
-		if (!is_valid_char_begin(tok->string[start_name]))
+		if (!is_valid_char_begin(tok->string[start_name + 1]))
 			return ;
 		while (tok->string[i] && tok->string[i] != '$'
 			&& is_valid_char_rest(tok->string[i]))
