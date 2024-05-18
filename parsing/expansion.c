@@ -81,7 +81,7 @@ char	*get_env_value(char *tmp_name, t_token *tok, t_env **list, int start)
 	return (create_expansion(curr, org_str, start, tmp_name));
 }
 
-void	possible_expansion(t_cmd **cmd, t_token *tok)
+void	possible_expansion(t_cmd **cmd, t_token *tok, int status)
 {
 	int		i;
 	int		start_name;
@@ -124,12 +124,17 @@ void	possible_expansion(t_cmd **cmd, t_token *tok)
 				free(tok->string);
 				tok->string = expand;
 			}
+			if (ft_strcmp(tmp_name, "?") == 0)
+			{
+				free(tok->string);
+				tok->string = ft_strdup(ft_itoa(status));
+			}
 			free(tmp_name);
 		}
 	}
 }
 
-int	handle_expansion(t_cmd **line)
+int	handle_expansion(t_cmd **line, int status)
 {
 	t_cmd	*curr_cmd;
 	t_token	*curr_tok;
@@ -152,7 +157,7 @@ int	handle_expansion(t_cmd **line)
 				if ((curr_tok->type == D_QUOTE || curr_tok->type == ARG)
 					&& curr_tok->expansion != 1)
 					if (ft_strchr(curr_tok->string, '$') != NULL)
-						possible_expansion(line, curr_tok);
+						possible_expansion(line, curr_tok, status);
 			}
 			curr_tok = curr_tok->next;
 		}

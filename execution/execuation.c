@@ -10,14 +10,11 @@ void	handle_non_builtin(t_cmd *cmd, pid_t *pross_id, t_cmd *tmp)
 
 	cmd->path = get_path(cmd->arg_arr[0], cmd->env);
 	if (cmd->path == NULL)
-	{
 		clean_exit(tmp, pross_id, 127);
-	}
 	new_env = env_to_char(cmd->env);
 	if (new_env == NULL)
 		clean_exit(tmp, pross_id, 127);
 	execve(cmd->path, cmd->arg_arr, new_env);
-	printf("minishell: %s: %s\n", cmd->arg_arr[0], strerror(errno));
 	if (stat(cmd->arg_arr[0], &file_stat) == 0)
 	{
 		ft_putstr_fd("minishell: ", 2);
@@ -70,7 +67,6 @@ void	loop_inside_execute(t_cmd *cmd, pid_t *pross_id, t_cmd *tmp)
 			dup2(cmd->fd_out, STDOUT_FILENO);
 			close_fd(tmp);
 			custom_exe_on_child(cmd, pross_id, tmp);
-			exit(0);
 		}
 		if (cmd->fd_in != 0)
 			close(cmd->fd_in);

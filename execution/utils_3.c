@@ -75,7 +75,7 @@ int	custom_exe(t_cmd *cmd, t_cmd *tmp, pid_t *pross_id)
 	if (ft_strcmp("export", cmd->arg_arr[0]) == 0)
 		status = builtin_export(cmd);
 	if (ft_strcmp("env", cmd->arg_arr[0]) == 0)
-		status = builtin_env(cmd->env);
+		status = builtin_env(cmd->env, cmd);
 	if (ft_strcmp("unset", cmd->arg_arr[0]) == 0)
 		status = builtin_unset(&cmd->env, cmd);
 	if (ft_strcmp("exit", cmd->arg_arr[0]) == 0)

@@ -20,7 +20,7 @@ int builtin_exit(t_cmd *cmd, t_cmd *tmp, pid_t *pross_id)
 
     if (cmd->arg_arr[1] && cmd->arg_arr[2] != NULL)
     {
-        printf("minishell: exit: too many arguments\n");
+        ft_putstr_fd("minishell: exit: too many arguments\n", 2);
         return (1);
     }
     printf("exit\n");
