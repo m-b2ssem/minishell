@@ -78,6 +78,8 @@ int wait_pid(pid_t *pross_id, int len)
 
 int    builtin(t_cmd *cmd)
 {
+    if (cmd->arg_arr[0] == NULL)
+        return (0);
     if (ft_strcmp("pwd", cmd->arg_arr[0]) == 0)
         return (1);
     if (ft_strcmp("cd", cmd->arg_arr[0]) == 0)
