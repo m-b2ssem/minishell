@@ -19,7 +19,7 @@ int	parse_cmd(char *str, t_cmd **line, t_env *env, int status)
 	decide_token_type(line);
 	if (redirection_spell_check(line) == 1)
 	{
-		ft_putstr_fd(REDIR, 1);
+		ft_putstr_fd(REDIR, 2);
 		return (1);
 	}
 	search_quotes_modify(line);

@@ -64,13 +64,13 @@ int	first_string_checks(char *str)
 	quote = check_for_unclosed_quotes(str);
 	if (quote != 0)
 	{
-		ft_putstr_fd(QUOTES, 1);
+		ft_putstr_fd(QUOTES, 2);
 		return (1);
 	}
 	token = check_unexpected_token(str);
 	if (token != 0)
 	{
-		ft_putstr_fd(REDIR, 1);
+		ft_putstr_fd(REDIR, 2);
 		return (1);
 	}
 	return (0);
