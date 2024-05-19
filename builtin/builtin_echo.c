@@ -15,12 +15,12 @@ int	builtin_echo(t_cmd *cmd)
 	}
 	while (cmd->arg_arr[i])
 	{
-		write(cmd->fd_out, cmd->arg_arr[i], ft_strlen(cmd->arg_arr[i]));
-		//printf("%s", cmd->arg_arr[i]);
+		printf("%s", cmd->arg_arr[i]);
+		if (cmd->arg_arr[i + 1])
+			printf(" ");
 		i++;
 	}
 	if (checker)
-		write(cmd->fd_out, "\n", 1);
-	//printf("\n");
+		printf("\n");
 	return (0);
 }
