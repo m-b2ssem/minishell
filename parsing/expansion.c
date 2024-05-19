@@ -188,18 +188,23 @@ int	remove_lone_dollars(t_cmd **line)
 {
 	t_cmd	*curr_cmd;
 	t_token	*curr_token;
+	int		flag;
 
+	flag = 0;
 	curr_cmd = *line;
 	while (curr_cmd != NULL)
 	{
 		curr_token = curr_cmd->token;
 		while (curr_token != NULL)
 		{
-			if (curr_token->string != NULL)
+			if (curr_token->string != NULL && ft_strcmp(curr_token->string,
+					"exit") == 0)
+				flag = 1;
+			else if (curr_token->string != NULL)
 			{
 				if (ft_strcmp(curr_token->string, "$") == 0)
 					curr_token->type = BLANK;
-				else if (ft_strlen(curr_token->string) == 0)
+				else if (ft_strlen(curr_token->string) == 0 && !flag)
 					curr_token->type = BLANK;
 			}
 			curr_token = curr_token->next;
