@@ -101,15 +101,15 @@ void	possible_expansion(t_cmd **cmd, t_token *tok, int status)
 		return ;
 	while (i < size)
 	{
-		if (tok->string[i] && tok->string[i] != '$')
-		{
-			i++;
-			continue ;
-		}
-		// while (tok->string[i] && tok->string[i] != '$')
+		// if (tok->string[i] && tok->string[i] != '$')
+		// {
 		// 	i++;
-		// if (tok->string[i] != '$')
-		// 	return ;
+		// 	continue ;
+		// }
+		while (tok->string[i] && tok->string[i] != '$')
+			i++;
+		if (tok->string[i] != '$')
+			return ;
 		while (tok->string[i] == '$')
 			i++;
 		start_name = i;
