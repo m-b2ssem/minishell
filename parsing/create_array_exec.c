@@ -45,7 +45,7 @@ void	initialize_arg_array(t_cmd *cmd)
 			tok = tok->next;
 		}
 	}
-	cmd->arg_arr[i] = NULL; // Null-terminate the array
+	cmd->arg_arr[i] = NULL;
 }
 
 int	count_arg(t_cmd *cmd)
@@ -58,7 +58,8 @@ int	count_arg(t_cmd *cmd)
 	while (tok != NULL)
 	{
 		if (tok->type == ARG || tok->type == BUILTIN || tok->type == D_QUOTE
-			|| tok->type == S_QUOTE || tok->type == BLANK)
+			|| tok->type == S_QUOTE || tok->type == BLANK
+			|| tok->type == OPTION)
 			size++;
 		tok = tok->next;
 	}

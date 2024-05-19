@@ -38,22 +38,6 @@ int	check_unexpected_token(char *str)
 	return (0);
 }
 
-int	check_for_empty(char *str)
-{
-	int	i;
-
-	i = 0;
-	if (!str || str[0] == '\0')
-		return (1);
-	while (str[i])
-	{
-		if (str[i] != ' ' || str[i] != '\t')
-			return (0);
-		i++;
-	}
-	return (1);
-}
-
 int	first_string_checks(char *str)
 {
 	int	quote;
