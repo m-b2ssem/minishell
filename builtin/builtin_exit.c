@@ -36,7 +36,6 @@ int builtin_exit(t_cmd *cmd, t_cmd *tmp, pid_t *pross_id)
         exit_status = ft_atoi(cmd->arg_arr[1]);
         clean_exit(tmp, pross_id, exit_status);
     }
-    //printf("here");
     clean_exit(tmp, pross_id, 0);
     return (0);
 }
