@@ -18,7 +18,7 @@ static int  setup_pipe(t_cmd *cmd, int **pipefd, int index)
 {
     if (pipe(pipefd[index]) == -1)
     {
-        printf("pipe error\n");
+        ft_putstr_fd("pipe error\n", 2);
         return (6);
     }
     if (index == 0)
@@ -49,7 +49,7 @@ int piping(t_cmd *cmd)
     pipefd = malloc(sizeof(int *) * (len + 1));
     if (!pipefd)
         return (5);
-    pipefd[len] = NULL;
+    pipefd[len + 1] = NULL;
     while (tmp)
     {
         pipefd[index] = malloc(sizeof(int) * 2);

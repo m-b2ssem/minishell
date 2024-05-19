@@ -114,7 +114,7 @@ void	possible_expansion(t_cmd **cmd, t_token *tok, int status)
 			return ;
 		}
 		start_name = i;
-		if (!is_valid_char_begin(tok->string[start_name + 1]))
+		if (!is_valid_char_begin(tok->string[start_name]))
 			return ;
 		while (tok->string[i] && tok->string[i] != '$'
 			&& is_valid_char_rest(tok->string[i]))
@@ -122,19 +122,22 @@ void	possible_expansion(t_cmd **cmd, t_token *tok, int status)
 		if (i == start_name)
 			continue ;
 		tmp_name = ft_substr(tok->string, start_name, i - start_name);
-		if (tmp_name)
-		{
-			expand = get_env_value(tmp_name, tok, &(*cmd)->env, start_name);
-			if (expand)
-			{
-				free(tok->string);
-				tok->string = expand;
-			}
-			if (ft_strcmp(tmp_name, "?") == 0)
-			{
-				free(tok->string);
-				tok->string = ft_strdup(ft_itoa(status));
-			}
+        if (tmp_name)
+        {
+            if (ft_strcmp(tmp_name, "?") == 0)
+            {
+                free(tok->string);
+                tok->string = ft_strdup(ft_itoa(status));
+            }
+            else
+            {
+                expand = get_env_value(tmp_name, tok, &(*cmd)->env, start_name);
+                if (expand)
+                {
+                    free(tok->string);
+                    tok->string = expand;
+                }
+            }
 			free(tmp_name);
 		}
 	}

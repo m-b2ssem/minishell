@@ -21,7 +21,7 @@ int	parse_cmd(char *str, t_cmd **line, t_env *env, int status)
 	search_quotes_modify(line);
 	handle_backslash(line);
 	handle_expansion(line, status);
-	print_list(line);
+	//print_list(line);
 	join_quoted_strings(line);
 	redirection_usage(line);
 	echo_option_checker(line);
