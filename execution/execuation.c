@@ -53,7 +53,6 @@ void	loop_inside_execute(t_cmd *cmd, pid_t *pross_id, t_cmd *tmp)
 	i = 0;
 	while (cmd != NULL)
 	{
-		redirections(cmd);
 		pross_id[i] = fork();
 		if (pross_id[i] == -1)
 		{
@@ -65,6 +64,10 @@ void	loop_inside_execute(t_cmd *cmd, pid_t *pross_id, t_cmd *tmp)
 		if (pross_id[i] == 0)
 		{
 			child_signal();
+			if (redirections(cmd))
+			{
+				clean_exit(tmp, pross_id, 126);
+			}
 			dup2(cmd->fd_in, STDIN_FILENO);
 			dup2(cmd->fd_out, STDOUT_FILENO);
 			close_fd(tmp);

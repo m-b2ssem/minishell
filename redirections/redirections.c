@@ -8,7 +8,10 @@ static int redirections_in(t_cmd *cmd, t_token *token)
             close(cmd->fd_in);
         cmd->fd_in = open(token->next->string, O_RDONLY);
         if (cmd->fd_in == -1)
-            return (-1);
+        {
+            perror("minishell");
+            return (1);
+        }
     }
     if (token->type == DELIM)
     {
@@ -16,7 +19,10 @@ static int redirections_in(t_cmd *cmd, t_token *token)
             close(cmd->fd_in);
         cmd->fd_in = heredoc(cmd, token->string);
         if (cmd->fd_in == -1)
-            return (-1);
+        {
+            perror("minishell");
+            return (1);
+        }
     }
     return (0);
 }
@@ -30,7 +36,10 @@ static int redirections_out(t_cmd *cmd, t_token *token)
             close(cmd->fd_out);
         cmd->fd_out = open(token->next->string, O_CREAT | O_RDWR | O_TRUNC, 0644);
         if (cmd->fd_out == -1)
-            return (-1);
+        {
+            perror("minishell");
+            return (1);
+        }
     }
     if (token->type == APPEND)
     {
@@ -38,7 +47,10 @@ static int redirections_out(t_cmd *cmd, t_token *token)
             close(cmd->fd_out);
         cmd->fd_out = open(token->next->string, O_CREAT | O_RDWR | O_APPEND, 0644);
         if (cmd->fd_out == -1)
-            return (-1);
+        {
+            perror("minishell");
+            return (1);
+        }
     }
     return (0);
 }
