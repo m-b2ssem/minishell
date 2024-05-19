@@ -132,9 +132,9 @@ void	possible_expansion(t_cmd **cmd, t_token *tok, int status)
 				free(tok->string);
 				tok->string = expand;
 				size = ft_strlen(tok->string);
+				i = 0;
 			}
 			free(tmp_name);
-			i = 0;
 		}
 	}
 }
