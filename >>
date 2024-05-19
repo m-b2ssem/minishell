@@ -1366,3 +1366,189 @@ tmp_out_minishell
 valgrind.sh
 42  
 2  
+total 224
+-rw-r--r--  1 bmahdi 2023_vienna   1780 May 19 13:54  
+drwxr-xr-x 10 bmahdi 2023_vienna   4096 May 19 13:54 .
+drwxr-xr-x  3 bmahdi 2023_vienna     23 May 19 13:28 ..
+-rw-r--r--  1 bmahdi 2023_vienna  15590 May 19 13:54 >>
+drwxr-xr-x  2 bmahdi 2023_vienna   4096 May 19 13:54 builtin
+-rw-r--r--  1 bmahdi 2023_vienna      0 May 19 13:54 echo
+drwxr-xr-x  2 bmahdi 2023_vienna     42 May 19 13:54 environment
+drwxr-xr-x  2 bmahdi 2023_vienna   4096 May 19 13:54 execution
+drwxr-xr-x  8 bmahdi 2023_vienna   4096 May 19 13:54 .git
+-rw-r--r--  1 bmahdi 2023_vienna    168 May 19 13:48 hi
+-rw-r--r--  1 bmahdi 2023_vienna    148 May 19 13:29 . .icloud
+drwxr-xr-x  4 bmahdi 2023_vienna     40 May 19 13:29 library
+-rw-r--r--  1 bmahdi 2023_vienna   1164 May 19 13:29 main.c
+-rw-r--r--  1 bmahdi 2023_vienna   6912 May 19 13:54 main.o
+-rw-r--r--  1 bmahdi 2023_vienna   1572 May 19 13:29 Makefile
+-rwxr-xr-x  1 bmahdi 2023_vienna 128272 May 19 13:54 minishell
+-rw-r--r--  1 bmahdi 2023_vienna   7634 May 19 13:29 minishell.h
+drwxr-xr-x  2 bmahdi 2023_vienna   4096 May 19 13:54 parsing
+-rw-r--r--  1 bmahdi 2023_vienna    259 May 19 13:28 readline_suppression.supp
+-rw-r--r--  1 bmahdi 2023_vienna   5355 May 19 13:28 README.md
+drwxr-xr-x  2 bmahdi 2023_vienna     84 May 19 13:54 redirections
+-rw-r--r--  1 bmahdi 2023_vienna    162 May 19 13:54 tmp_err_bash
+-rw-r--r--  1 bmahdi 2023_vienna      0 May 19 13:54 tmp_err_minishell
+-rw-r--r--  1 bmahdi 2023_vienna      0 May 19 13:54 tmp_out_bash
+-rw-r--r--  1 bmahdi 2023_vienna     61 May 19 13:54 tmp_out_minishell
+-rw-r--r--  1 bmahdi 2023_vienna    158 May 19 13:28 valgrind.sh
+drwxr-xr-x  2 bmahdi 2023_vienna     25 May 19 13:29 .vscode
+ 
+>>
+builtin
+echo
+environment
+execution
+hi
+library
+main.c
+main.o
+Makefile
+minishell
+minishell.h
+parsing
+readline_suppression.supp
+README.md
+redirections
+tmp_err_bash
+tmp_err_minishell
+tmp_out_bash
+tmp_out_minishell
+valgrind.sh
+ 
+>>
+builtin
+echo
+environment
+execution
+hi
+library
+main.c
+main.o
+Makefile
+minishell
+minishell.h
+parsing
+readline_suppression.supp
+README.md
+redirections
+tmp_err_bash
+tmp_err_minishell
+tmp_out_bash
+tmp_out_minishell
+valgrind.sh
+ 
+>>
+builtin
+echo
+environment
+execution
+hi
+library
+main.c
+main.o
+Makefile
+minishell
+minishell.h
+parsing
+readline_suppression.supp
+README.md
+redirections
+tmp_err_bash
+tmp_err_minishell
+tmp_out_bash
+tmp_out_minishell
+valgrind.sh
+ 
+>>
+builtin
+echo
+environment
+execution
+hi
+library
+main.c
+main.o
+Makefile
+minishell
+minishell.h
+parsing
+readline_suppression.supp
+README.md
+redirections
+tmp_err_bash
+tmp_err_minishell
+tmp_out_bash
+tmp_out_minishell
+valgrind.sh
+ 
+>>
+builtin
+echo
+environment
+execution
+hi
+library
+main.c
+main.o
+Makefile
+minishell
+minishell.h
+parsing
+readline_suppression.supp
+README.md
+redirections
+tmp_err_bash
+tmp_err_minishell
+tmp_out_bash
+tmp_out_minishell
+valgrind.sh
+ 
+>>
+builtin
+echo
+environment
+execution
+hi
+library
+main.c
+main.o
+Makefile
+minishell
+minishell.h
+parsing
+readline_suppression.supp
+README.md
+redirections
+tmp_err_bash
+tmp_err_minishell
+tmp_out_bash
+tmp_out_minishell
+valgrind.sh
+ 
+>>
+builtin
+echo
+environment
+execution
+hi
+library
+main.c
+main.o
+Makefile
+minishell
+minishell.h
+parsing
+readline_suppression.supp
+README.md
+redirections
+tmp_err_bash
+tmp_err_minishell
+tmp_out_bash
+tmp_out_minishell
+valgrind.sh
+42
+2
+hi
+hisdfsfs
