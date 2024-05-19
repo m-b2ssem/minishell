@@ -4,10 +4,7 @@
 int	parse_cmd(char *str, t_cmd **line, t_env *env, int status)
 {
 	char	**arr;
-	int		check;
 
-	check = 0;
-	(void)check;
 	if (first_string_checks(str) == 1)
 		return (1);
 	arr = ft_split_cmd(str, '|');
@@ -24,10 +21,12 @@ int	parse_cmd(char *str, t_cmd **line, t_env *env, int status)
 	search_quotes_modify(line);
 	handle_backslash(line);
 	handle_expansion(line, status);
+	//print_list(line);
+	remove_lone_dollars(line);
 	join_quoted_strings(line);
 	redirection_usage(line);
 	echo_option_checker(line);
 	create_arr_for_exec(line);
-	// print_list(line);
+	// print_arr(line);
 	return (0);
 }

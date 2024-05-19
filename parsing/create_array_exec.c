@@ -13,7 +13,7 @@ void	initialize_arg_array(t_cmd *cmd)
 	tok = cmd->token;
 	i = 0;
 	// space = 0;
-	//first_arg_found = 0;
+	// first_arg_found = 0;
 	while (tok != NULL)
 	{
 		while (tok != NULL && tok->type == BLANK)
@@ -96,7 +96,9 @@ int	create_arr_for_exec(t_cmd **line)
 	while (curr_cmd != NULL)
 	{
 		size = count_arg(curr_cmd);
-		// printf("Size is: %d\n", size);
+		// if (size == 0)
+		// 	printf("EMPTY");
+		// exit(0);
 		arg_arr = malloc(sizeof(char *) * (size + 1));
 		if (!arg_arr)
 			return (1);

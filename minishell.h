@@ -97,7 +97,7 @@ int	builtin_pwd(void);
 int	builtin_cd(t_cmd *cmd);
 int	builtin_echo(t_cmd *cmd);
 int	builtin_export(t_cmd *cmd);
-int builtin_env(t_env *env, t_cmd *cmd);
+int	builtin_env(t_env *env, t_cmd *cmd);
 int	builtin_unset(t_env **head, t_cmd *cmd);
 int	builtin_exit(t_cmd *cmd, t_cmd *tmp, pid_t *pross_id);
 int	heredoc(t_cmd *cmd, char *word);
@@ -207,10 +207,11 @@ int	update_quote_strings(t_token *tok);
 
 /*EXPANSION.C*/
 int	handle_expansion(t_cmd **line, int status);
-void    possible_expansion(t_cmd **cmd, t_token *tok, int status);
+void	possible_expansion(t_cmd **cmd, t_token *tok, int status);
 char	*get_env_value(char *tmp_name, t_token *tok, t_env **list, int start);
 char	*create_expansion(t_env *curr, char *org, int start, char *tmp);
 char	*forbidden_variable_name(t_token *tok, char *tmp, int start);
+int	remove_lone_dollars(t_cmd **line);
 
 /*EXPANSION_HELPER.C*/
 int	calculate_size(t_env *curr, char *org, char *tmp);
@@ -262,7 +263,7 @@ t_slash_status	get_backslash_status(char c, t_slash_status stat);
 void	modify_string_backslash(t_token *tok, char *str);
 int	handle_backslash(t_cmd **line);
 
-int	is_all_whitespace(char *str); 
-
+int	is_all_whitespace(char *str);
+char	*expand_exit_status(t_token *tok, int start, int status);
 
 #endif

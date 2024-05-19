@@ -107,12 +107,6 @@ void	possible_expansion(t_cmd **cmd, t_token *tok, int status)
 			return ;
 		while (tok->string[i] == '$')
 			i++;
-		if (tok->string[i] == '\0')
-		{
-			tok->string[i - 1] = ' ';
-			tok->type = BLANK;
-			return ;
-		}
 		start_name = i;
 		if (!is_valid_char_begin(tok->string[start_name]))
 			return ;
@@ -124,27 +118,97 @@ void	possible_expansion(t_cmd **cmd, t_token *tok, int status)
 		tmp_name = ft_substr(tok->string, start_name, i - start_name);
 		if (tmp_name)
 		{
-			expand = get_env_value(tmp_name, tok, &(*cmd)->env, start_name);
+			if (ft_strcmp(tmp_name, "?") == 0)
+				expand = expand_exit_status(tok, start_name, status);
+			else
+				expand = get_env_value(tmp_name, tok, &(*cmd)->env, start_name);
 			if (expand)
 			{
 				free(tok->string);
 				tok->string = expand;
 			}
-			if (ft_strcmp(tmp_name, "?") == 0)
-			{
-				free(tok->string);
-				tok->string = ft_strdup(ft_itoa(status));
-			}
+			// {
+			// 	free(tok->string);
+			// 	tok->string = ft_strdup(ft_itoa(status));
+			// }
 			free(tmp_name);
 		}
 	}
 }
 
+char	*expand_exit_status(t_token *tok, int start, int status)
+{
+	char	*expand;
+	char	*org;
+	char	*s;
+	int		i;
+	int		new_size;
+	int		j;
+	int		new_start;
+
+	j = 0;
+	expand = NULL;
+	org = tok->string;
+	s = ft_itoa(status);
+	i = 0;
+	new_size = 0;
+	new_start = 0;
+	new_size = ft_strlen(tok->string) - 1 + ft_strlen(ft_itoa(status));
+	expand = malloc(sizeof(char) * new_size + 1);
+	if (!expand)
+		return (NULL);
+	while (i < (start - 1))
+	{
+		expand[i] = org[i];
+		i++;
+	}
+	j = i;
+	i = 0;
+	while (s[i])
+	{
+		expand[j] = s[i];
+		i++;
+		j++;
+	}
+	new_start = start + 1;
+	while (org[new_start])
+	{
+		expand[j] = org[new_start];
+		new_start++;
+		j++;
+	}
+	expand[j] = '\0';
+	return (expand);
+}
+
+int	remove_lone_dollars(t_cmd **line)
+{
+	t_cmd	*curr_cmd;
+	t_token	*curr_token;
+
+	curr_cmd = *line;
+	while (curr_cmd != NULL)
+	{
+		curr_token = curr_cmd->token;
+		while (curr_token != NULL)
+		{
+			if (curr_token->string != NULL && curr_token->string[0] != '\0')
+			{
+				if (ft_strcmp(curr_token->string, "$") == 0)
+					curr_token->type = BLANK;
+			}
+			curr_token = curr_token->next;
+		}
+		curr_cmd = curr_cmd->next;
+	}
+	return (0);
+}
+
 int	handle_expansion(t_cmd **line, int status)
 {
 	t_cmd	*curr_cmd;
-	t_token	*curr_tok;
 	int		here;
+	t_token	*curr_tok;
 
 	here = 0;
 	curr_cmd = NULL;
