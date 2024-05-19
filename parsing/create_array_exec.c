@@ -6,14 +6,14 @@ void	initialize_arg_array(t_cmd *cmd)
 	t_token	*tok;
 	int		option;
 	int		i;
-	int		space;
-	int		first_arg_found;
 
+	// int		space;
+	// int		first_arg_found;
 	option = 0;
 	tok = cmd->token;
 	i = 0;
-	space = 0;
-	first_arg_found = 0;
+	// space = 0;
+	//first_arg_found = 0;
 	while (tok != NULL)
 	{
 		while (tok != NULL && tok->type == BLANK)
@@ -23,12 +23,12 @@ void	initialize_arg_array(t_cmd *cmd)
 			if (tok->type == BUILTIN || tok->type == ARG || tok->type == D_QUOTE
 				|| tok->type == S_QUOTE)
 			{
-				if (i == 0)
-					first_arg_found = 1;
-				else
-					first_arg_found = 0;
+				// if (i == 0)
+				// 	first_arg_found = 1;
+				// else
+				// 	first_arg_found = 0;
 				cmd->arg_arr[i++] = tok->string;
-				space = 0;
+				// space = 0;
 				option = 0;
 			}
 			else if (tok->type == OPTION && !option)
@@ -36,12 +36,12 @@ void	initialize_arg_array(t_cmd *cmd)
 				option = 1;
 				cmd->arg_arr[i++] = tok->string;
 			}
-			else if (tok->type == BLANK && !first_arg_found && !space
-				&& !option)
-			{
-				cmd->arg_arr[i++] = tok->string;
-				space = 1;
-			}
+			// else if (tok->type == BLANK && !first_arg_found && !space
+			// 	&& !option)
+			// {
+			// 	cmd->arg_arr[i++] = tok->string;
+			// 	space = 1;
+			// }
 			tok = tok->next;
 		}
 	}
@@ -58,13 +58,30 @@ int	count_arg(t_cmd *cmd)
 	while (tok != NULL)
 	{
 		if (tok->type == ARG || tok->type == BUILTIN || tok->type == D_QUOTE
-			|| tok->type == S_QUOTE || tok->type == BLANK
-			|| tok->type == OPTION)
+			|| tok->type == S_QUOTE || tok->type == OPTION)
 			size++;
 		tok = tok->next;
 	}
 	return (size);
 }
+
+// int	count_arg(t_cmd *cmd)
+// {
+// 	t_token	*tok;
+// 	int		size;
+
+// 	size = 0;
+// 	tok = cmd->token;
+// 	while (tok != NULL)
+// 	{
+// 		if (tok->type == ARG || tok->type == BUILTIN || tok->type == D_QUOTE
+// 			|| tok->type == S_QUOTE || tok->type == BLANK
+// 			|| tok->type == OPTION)
+// 			size++;
+// 		tok = tok->next;
+// 	}
+// 	return (size);
+// }
 
 int	create_arr_for_exec(t_cmd **line)
 {
