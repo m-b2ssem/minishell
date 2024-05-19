@@ -133,11 +133,8 @@ void	possible_expansion(t_cmd **cmd, t_token *tok, int status)
 				tok->string = expand;
 				size = ft_strlen(tok->string);
 			}
-			// {
-			// 	free(tok->string);
-			// 	tok->string = ft_strdup(ft_itoa(status));
-			// }
 			free(tmp_name);
+			i = 0;
 		}
 	}
 }
