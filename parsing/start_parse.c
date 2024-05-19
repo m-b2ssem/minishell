@@ -27,7 +27,19 @@ int	parse_cmd(char *str, t_cmd **line, t_env *env, int status)
 	echo_option_checker(line);
 	create_arr_for_exec(line);
 	remove_blank_tokens_from_cmds(line);
-	//print_list(line);
+	// permission_denied(line, status);
+	// include permiossion denied
+	// print_list(line);
 	// print_arr(line);
 	return (0);
 }
+
+// int	permission_denied(char *path)
+// {
+// 	if (access(path, X_OK) == -1)
+// 	{
+// 		perror("Permissions denied.");
+// 		return (1);
+// 	}
+// 	return (0);
+// }
