@@ -21,6 +21,8 @@
 # define PROMPT "minishell $> "
 # define QUOTES "minishell: syntax error: unclosed quotes detected\n"
 # define REDIR "minishell: syntax error near unexpected token\n"
+# define EXIT_ARG "minishell: exit: too many arguments\n"
+# define EXIT_NUM "minishell: exit: numeric argument required\n"
 
 typedef struct s_cmd t_cmd;
 
@@ -271,6 +273,6 @@ int	is_all_whitespace(char *str);
 char	*expand_exit_status(t_token *tok, int start, int status);
 void	remove_blank_tokens_from_cmds(t_cmd **cmd_list);
 void	remove_blank_tokens(t_cmd *cmd);
-int	permission_denied(char *path);
+int	builtin_export_checker(char *arr);
 
 #endif

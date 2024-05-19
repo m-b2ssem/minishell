@@ -1,6 +1,36 @@
 
 #include "../minishell.h"
 
+// int its_exit(t_cmd **line)
+// {
+// 	t_cmd *tmp = *line;
+// 	int i = 0;
+// 	int j = 0;
+// 	while (tmp->next != NULL)
+// 	{
+// 		while (tmp->arg_arr[i] != NULL)
+// 		{
+// 			if (ft_strcmp(tmp->arg_arr[i], "exit") == 0)
+// 			{
+// 				t_token *tmp_tok = tmp->token;
+// 				while (tmp_tok != NULL)
+// 				{
+// 					j++;
+// 					tmp_tok = tmp_tok->next;
+// 				}
+// 				if (j > 1)
+// 				{
+// 					i++;
+// 					tmp->arg_arr[i] = ft_strdup("jallo");
+// 				}
+// 			}
+// 			i++;
+// 		}
+
+// 	}
+// 	return (0);
+// }
+
 int	parse_cmd(char *str, t_cmd **line, t_env *env, int status)
 {
 	char	**arr;
@@ -27,7 +57,16 @@ int	parse_cmd(char *str, t_cmd **line, t_env *env, int status)
 	echo_option_checker(line);
 	create_arr_for_exec(line);
 	remove_blank_tokens_from_cmds(line);
-	print_list(line);
+	if (ft_strcmp((*line)->arg_arr[0], "export") == 0
+		&& (&(*line)->arg_arr[1] != NULL
+			&& builtin_export_checker((*line)->arg_arr[1]) == 1))
+	{
+		write(2, "minishell: export: '", 20);
+		write(2, (*line)->arg_arr[1], ft_strlen((*line)->arg_arr[1]));
+		write(2, "': not a valid identifier\n", 26);
+		return (1);
+	}
 	// print_arr(line);
+	// print_list(line);
 	return (0);
 }

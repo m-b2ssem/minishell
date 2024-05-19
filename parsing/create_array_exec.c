@@ -6,9 +6,9 @@ void	initialize_arg_array(t_cmd *cmd)
 	t_token	*tok;
 	int		option;
 	int		i;
+	int		flag;
 
-	// int		space;
-	// int		first_arg_found;
+	flag = 0;
 	option = 0;
 	tok = cmd->token;
 	i = 0;
@@ -23,11 +23,12 @@ void	initialize_arg_array(t_cmd *cmd)
 			if (tok->type == BUILTIN || tok->type == ARG || tok->type == D_QUOTE
 				|| tok->type == S_QUOTE)
 			{
+
+				cmd->arg_arr[i++] = tok->string;
 				// if (i == 0)
 				// 	first_arg_found = 1;
 				// else
 				// 	first_arg_found = 0;
-				cmd->arg_arr[i++] = tok->string;
 				// space = 0;
 				option = 0;
 			}
@@ -47,6 +48,15 @@ void	initialize_arg_array(t_cmd *cmd)
 	}
 	cmd->arg_arr[i] = NULL;
 }
+
+// if	(ft_strcmp(tok->next->string,
+// 				""
+// 				"") == 0)
+// {
+// 	printf("HERE\n");
+// 	tok->next->string = "h";
+// 	cmd->arg_arr[i++] = tok->next->string;
+// }
 
 int	count_arg(t_cmd *cmd)
 {

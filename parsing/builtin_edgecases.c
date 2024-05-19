@@ -1,32 +1,22 @@
 
 #include "../minishell.h"
 
-void	builtin_bridge(t_token *tok)
+int	builtin_export_checker(char *arr)
 {
-	if (ft_strcmp(tok->string, "exit"))
+	int	i;
+	int	size;
 
-}
-
-int	builtin_edgecase(t_cmd **line)
-{
-	t_cmd	*curr_cmd;
-	t_token	*curr_token;
-	t_token	*prev;
-
-	curr_cmd = *line;
-	while (curr_cmd != NULL)
+	size = find_char(arr);
+	if (size == 0)
+		return (1);
+	i = 1;
+	if (!is_valid_char_begin(arr[0]))
+		return (1);
+	while (i < size)
 	{
-		curr_token = curr_cmd->token;
-		prev = NULL;
-		while (curr_token != NULL)
-		{
-			if (curr_token->string != NULL && curr_token->string[0] != '\0' && prev->type == BUILTIN)
-			{
-				if 
-			}
-			prev = curr_token;
-			curr_token = curr_token->next;
-		}
-		curr_cmd = curr_cmd->next;
+		if (!is_valid_char_rest(arr[i]))
+			return (1);
+		i++;
 	}
+	return (0);
 }

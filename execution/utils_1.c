@@ -1,10 +1,10 @@
 #include "../minishell.h"
 
-static void printf_error(char *str)
+static void	printf_error(char *str)
 {
-    ft_putstr_fd("minishell: ", 2);
-    ft_putstr_fd(str, 2);
-    ft_putstr_fd(": command not found\n", 2);
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd(str, 2);
+	ft_putstr_fd(": command not found\n", 2);
 }
 
 static void	free_paths(char **paths)
@@ -20,57 +20,58 @@ static void	free_paths(char **paths)
 	free(paths);
 }
 
-static char *search_path_2(char *command, char **paths)
+static char	*search_path_2(char *command, char **paths)
 {
-    free_paths(paths);
-    if (access(command, F_OK) == 0)
-        return (command);
-    printf_error(command);
-    return (NULL);
+	free_paths(paths);
+	if (access(command, F_OK) == 0)
+		return (command);
+	printf_error(command);
+	return (NULL);
 }
 
-static char *search_paths(char **paths, char *command)
+static char	*search_paths(char **paths, char *command)
 {
-    char *bin_path;
-    char *tmp;
-    int i = 0;
+	char	*bin_path;
+	char	*tmp;
+	int		i;
 
-    while (paths[i] != NULL)
-    {
-        bin_path = ft_strjoin(paths[i], "/");
-        if (bin_path == NULL)
-            return (free_paths(paths), NULL);
-        tmp = ft_strjoin(bin_path, command);
-        if (tmp == NULL)
-            return (free_paths(paths), free(bin_path), NULL);
-        if (access(tmp, F_OK) == 0)
-        {
-            free(bin_path);
-            free_paths(paths);
-            return (tmp);
-        }
-        free(bin_path);
-        free(tmp);
-        i++;
-    }
-    printf_error(command);
-    free_paths(paths);
-    return (NULL);
+	i = 0;
+	while (paths[i] != NULL)
+	{
+		bin_path = ft_strjoin(paths[i], "/");
+		if (bin_path == NULL)
+			return (free_paths(paths), NULL);
+		tmp = ft_strjoin(bin_path, command);
+		if (tmp == NULL)
+			return (free_paths(paths), free(bin_path), NULL);
+		if (access(tmp, F_OK) == 0)
+		{
+			free(bin_path);
+			free_paths(paths);
+			return (tmp);
+		}
+		free(bin_path);
+		free(tmp);
+		i++;
+	}
+	printf_error(command);
+	free_paths(paths);
+	return (NULL);
 }
-char *get_path(char *command, t_env *env)
+char	*get_path(char *command, t_env *env)
 {
-    char *path;
-    char **paths;
+	char	*path;
+	char	**paths;
 
-    path = my_getenv("PATH", env);
-    if (path == NULL)
-        return (printf_error(command), NULL);
-    paths = ft_split(path, ':');
-    if (paths == NULL)
-        return (NULL);
-    if (command && (command[0] == '.' || command[0] == '/'))
-        return (search_path_2(command, paths));
-    return (search_paths(paths, command));
+	path = my_getenv("PATH", env);
+	if (path == NULL)
+		return (printf_error(command), NULL);
+	paths = ft_split(path, ':');
+	if (paths == NULL)
+		return (NULL);
+	if (command && (command[0] == '.' || command[0] == '/'))
+		return (search_path_2(command, paths));
+	return (search_paths(paths, command));
 }
 
 int	cmd_lenth(t_cmd *cmd)
