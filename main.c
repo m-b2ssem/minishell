@@ -28,11 +28,10 @@ int	main(int argc, char **argv, char **env)
 	envp = initialize_env_variables(&envp, env);
 	if (envp == NULL)
 		return (0);
+	parent_signals();
 	while (1)
 	{
 		// str = readline(PROMPT);
-		signal(SIGINT, signal_handler);
-		signal(SIGQUIT, SIG_IGN);
 		if (isatty(fileno(stdin)))
 			str = readline(PROMPT);
 		else
@@ -56,7 +55,7 @@ int	main(int argc, char **argv, char **env)
 			add_history(str);
 		if (parse_cmd(str, &cmd, envp, status) == 1)
 		{
-			status = 2;
+			status = 1;
 			free_everything(&cmd);
 		}
 		else

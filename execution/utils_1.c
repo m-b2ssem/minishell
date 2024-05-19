@@ -1,5 +1,12 @@
 #include "../minishell.h"
 
+static void printf_error(char *str)
+{
+    ft_putstr_fd("minishell: ", 2);
+    ft_putstr_fd(str, 2);
+    ft_putstr_fd(": command not found\n", 2);
+}
+
 static void	free_paths(char **paths)
 {
 	int	i;
@@ -18,9 +25,7 @@ static char *search_path_2(char *command, char **paths)
     free_paths(paths);
     if (access(command, F_OK) == 0)
         return (command);
-    ft_putstr_fd("minishell: ", 2);
-    ft_putstr_fd(command, 2);
-    ft_putstr_fd(": No such file or directory\n", 2);
+    printf_error(command);
     return (NULL);
 }
 
@@ -48,9 +53,7 @@ static char *search_paths(char **paths, char *command)
         free(tmp);
         i++;
     }
-    ft_putstr_fd("minishell: ", 2);
-    ft_putstr_fd(command, 2);
-    ft_putstr_fd(": No such file or directory\n", 2);
+    printf_error(command);
     free_paths(paths);
     return (NULL);
 }
@@ -59,9 +62,9 @@ char *get_path(char *command, t_env *env)
     char *path;
     char **paths;
 
-    path = my_getenv("PATH", env); // us my my_getenv
+    path = my_getenv("PATH", env);
     if (path == NULL)
-        return (NULL);
+        return (printf_error(command), NULL);
     paths = ft_split(path, ':');
     if (paths == NULL)
         return (NULL);

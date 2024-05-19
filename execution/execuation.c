@@ -52,7 +52,6 @@ void	loop_inside_execute(t_cmd *cmd, pid_t *pross_id, t_cmd *tmp)
 	while (cmd != NULL)
 	{
 		redirections(cmd);
-		sig_ign();
 		pross_id[i] = fork();
 		if (pross_id[i] == -1)
 		{

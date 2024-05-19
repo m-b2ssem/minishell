@@ -15,6 +15,7 @@
 # include <sys/stat.h>
 # include <sys/wait.h>
 # include <unistd.h>
+# include <sys/ioctl.h>
 
 # define HOME "/Users/bassem"
 # define PROMPT "minishell $> "
@@ -129,8 +130,11 @@ char	*my_getenv(char *name, t_env *env);
 
 /* signals */
 void	child_signal(void);
+void    signal_handler_1(int signum);
 void	parent_signals(void);
 void	sig_ign(void);
+void    herdoc_handler(int signum);
+void	heredoc_signals(void);
 
 int	free_list(t_env **head);
 t_env	*lst_last(t_env *lst);

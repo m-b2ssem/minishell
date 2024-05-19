@@ -1,5 +1,7 @@
 #include "../minishell.h"
 
+extern sig_atomic_t g_signal;
+
 int random_char(void)
 {
 
@@ -129,8 +131,9 @@ int write_inside_file(t_cmd *cmd, char *word, int fd)
     while (1)
     {
         str = readline(">");
-        if (str == NULL)
+        if (str == NULL || g_signal == 130)
         {
+            g_signal = 0;
             return (-1);
         }
         if (strcmp(word, str) == 0)
@@ -159,6 +162,7 @@ int heredoc(t_cmd *cmd, char *word)
     fd = open(file, O_CREAT | O_RDWR, 0644);
     if (fd == -1)
         return(free(file), -1);
+    heredoc_signals();
     write_inside_file(cmd ,word, fd);
     fd = open(file, O_RDONLY);
     if (fd == -1)
@@ -166,7 +170,7 @@ int heredoc(t_cmd *cmd, char *word)
     cmd->fd_in = fd;
     if (unlink(file) == -1)
     {
-        printf("there is an error deleting the file\n");
+        ft_putstr_fd("there is an error deleting the file\n", 2);
         return(-1);
     }
     cmd->file = file;
