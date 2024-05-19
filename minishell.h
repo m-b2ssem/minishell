@@ -262,5 +262,7 @@ t_slash_status	get_backslash_status(char c, t_slash_status stat);
 void	modify_string_backslash(t_token *tok, char *str);
 int	handle_backslash(t_cmd **line);
 
+int	is_all_whitespace(char *str); 
+
 
 #endif

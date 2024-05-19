@@ -2,10 +2,23 @@
 #include "minishell.h"
 
 
+int	is_all_whitespace(char *str)
+{
+	if (str == NULL)
+		return (0);
+	while (*str)
+	{
+		if (!is_space((unsigned char)*str))
+			return (0);
+		str++;
+	}
+	return (1);
+}
+
 int	main(int argc, char **argv, char **env)
 {
 	char *str;
-	int		status;
+	int status;
 	t_cmd *cmd = NULL;
 	t_env *envp = NULL;
 
@@ -31,13 +44,16 @@ int	main(int argc, char **argv, char **env)
 				break ;
 			free(line);
 		}
-		if (str != NULL && *str != '\0')
-			add_history(str);
+
 		if (str == NULL)
 		{
 			free_list(&envp);
 			return (0);
 		}
+		if (is_all_whitespace(str))
+			continue ;
+		if (str != NULL && *str != '\0')
+			add_history(str);
 		if (parse_cmd(str, &cmd, envp, status) == 1)
 		{
 			status = 2;
