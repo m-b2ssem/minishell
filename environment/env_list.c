@@ -60,7 +60,10 @@ t_env	*initialize_env_variables(t_env **head, char **env)
 	while (env[i] != NULL)
 	{
 		name = ft_substr(env[i], 0, find_char(env[i]));
-		value = getenv(name);
+		if (ft_strcmp(name, "SHLVL") == 0)
+			value = ft_itoa(ft_atoi(getenv("SHLVL")) + 1);
+		else
+			value = getenv(name);
 		new = lst_new(name, value ? value : "", new, 1);
 		if (new == NULL)
 		{
