@@ -265,5 +265,9 @@ int	handle_backslash(t_cmd **line);
 
 int	is_all_whitespace(char *str);
 char	*expand_exit_status(t_token *tok, int start, int status);
+void	remove_blank_tokens_from_cmds(t_cmd **cmd_list);
+void	remove_blank_tokens(t_cmd *cmd);
+
+
 
 #endif

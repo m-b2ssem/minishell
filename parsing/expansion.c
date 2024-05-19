@@ -192,9 +192,11 @@ int	remove_lone_dollars(t_cmd **line)
 		curr_token = curr_cmd->token;
 		while (curr_token != NULL)
 		{
-			if (curr_token->string != NULL && curr_token->string[0] != '\0')
+			if (curr_token->string != NULL)
 			{
 				if (ft_strcmp(curr_token->string, "$") == 0)
+					curr_token->type = BLANK;
+				else if (ft_strlen(curr_token->string) == 0)
 					curr_token->type = BLANK;
 			}
 			curr_token = curr_token->next;
