@@ -16,7 +16,6 @@ void	handle_non_builtin(t_cmd *cmd, pid_t *pross_id, t_cmd *tmp)
 	if (new_env == NULL)
 		clean_exit(tmp, pross_id, 127);
 	execve(cmd->path, cmd->arg_arr, new_env);
-	printf("here\n");
 	if (stat(cmd->arg_arr[0], &file_stat) == 0)
 	{
 		ft_putstr_fd("minishell: ", 2);

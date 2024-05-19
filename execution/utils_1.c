@@ -13,6 +13,17 @@ static void	free_paths(char **paths)
 	free(paths);
 }
 
+static char *search_path_2(char *command, char **paths)
+{
+    free_paths(paths);
+    if (access(command, F_OK) == 0)
+        return (command);
+    ft_putstr_fd("minishell: ", 2);
+    ft_putstr_fd(command, 2);
+    ft_putstr_fd(": No such file or directory\n", 2);
+    return (NULL);
+}
+
 static char *search_paths(char **paths, char *command)
 {
     char *bin_path;
@@ -37,6 +48,9 @@ static char *search_paths(char **paths, char *command)
         free(tmp);
         i++;
     }
+    ft_putstr_fd("minishell: ", 2);
+    ft_putstr_fd(command, 2);
+    ft_putstr_fd(": No such file or directory\n", 2);
     free_paths(paths);
     return (NULL);
 }
@@ -45,14 +59,14 @@ char *get_path(char *command, t_env *env)
     char *path;
     char **paths;
 
-    if (command && (command[0] == '.' || command[0] == '/'))
-        return (command);
     path = my_getenv("PATH", env); // us my my_getenv
     if (path == NULL)
         return (NULL);
     paths = ft_split(path, ':');
     if (paths == NULL)
         return (NULL);
+    if (command && (command[0] == '.' || command[0] == '/'))
+        return (search_path_2(command, paths));
     return (search_paths(paths, command));
 }
 

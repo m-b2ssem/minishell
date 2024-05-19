@@ -40,12 +40,14 @@ int	main(int argc, char **argv, char **env)
 		}
 		if (parse_cmd(str, &cmd, envp, status) == 1)
 		{
-			status = 1;
-			free_list(&envp);
+			status = 2;
 			free_everything(&cmd);
 		}
-		status = execute(&cmd);
-		free_everything(&cmd);
+		else
+		{
+			status = execute(&cmd);
+			free_everything(&cmd);
+		}
 		free(str);
 	}
 	return (0);
