@@ -13,7 +13,13 @@ void	change_redir_relation(t_token *tok, int *redir)
 	if (is_type_arg(tok))
 	{
 		if (*redir == 5)
+		{
+			if (tok->type == ARG)
+				tok->expansion = 0;
+			else
+				tok->expansion = 1;
 			tok->type = DELIM;
+		}
 		else if (*redir == 6)
 			tok->type = A_FILE;
 		else if (*redir == 7)

@@ -17,7 +17,7 @@ static int redirections_in(t_cmd *cmd, t_token *token)
     {
         if (cmd->fd_in != 0)
             close(cmd->fd_in);
-        cmd->fd_in = heredoc(cmd, token->string);
+        cmd->fd_in = heredoc(cmd, token->string, token);
         if (cmd->fd_in == -1)
         {
             perror("minishell");

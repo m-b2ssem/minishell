@@ -57,15 +57,7 @@ int	parse_cmd(char *str, t_cmd **line, t_env *env, int status)
 	echo_option_checker(line);
 	create_arr_for_exec(line);
 	remove_blank_tokens_from_cmds(line);
-	if (ft_strcmp((*line)->arg_arr[0], "export") == 0
-		&& (&(*line)->arg_arr[1] != NULL
-			&& builtin_export_checker((*line)->arg_arr[1]) == 1))
-	{
-		write(2, "minishell: export: '", 20);
-		write(2, (*line)->arg_arr[1], ft_strlen((*line)->arg_arr[1]));
-		write(2, "': not a valid identifier\n", 26);
-		return (1);
-	}
+
 	// print_arr(line);
 	// print_list(line);
 	return (0);

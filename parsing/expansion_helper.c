@@ -8,6 +8,13 @@ int	is_valid_char_begin(char c)
 	return (0);
 }
 
+int	is_valid_char(char c)
+{
+	if (ft_isalpha(c) || c == '_')
+		return (1);
+	return (0);
+}
+
 int	is_valid_char_rest(char c)
 {
 	if (ft_isalnum(c) || c == '_' || c == '?')

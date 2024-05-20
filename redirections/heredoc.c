@@ -71,7 +71,7 @@ char *my_getenv(char *name, t_env *env)
     return (NULL);
 }
 
-char   *check_for_env_value(char *str, t_env *env)
+char   *check_for_env_value(char *str, t_env *env, t_token *tok)
 {
     char    *new_str;
     char    *after_doller;
@@ -103,7 +103,7 @@ char   *check_for_env_value(char *str, t_env *env)
             }
             after_doller[k] = '\0';
             var_value = my_getenv(after_doller, env);
-            if (var_value)
+            if (var_value && tok->expansion == 0)
             {
                 strcpy(&new_str[j], var_value); // replace $word with its value
                 j += strlen(var_value);
@@ -114,7 +114,7 @@ char   *check_for_env_value(char *str, t_env *env)
                 strcpy(&new_str[j], after_doller);
                 j += k;
             }
-            free(after_doller);         
+            free(after_doller);
         }
 	}
     new_str[j] = '\0';
@@ -123,7 +123,7 @@ char   *check_for_env_value(char *str, t_env *env)
 }
 
 
-int write_inside_file(t_cmd *cmd, char *word, int fd)
+int write_inside_file(t_cmd *cmd, char *word, int fd, t_token *tok)
 {
     char    *str;
 
@@ -140,7 +140,7 @@ int write_inside_file(t_cmd *cmd, char *word, int fd)
             break;
         if (str != NULL)
         {
-            str = check_for_env_value(str, cmd->env);
+            str = check_for_env_value(str, cmd->env, tok);
         }
         write(fd, str, strlen(str));
         write(fd, "\n", 1);
@@ -151,7 +151,7 @@ int write_inside_file(t_cmd *cmd, char *word, int fd)
 }
 
 
-int heredoc(t_cmd *cmd, char *word)
+int heredoc(t_cmd *cmd, char *word, t_token *tok)
 {
     int fd;
     char *file;
@@ -162,7 +162,7 @@ int heredoc(t_cmd *cmd, char *word)
     fd = open(file, O_CREAT | O_RDWR, 0644);
     if (fd == -1)
         return(free(file), -1);
-    write_inside_file(cmd ,word, fd);
+    write_inside_file(cmd, word, fd, tok);
     fd = open(file, O_RDONLY);
     if (fd == -1)
         return(free(file), -1);

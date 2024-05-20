@@ -103,7 +103,9 @@ int	builtin_export(t_cmd *cmd);
 int	builtin_env(t_env *env, t_cmd *cmd);
 int	builtin_unset(t_env **head, t_cmd *cmd);
 int	builtin_exit(t_cmd *cmd, t_cmd *tmp, pid_t *pross_id);
-int	heredoc(t_cmd *cmd, char *word);
+int	heredoc(t_cmd *cmd, char *word, t_token *tok);
+int	write_inside_file(t_cmd *cmd, char *word, int fd, t_token *tok);
+char	*check_for_env_value(char *str, t_env *env, t_token *tok);
 
 // exec
 int	execute(t_cmd **cmd1);
@@ -122,7 +124,7 @@ void	clean_exit(t_cmd *tmp, pid_t *pross_id, int status);
 int	builtin(t_cmd *cmd);
 void	signal_handler(int signum);
 int	last_exit_status(int *exit_statuses, int len);
-char	*check_for_env_value(char *str, t_env *env);
+//char	*check_for_env_value(char *str, t_env *env);
 void	free_list_tokens(t_token **head);
 int	env_len(t_env *env);
 char	**env_to_char(t_env *env);
@@ -273,6 +275,10 @@ int	is_all_whitespace(char *str);
 char	*expand_exit_status(t_token *tok, int start, int status);
 void	remove_blank_tokens_from_cmds(t_cmd **cmd_list);
 void	remove_blank_tokens(t_cmd *cmd);
+
+/*BUILTIN_EDGECASES.c*/
+int	export_checker(t_cmd *cmd);
 int	builtin_export_checker(char *arr);
+int	is_valid_char(char c);
 
 #endif
