@@ -11,6 +11,8 @@ static int	ft_isnumbers(char *str)
 		return (0);
 	if (str[i] == '-' || str[i] == '+')
 		i++;
+	if (str[i] == '\0')
+		return (0);
 	while (str[i] != '\0')
 	{
 		if (str[i] < '0' || str[i] > '9')
@@ -27,6 +29,11 @@ int	builtin_exit(t_cmd *cmd, t_cmd *tmp, pid_t *pross_id)
 	int	exit_status;
 
 	exit_status = 0;
+	if (cmd->arg_arr[1] && cmd->arg_arr[2] != NULL)
+	{
+		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
+		return (1);
+	}
 	printf("exit\n");
 	if (cmd->arg_arr[1] != NULL)
 	{
@@ -39,11 +46,6 @@ int	builtin_exit(t_cmd *cmd, t_cmd *tmp, pid_t *pross_id)
 		}
 		exit_status = ft_atoi(cmd->arg_arr[1]);
 		clean_exit(tmp, pross_id, exit_status);
-	}
-	if (cmd->arg_arr[1] && cmd->arg_arr[2] != NULL)
-	{
-		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
-		return (1);
 	}
 	clean_exit(tmp, pross_id, 0);
 	return (0);

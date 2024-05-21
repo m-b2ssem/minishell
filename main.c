@@ -8,7 +8,7 @@ int	is_all_whitespace(char *str)
 		return (0);
 	while (*str)
 	{
-		if (!is_space((unsigned char)*str))
+		if (!is_space((char)*str))
 			return (0);
 		str++;
 	}

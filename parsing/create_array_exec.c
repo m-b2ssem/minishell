@@ -6,9 +6,9 @@ void	initialize_arg_array(t_cmd *cmd)
 	t_token	*tok;
 	int		option;
 	int		i;
-	int		flag;
+	//int		flag;
 
-	flag = 0;
+	//flag = 0;
 	option = 0;
 	tok = cmd->token;
 	i = 0;
