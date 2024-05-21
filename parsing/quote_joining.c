@@ -50,12 +50,14 @@ int	assign_join_variable(t_cmd **cmd)
 	t_cmd	*curr_cmd;
 	t_token	*curr_tok;
 	t_token	*prev_tok;
+	t_token	*head_tok;
 	int		flag;
 
 	flag = 0;
 	curr_cmd = NULL;
 	curr_tok = NULL;
 	curr_cmd = *cmd;
+	head_tok = curr_cmd->token;
 	while (curr_cmd != NULL)
 	{
 		curr_tok = curr_cmd->token;
@@ -66,7 +68,7 @@ int	assign_join_variable(t_cmd **cmd)
 				&& curr_tok->string != NULL && curr_tok->string[0] != '\0'
 				&& join_quoted_helper(curr_tok))
 			{
-				if (join_quoted_helper(prev_tok))
+				if (join_quoted_helper(prev_tok) || (prev_tok->type == BUILTIN && prev_tok != head_tok))
 					prev_tok->join = 1;
 				curr_tok->join = 1;
 				flag++;
@@ -100,7 +102,6 @@ int	find_node_and_modify(char *join, t_token **tok, t_token *find)
 					curr_tok->string = join;
 					curr_tok->join = 0;
 					curr_tok->type = ARG;
-					// free(join);
 				}
 				if (curr_tok->string == NULL)
 					return (1);

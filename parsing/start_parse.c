@@ -1,36 +1,6 @@
 
 #include "../minishell.h"
 
-// int its_exit(t_cmd **line)
-// {
-// 	t_cmd *tmp = *line;
-// 	int i = 0;
-// 	int j = 0;
-// 	while (tmp->next != NULL)
-// 	{
-// 		while (tmp->arg_arr[i] != NULL)
-// 		{
-// 			if (ft_strcmp(tmp->arg_arr[i], "exit") == 0)
-// 			{
-// 				t_token *tmp_tok = tmp->token;
-// 				while (tmp_tok != NULL)
-// 				{
-// 					j++;
-// 					tmp_tok = tmp_tok->next;
-// 				}
-// 				if (j > 1)
-// 				{
-// 					i++;
-// 					tmp->arg_arr[i] = ft_strdup("jallo");
-// 				}
-// 			}
-// 			i++;
-// 		}
-
-// 	}
-// 	return (0);
-// }
-
 int	parse_cmd(char *str, t_cmd **line, t_env *env, int status)
 {
 	char	**arr;
@@ -55,10 +25,39 @@ int	parse_cmd(char *str, t_cmd **line, t_env *env, int status)
 	join_quoted_strings(line);
 	redirection_usage(line);
 	echo_option_checker(line);
-	create_arr_for_exec(line);
+	// handle_expansion_edgecase(line);
 	remove_blank_tokens_from_cmds(line);
-
-	// print_arr(line);
-	// print_list(line);
+	create_arr_for_exec(line);
+	//print_list(line);
 	return (0);
+}
+
+void	handle_expansion_edgecase(t_cmd **line)
+{
+	t_cmd	*curr_cmd;
+	t_token	*curr_tok;
+	t_token	*prev;
+	int		here;
+
+	here = 0;
+	curr_cmd = *line;
+	while (curr_cmd != NULL)
+	{
+		curr_tok = curr_cmd->token;
+		prev = NULL;
+		while (curr_tok != NULL)
+		{
+			if (curr_tok->string != NULL && curr_tok->type == HERE_DOC)
+				here = 1;
+			else if (here && curr_tok->string != NULL
+				&& (curr_tok->type == S_QUOTE || curr_tok->type == D_QUOTE)
+				&& prev != NULL && prev->type == ARG)
+			{
+				prev->type = curr_tok->type;
+			}
+			prev = curr_tok;
+			curr_tok = curr_tok->next;
+		}
+		curr_cmd = curr_cmd->next;
+	}
 }

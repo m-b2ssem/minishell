@@ -101,11 +101,6 @@ void	possible_expansion(t_cmd **cmd, t_token *tok, int status)
 		return ;
 	while (i < size)
 	{
-		// if (tok->string[i] && tok->string[i] != '$')
-		// {
-		// 	i++;
-		// 	continue ;
-		// }
 		while (tok->string[i] && tok->string[i] != '$')
 			i++;
 		if (tok->string[i] != '$')
@@ -202,9 +197,12 @@ int	remove_lone_dollars(t_cmd **line)
 				flag = 1;
 			else if (curr_token->string != NULL)
 			{
-				if (ft_strcmp(curr_token->string, "$") == 0)
+				if (!flag && ft_strcmp(curr_token->string, "$") == 0
+					&& curr_token->type == ARG)
 					curr_token->type = BLANK;
-				else if (ft_strlen(curr_token->string) == 0 && !flag)
+				else if (!flag && ft_strlen(curr_token->string) == 0
+					&& (curr_token->type == D_QUOTE
+						|| curr_token->type == S_QUOTE))
 					curr_token->type = BLANK;
 			}
 			curr_token = curr_token->next;

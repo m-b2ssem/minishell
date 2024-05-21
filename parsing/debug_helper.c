@@ -13,9 +13,9 @@ void	print_list(t_cmd **head)
 		tok = cmd->token;
 		while (tok != NULL)
 		{
-			printf("\tTOK:%s\n", tok->string);
+			printf("\tTOK:-%s-\n", tok->string);
 			printf("\tTYPE: %d\n", tok->type);
-			// printf("\tJOIN: %d\n", tok->join);
+			//printf("\tJOIN: %d\n", tok->join);
 			tok = tok->next;
 		}
 		cmd = cmd->next;
@@ -39,6 +39,7 @@ void	print_arr(t_cmd **cmd)
 				printf("\t%s\n", curr->arg_arr[i]);
 				i++;
 			}
+
 		}
 		curr = curr->next;
 	}
@@ -55,7 +56,7 @@ void	remove_blank_tokens(t_cmd *cmd)
 	prev = NULL;
 	while (current != NULL)
 	{
-		if (current->type == BLANK)
+		if (current->type == BLANK || current->type == NON)
 		{
 			to_delete = current;
 			if (prev == NULL)

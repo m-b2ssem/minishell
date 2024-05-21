@@ -124,7 +124,7 @@ void	clean_exit(t_cmd *tmp, pid_t *pross_id, int status);
 int	builtin(t_cmd *cmd);
 void	signal_handler(int signum);
 int	last_exit_status(int *exit_statuses, int len);
-//char	*check_for_env_value(char *str, t_env *env);
+// char	*check_for_env_value(char *str, t_env *env);
 void	free_list_tokens(t_token **head);
 int	env_len(t_env *env);
 char	**env_to_char(t_env *env);
@@ -280,5 +280,7 @@ void	remove_blank_tokens(t_cmd *cmd);
 int	export_checker(t_cmd *cmd);
 int	builtin_export_checker(char *arr);
 int	is_valid_char(char c);
+
+void	handle_expansion_edgecase(t_cmd **line);
 
 #endif
