@@ -22,9 +22,28 @@ static void	free_paths(char **paths)
 
 static char	*search_path_2(char *command, char **paths)
 {
-	free_paths(paths);
-	if (access(command, F_OK) == 0)
+	char	*tmp;
+	int		i;
+
+	if ( command[0] == '.' || command[1] == '/')
+	{
 		return (command);
+	}
+	i = 0;
+	while (paths[i] != NULL)
+	{
+		tmp = ft_strjoin(paths[i], command);
+		if (tmp == NULL)
+			return (free_paths(paths), NULL);
+		if (access(tmp, F_OK) == 0)
+		{
+			free_paths(paths);
+			return (tmp);
+		}
+		free(tmp);
+		i++;
+	}
+	free_paths(paths);
 	printf_error(command);
 	return (NULL);
 }
@@ -62,7 +81,8 @@ char	*get_path(char *command, t_env *env)
 {
 	char	*path;
 	char	**paths;
-
+	if (command == NULL)
+		return (NULL);
 	path = my_getenv("PATH", env);
 	if (path == NULL)
 		return (printf_error(command), NULL);

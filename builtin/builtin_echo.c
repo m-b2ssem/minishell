@@ -1,10 +1,9 @@
 #include "../minishell.h"
 
-
 int	builtin_echo(t_cmd *cmd)
 {
-	int checker;
-	int i;
+	int	checker;
+	int	i;
 
 	checker = 1;
 	i = 1;
@@ -15,12 +14,16 @@ int	builtin_echo(t_cmd *cmd)
 	}
 	while (cmd->arg_arr[i])
 	{
-		printf("%s", cmd->arg_arr[i]);
+		write(cmd->fd_out, cmd->arg_arr[i], ft_strlen(cmd->arg_arr[i]));
 		if (cmd->arg_arr[i + 1])
-			printf(" ");
+		{
+			write(cmd->fd_out, " ", 1);
+		}
 		i++;
 	}
 	if (checker)
-		printf("\n");
+	{
+		write(cmd->fd_out, "\n", 1);
+	}
 	return (0);
 }

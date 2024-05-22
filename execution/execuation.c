@@ -12,8 +12,6 @@ void	handle_non_builtin(t_cmd *cmd, pid_t *pross_id, t_cmd *tmp)
 	{
 		clean_exit(tmp, pross_id, 127);
 	}
-	// if (permission_denied(cmd->path))
-	// 	clean_exit(tmp, pross_id, 126);
 	new_env = env_to_char(cmd->env);
 	if (new_env == NULL)
 		clean_exit(tmp, pross_id, 127);
