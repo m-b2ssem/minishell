@@ -162,6 +162,7 @@ int heredoc(t_cmd *cmd, char *word, t_token *tok)
     fd = open(file, O_CREAT | O_RDWR, 0644);
     if (fd == -1)
         return(free(file), -1);
+    heredoc_signals();
     write_inside_file(cmd, word, fd, tok);
     fd = open(file, O_RDONLY);
     if (fd == -1)

@@ -1,6 +1,7 @@
 
 #include "minishell.h"
 
+extern int g_signal;
 
 int	is_all_whitespace(char *str)
 {

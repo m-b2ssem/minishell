@@ -56,24 +56,31 @@ static int redirections_out(t_cmd *cmd, t_token *token)
 }
 
 
-int redirections(t_cmd *cmd)
+int redirections(t_cmd **cmd_first)
 {
     t_token *tmp;
+    t_cmd   *cmd;
 
-    tmp = cmd->token;
-    while (tmp)
+    cmd = *cmd_first;
+    
+    while (cmd != NULL)
     {
-        if (tmp->type == REDIR_IN || tmp->type == DELIM)
+        tmp = cmd->token;
+        while (tmp != NULL)
         {
-            if (redirections_in(cmd, tmp))
-                return (1);
+            if (tmp->type == REDIR_IN || tmp->type == DELIM)
+            {
+                if (redirections_in(cmd, tmp))
+                    return (1);
+            }
+            if (tmp->type == REDIR_OUT || tmp->type == APPEND)
+            {
+                if (redirections_out(cmd, tmp))
+                    return (1);
+            }
+            tmp = tmp->next;
         }
-        if (tmp->type == REDIR_OUT || tmp->type == APPEND)
-        {
-            if (redirections_out(cmd, tmp))
-                return (1);
-        }
-        tmp = tmp->next;
+        cmd = cmd->next;
     }
     return (0);
 }

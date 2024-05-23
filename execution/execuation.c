@@ -62,10 +62,6 @@ void	loop_inside_execute(t_cmd *cmd, pid_t *pross_id, t_cmd *tmp)
 		if (pross_id[i] == 0)
 		{
 			child_signal();
-			if (redirections(cmd))
-			{
-				clean_exit(tmp, pross_id, 126);
-			}
 			dup2(cmd->fd_in, STDIN_FILENO);
 			dup2(cmd->fd_out, STDOUT_FILENO);
 			close_fd(tmp);
@@ -96,11 +92,11 @@ int	execute(t_cmd **cmd1)
 	pross_ids = ft_calloc(cmd_lenth(cmd), sizeof(pid_t));
 	if (!pross_ids)
 		return (10);
-	res = piping(cmd);
+	res = piping(cmd1);
 	if (res)
-		return (free(pross_ids), 11); // check which value you should return.
+		return (free(pross_ids), res); // check which value you should return.
 	if (builtin(cmd) && cmd_lenth(cmd) == 1)
-		return (one_operation(cmd, tmp, pross_ids) + g_signal);
+		return (one_operation(cmd, tmp, pross_ids));
 	else
 		loop_inside_execute(cmd, pross_ids, tmp);
 	parent_signals(); // check

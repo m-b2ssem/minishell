@@ -1,6 +1,8 @@
 
 #include "../minishell.h"
 
+extern int g_signal;
+
 char	*create_expansion(t_env *curr, char *org, int start, char *tmp)
 {
 	int		new_size;
@@ -147,7 +149,8 @@ char	*expand_exit_status(t_token *tok, int start, int status)
 	j = 0;
 	expand = NULL;
 	org = tok->string;
-	s = ft_itoa(status);
+	s = ft_itoa(status + g_signal);
+	g_signal = 0;
 	i = 0;
 	new_size = 0;
 	new_start = 0;

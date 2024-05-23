@@ -36,7 +36,7 @@ static int  setup_pipe(t_cmd *cmd, int **pipefd, int index)
     return (0);
 }
 
-int piping(t_cmd *cmd)
+int piping(t_cmd **cmd)
 {
     t_cmd   *tmp;
     int     **pipefd;
@@ -44,8 +44,8 @@ int piping(t_cmd *cmd)
     int     len;
 
     index = 0;
-    tmp = cmd;
-    len = cmd_lenth(cmd);
+    tmp = *cmd;
+    len = cmd_lenth(tmp);
     pipefd = malloc(sizeof(int *) * (len + 1));
     if (!pipefd)
         return (5);
@@ -61,5 +61,7 @@ int piping(t_cmd *cmd)
         index++;
     }
     free_pipe(pipefd);
+    if (redirections(cmd))
+        return (2);
     return (0);
 }

@@ -88,8 +88,6 @@ int	one_operation(t_cmd *cmd, t_cmd *tmp, pid_t *pross_ids)
 	int	status;
 
 	status = 0;
-	heredoc_signals();
-	redirections(cmd);
 	status = custom_exe(cmd, tmp, pross_ids);
 	close_fd(tmp);
 	free(pross_ids);

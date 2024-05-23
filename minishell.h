@@ -95,7 +95,7 @@ typedef struct s_cmd
 	struct s_cmd *next;
 } t_cmd;
 
-int	redirections(t_cmd *cmd);
+int	redirections(t_cmd **cmd);
 int	builtin_pwd(void);
 int	builtin_cd(t_cmd *cmd);
 int	builtin_echo(t_cmd *cmd);
@@ -111,7 +111,7 @@ char	*check_for_env_value(char *str, t_env *env, t_token *tok);
 int	execute(t_cmd **cmd1);
 int	custom_exe(t_cmd *cmd, t_cmd *tmp, pid_t *pross_id);
 void	custom_exe_on_child(t_cmd *cmd, pid_t *pross_id, t_cmd *tmp);
-int	piping(t_cmd *cmd);
+int	piping(t_cmd **cmd);
 int	join_quoted_helper(t_token *curr_tok);
 
 // utils
