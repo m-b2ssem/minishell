@@ -118,10 +118,13 @@ int	return_value(char *arg, char **value)
 		(*value)[j + 1] = '\0';
 		return (export);
 	}
-	i++;
-	while (arg[i] != '\0')
+	if (arg[i] == '=')
 	{
 		export = 1;
+		i++;
+	}
+	while (arg[i] != '\0')
+	{
 		(*value)[j] = arg[i];
 		i++;
 		j++;
