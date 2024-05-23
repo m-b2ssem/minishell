@@ -29,6 +29,10 @@ static char	*search_path_2(char *command, char **paths)
 	{
 		return (command);
 	}
+	if (access(command, F_OK) == 0)
+	{
+		return (free_paths(paths),command);
+	}
 	i = 0;
 	while (paths[i] != NULL)
 	{
