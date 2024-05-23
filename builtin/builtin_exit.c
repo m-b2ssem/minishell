@@ -1,7 +1,5 @@
 #include "../minishell.h"
 
-extern int	exit_status;
-
 static int	ft_isnumbers(char *str)
 {
 	int	i;

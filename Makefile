@@ -5,8 +5,8 @@ LIBFT =	library/libft/libft.a
 GETNEXTLINE = 	library/get_next_line/getnextline.a
 SRC =	main.c redirections/redirections.c redirections/heredoc.c \
 		builtin/builtin_pwd.c builtin/builtin_cd.c builtin/builtin_echo.c builtin/builtin_export.c builtin/builtin_env.c \
-		builtin/builtin_unset.c builtin/builtin_exit.c \
-		execution/execuation.c execution/piping.c execution/signals.c execution/utils_1.c execution/utils_2.c execution/utils_3.c \
+		builtin/builtin_unset.c builtin/builtin_exit.c builtin/export_utils.c\
+		execution/execuation.c execution/piping.c execution/signals.c execution/utils_1.c execution/utils_2.c execution/utils_3.c execution/utils_4.c\
 		environment/env_list.c \
 		parsing/start_parse.c parsing/start_parse_checker.c parsing/split_cmd.c parsing/create_array_exec.c parsing/debug_helper.c \
 		parsing/expansion.c parsing/free_shell.c parsing/expansion_helper.c \

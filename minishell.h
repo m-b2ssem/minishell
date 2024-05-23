@@ -95,7 +95,7 @@ typedef struct s_cmd
 	struct s_cmd *next;
 } t_cmd;
 
-int	redirections(t_cmd **cmd);
+int	redirections(t_cmd **cmd_first, int **pipefd);
 int	builtin_pwd(void);
 int	builtin_cd(t_cmd *cmd);
 int	builtin_echo(t_cmd *cmd);
@@ -124,7 +124,12 @@ void	clean_exit(t_cmd *tmp, pid_t *pross_id, int status);
 int	builtin(t_cmd *cmd);
 void	signal_handler(int signum);
 int	last_exit_status(int *exit_statuses, int len);
-// char	*check_for_env_value(char *str, t_env *env);
+void	print_export(t_env *temp);
+void	update_value(t_cmd *cmd, char *name, char *value, int export);
+void	return_name(char *arg, char **name);
+int	search_if_variable_exist(t_cmd *cmd, char *name);
+void	swap(t_env *a, t_env *b);
+int	allocate_memory(char *name, char *value, t_cmd *cmd);
 void	free_list_tokens(t_token **head);
 int	env_len(t_env *env);
 char	**env_to_char(t_env *env);
@@ -137,8 +142,8 @@ void	child_signal(void);
 void	signal_handler_1(int signum);
 void	parent_signals(void);
 void	sig_ign(void);
-void	herdoc_handler(int signum);
 void	heredoc_signals(void);
+void	herdoc_handler(int signum);
 
 int	free_list(t_env **head);
 t_env	*lst_last(t_env *lst);

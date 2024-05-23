@@ -1,5 +1,16 @@
 #include "../minishell.h"
 
+int	allocate_memory(char *name, char *value, t_cmd *cmd)
+{
+	name = ft_calloc(sizeof(char), (strlen(cmd->arg_arr[1]) + 1));
+	if (!name)
+		return (1);
+	value = ft_calloc(sizeof(char), (strlen(cmd->arg_arr[1]) + 1));
+	if (!value)
+		return (free(name), 1);
+	return (0);
+}
+
 int	builtin_echo(t_cmd *cmd)
 {
 	int	checker;
