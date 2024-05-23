@@ -1,6 +1,7 @@
 
 #include "../minishell.h"
 
+
 int	join_redir_helper(t_token *token)
 {
 	if (token->type == BLANK || token->type == REDIR_IN
@@ -20,11 +21,8 @@ int	join_quoted_helper(t_token *curr_tok)
 
 int	find_and_modify_unused_nodes(t_token *tok)
 {
-	t_token	*prev;
-	t_token	*tmp;
+	t_token *tmp;
 
-	(void)prev;
-	prev = NULL;
 	tmp = tok;
 	if (tmp == NULL)
 		return (1);

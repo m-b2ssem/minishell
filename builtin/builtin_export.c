@@ -212,6 +212,10 @@ int	builtin_export(t_cmd *cmd)
 		{
 			printf("declare -x %s=\"%s\"\n", temp->name, temp->value);
 		}
+		else if (temp->export == 0)
+		{
+			printf("declare -x %s\n", temp->name);
+		}
 		temp = temp->next;
 	}
 	free_list(&head);

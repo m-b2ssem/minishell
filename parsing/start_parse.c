@@ -4,7 +4,7 @@
 
 int	parse_cmd(char *str, t_cmd **line, t_env *env, int status)
 {
-	char	**arr;
+	char **arr;
 
 	if (first_string_checks(str) == 1)
 		return (1);
@@ -29,16 +29,15 @@ int	parse_cmd(char *str, t_cmd **line, t_env *env, int status)
 	// handle_expansion_edgecase(line);
 	remove_blank_tokens_from_cmds(line);
 	create_arr_for_exec(line);
-	//print_list(line);
 	return (0);
 }
 
 void	handle_expansion_edgecase(t_cmd **line)
 {
-	t_cmd	*curr_cmd;
-	t_token	*curr_tok;
-	t_token	*prev;
-	int		here;
+	t_cmd *curr_cmd;
+	t_token *curr_tok;
+	t_token *prev;
+	int here;
 
 	here = 0;
 	curr_cmd = *line;

@@ -203,10 +203,10 @@ int	remove_lone_dollars(t_cmd **line)
 				if (!flag && ft_strcmp(curr_token->string, "$") == 0
 					&& curr_token->type == ARG)
 					curr_token->type = BLANK;
-				else if (!flag && ft_strlen(curr_token->string) == 0
-					&& (curr_token->type == D_QUOTE
-						|| curr_token->type == S_QUOTE))
-					curr_token->type = BLANK;
+				// else if (!flag && ft_strlen(curr_token->string) == 0
+				// 	&& (curr_token->type == D_QUOTE
+				// 		|| curr_token->type == S_QUOTE))
+				// 	curr_token->type = BLANK;
 			}
 			curr_token = curr_token->next;
 		}

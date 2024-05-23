@@ -1,12 +1,13 @@
 
 #include "../minishell.h"
 
+
 char	*join_strings(t_token **head)
 {
-	char	*new;
-	int		total_len;
-	t_token	*curr_tok;
-	t_token	*prev_tok;
+	char *new;
+	int total_len;
+	t_token *curr_tok;
+	t_token *prev_tok;
 
 	total_len = 0;
 	curr_tok = *head;
@@ -37,7 +38,8 @@ char	*join_strings(t_token **head)
 				return (NULL);
 			new = strcat(new, "");
 		}
-		else if (prev_tok != NULL && prev_tok->join == 1 && curr_tok->join == 0)
+		else if (prev_tok != NULL && prev_tok->join == 1
+			&& curr_tok->join == 0)
 			break ;
 		prev_tok = curr_tok;
 		curr_tok = curr_tok->next;
@@ -47,11 +49,11 @@ char	*join_strings(t_token **head)
 
 int	assign_join_variable(t_cmd **cmd)
 {
-	t_cmd	*curr_cmd;
-	t_token	*curr_tok;
-	t_token	*prev_tok;
-	t_token	*head_tok;
-	int		flag;
+	t_cmd *curr_cmd;
+	t_token *curr_tok;
+	t_token *prev_tok;
+	t_token *head_tok;
+	int flag;
 
 	flag = 0;
 	curr_cmd = NULL;
@@ -65,10 +67,10 @@ int	assign_join_variable(t_cmd **cmd)
 		while (curr_tok != NULL)
 		{
 			if (prev_tok != NULL && !join_redir_helper(prev_tok)
-				&& curr_tok->string != NULL && curr_tok->string[0] != '\0'
-				&& join_quoted_helper(curr_tok))
+				&& curr_tok->string != NULL && join_quoted_helper(curr_tok))
 			{
-				if (join_quoted_helper(prev_tok) || (prev_tok->type == BUILTIN && prev_tok != head_tok))
+				if (join_quoted_helper(prev_tok) || (prev_tok->type == BUILTIN
+						&& prev_tok != head_tok))
 					prev_tok->join = 1;
 				curr_tok->join = 1;
 				flag++;
@@ -83,16 +85,17 @@ int	assign_join_variable(t_cmd **cmd)
 
 int	find_node_and_modify(char *join, t_token **tok, t_token *find)
 {
-	t_token	*curr_tok;
-	t_token	*tmp_find;
+	t_token *curr_tok;
+	t_token *tmp_find;
 
 	curr_tok = *tok;
 	tmp_find = find;
+
 	while (curr_tok != NULL)
 	{
 		if (curr_tok == tmp_find)
 		{
-			if (curr_tok->next != NULL && curr_tok->next->string[0] != '\0')
+			if (curr_tok->next != NULL)
 			{
 				if (join == NULL)
 					return (1);
@@ -114,10 +117,10 @@ int	find_node_and_modify(char *join, t_token **tok, t_token *find)
 
 int	join_quoted_strings(t_cmd **head)
 {
-	char	*new;
-	t_token	*first;
-	t_cmd	*curr_cmd;
-	t_token	*curr_tok;
+	char *new;
+	t_token *first;
+	t_cmd *curr_cmd;
+	t_token *curr_tok;
 
 	new = NULL;
 	first = NULL;
