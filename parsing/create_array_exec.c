@@ -4,49 +4,62 @@
 void	initialize_arg_array(t_cmd *cmd)
 {
 	t_token	*tok;
+	int		option;
 	int		i;
+	//int		flag;
 
-	tok = NULL;
-	i = 0;
+	//flag = 0;
+	option = 0;
 	tok = cmd->token;
+	i = 0;
 	while (tok != NULL)
 	{
-		if (tok->type == ARG || tok->type == BUILTIN || tok->type == D_QUOTE
-			|| tok->type == S_QUOTE)
+		while (tok != NULL && tok->type == BLANK)
+			tok = tok->next;
+		while (tok != NULL)
 		{
-			cmd->arg_arr[i] = tok->string;
-			i++;
+			if (tok->type == BUILTIN || tok->type == ARG || tok->type == D_QUOTE
+				|| tok->type == S_QUOTE)
+			{
+				cmd->arg_arr[i++] = tok->string;
+				option = 0;
+			}
+			else if (tok->type == OPTION && !option)
+			{
+				option = 1;
+				cmd->arg_arr[i++] = tok->string;
+			}
+			tok = tok->next;
 		}
-		tok = tok->next;
 	}
 	cmd->arg_arr[i] = NULL;
 }
 
-int	count_arg(t_cmd *line)
+int	count_arg(t_cmd *cmd)
 {
 	t_token	*tok;
 	int		size;
 
 	size = 0;
-	tok = line->token;
+	tok = cmd->token;
 	while (tok != NULL)
 	{
 		if (tok->type == ARG || tok->type == BUILTIN || tok->type == D_QUOTE
-			|| tok->type == S_QUOTE)
+			|| tok->type == S_QUOTE || tok->type == OPTION)
 			size++;
-		tok = tok->next;
+		tok = tok->next;  
 	}
-	return (0);
+	return (size);
 }
 
 int	create_arr_for_exec(t_cmd **line)
 {
 	t_cmd	*curr_cmd;
-	int		size;
 	char	**arg_arr;
+	int		size;
 
-	curr_cmd = NULL;
 	size = 0;
+	curr_cmd = NULL;
 	arg_arr = NULL;
 	curr_cmd = *line;
 	while (curr_cmd != NULL)

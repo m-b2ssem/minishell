@@ -1,22 +1,22 @@
 #include "../minishell.h"
 
-int close_fd(t_cmd *cmd)
+int	close_fd(t_cmd *cmd)
 {
-    t_cmd   *cur;
+	t_cmd	*cur;
 
-    cur = cmd;
-    while (cur)
-    {
-        if (cur->fd_in != 0)
-            close(cur->fd_in);
-        if (cur->fd_out != 1)
-            close(cur->fd_out);
-        cur = cur->next;
-    }
-    return (0);
+	cur = cmd;
+	while (cur)
+	{
+		if (cur->fd_in != 0)
+			close(cur->fd_in);
+		if (cur->fd_out != 1)
+			close(cur->fd_out);
+		cur = cur->next;
+	}
+	return (0);
 }
 
-int env_len(t_env *env)
+int	env_len(t_env *env)
 {
 	int		len;
 	t_env	*tmp;
@@ -75,7 +75,7 @@ int	custom_exe(t_cmd *cmd, t_cmd *tmp, pid_t *pross_id)
 	if (ft_strcmp("export", cmd->arg_arr[0]) == 0)
 		status = builtin_export(cmd);
 	if (ft_strcmp("env", cmd->arg_arr[0]) == 0)
-		status = builtin_env(cmd->env);
+		status = builtin_env(cmd->env, cmd);
 	if (ft_strcmp("unset", cmd->arg_arr[0]) == 0)
 		status = builtin_unset(&cmd->env, cmd);
 	if (ft_strcmp("exit", cmd->arg_arr[0]) == 0)
@@ -88,7 +88,6 @@ int	one_operation(t_cmd *cmd, t_cmd *tmp, pid_t *pross_ids)
 	int	status;
 
 	status = 0;
-	redirections(cmd);
 	status = custom_exe(cmd, tmp, pross_ids);
 	close_fd(tmp);
 	free(pross_ids);

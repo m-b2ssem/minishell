@@ -1,23 +1,40 @@
 #include "../minishell.h"
 
-int builtin_echo(t_cmd *cmd)
+int	allocate_memory(char *name, char *value, t_cmd *cmd)
 {
-    int checker;
-    int i;
+	name = ft_calloc(sizeof(char), (strlen(cmd->arg_arr[1]) + 1));
+	if (!name)
+		return (1);
+	value = ft_calloc(sizeof(char), (strlen(cmd->arg_arr[1]) + 1));
+	if (!value)
+		return (free(name), 1);
+	return (0);
+}
 
-    checker = 1;
-    i = 1;
-    if (cmd->arg_arr[i] && ft_strcmp(cmd->arg_arr[i], "-n") == 0)
-    {
-        checker = 0;
-        i++;
-    }
-    while (cmd->arg_arr[i])
-    {
-        printf("%s", cmd->arg_arr[i]);
-        i++;
-    }
-    if (checker)
-        printf("\n");
-    return (0);
+int	builtin_echo(t_cmd *cmd)
+{
+	int	checker;
+	int	i;
+
+	checker = 1;
+	i = 1;
+	if (cmd->arg_arr[i] && ft_strcmp(cmd->arg_arr[i], "-n") == 0)
+	{
+		checker = 0;
+		i++;
+	}
+	while (cmd->arg_arr[i])
+	{
+		write(cmd->fd_out, cmd->arg_arr[i], ft_strlen(cmd->arg_arr[i]));
+		if (cmd->arg_arr[i + 1])
+		{
+			write(cmd->fd_out, " ", 1);
+		}
+		i++;
+	}
+	if (checker)
+	{
+		write(cmd->fd_out, "\n", 1);
+	}
+	return (0);
 }

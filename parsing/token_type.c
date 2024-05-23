@@ -40,7 +40,8 @@ void	token_type(t_token *tok)
 	else if (tok->string[0] == '\'' && tok->string[ft_strlen(tok->string)
 		- 1] == '\'')
 		tok->type = S_QUOTE;
-	else if (tok->string[0] == ' ' && tok->string[1] == '\0')
+	else if ((tok->string[0] == ' ' && tok->string[1] == '\0')
+		|| (tok->string[0] == '\t' && tok->string[1] == '\0'))
 		tok->type = BLANK;
 	else if (ft_strlen(tok->string) != 0 && tok->type == NON)
 		tok->type = ARG;

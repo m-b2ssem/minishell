@@ -35,6 +35,7 @@ void	init_node_tokens(t_token *new)
 {
 	new->string = NULL;
 	new->join = 0;
+	new->expansion = 0;
 	new->next = NULL;
 	new->type = NON;
 }

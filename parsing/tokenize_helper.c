@@ -1,5 +1,16 @@
 #include "../minishell.h"
 
+t_quote_status	get_quote_status(char c, t_quote_status stat)
+{
+	if (c == '\'' && stat != SINGLE && stat != DOUBLE)
+		stat = SINGLE;
+	else if (c == '"' && stat != DOUBLE && stat != SINGLE)
+		stat = DOUBLE;
+	else if ((c == '\'' && stat == SINGLE) || (c == '"' && stat == DOUBLE))
+		stat = NO_QUOTE;
+	return (stat);
+}
+
 void	get_string_in_quotes(char *str, int *i)
 {
 	t_quote_status	stat;
@@ -38,4 +49,3 @@ void	get_arguments(char *str, int *i)
 		(*i)++;
 	}
 }
-

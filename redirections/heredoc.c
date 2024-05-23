@@ -1,75 +1,78 @@
 #include "../minishell.h"
 
-int random_char(void)
+extern sig_atomic_t	g_signal;
+
+int	random_char(void)
 {
+	char	tmp[4];
+	int		c;
+	int		fd;
 
-    char tmp[4];
-    int c;
-    int fd;
-
-    fd = open("/dev/urandom", O_RDONLY);
-    if (fd == -1)
-        return (-1);
-    if (read(fd, tmp, 4) != 4)
-    {
-        close(fd);
-        return (-1);
-    }
-    close(fd);
-    c = *((int*)tmp);
-    if (c < 0)
-        c = -c;
-    c = c % 52;
-    if (c < 26)
-        return ('a' + c);
-    else
-        return ('A' + c - 26);
+	fd = open("/dev/urandom", O_RDONLY);
+	c = 0;
+	if (fd == -1)
+		return (-1);
+	if (read(fd, tmp, 4) != 4)
+	{
+		close(fd);
+		return (-1);
+	}
+	close(fd);
+	c = *((int *)tmp);
+	if (c < 0)
+		c = -c;
+	c = c % 52;
+	if (c < 26)
+		return ('a' + c);
+	else
+		return ('A' + c - 26);
 }
 
-char *random_name(void)
+char	*random_name(void)
 {
-    char    *file;
-    int     i;
-    int     c;
+	char	*file;
+	int		i;
+	int		c;
 
-    i = 0;
-    c = 0;
-    file = malloc(sizeof(char) * 31);
-    if (!file)
-        return (NULL);
-    while (i < 30)
-    {
-        c = random_char();
-        if (c == -1)
-        {
-            free(file);
-            return (NULL);
-        }
-        file[i] = c;
-        i++;
-    }
-    file[30] = '\0';
-    return (file);
+	i = 0;
+	c = 0;
+	file = malloc(sizeof(char) * 31);
+	if (!file)
+		return (NULL);
+	while (i < 30)
+	{
+		c = random_char();
+		if (c == -1)
+		{
+			free(file);
+			return (NULL);
+		}
+		file[i] = c;
+		i++;
+	}
+	file[30] = '\0';
+	return (file);
 }
 
-char *my_getenv(char *name, t_env *env)
+char	*my_getenv(char *name, t_env *env)
 {
-    t_env *tmp;
+	t_env	*tmp;
+	int		len;
 
-    tmp = env;
-    int len = strlen(name);
-    while (tmp->next != NULL)
-    {
-        if (strncmp(tmp->name, name, len) == 0 &&  tmp->export == 1)
-        {
-            return (tmp->value);
-        }
-        tmp = tmp->next;
-    }
-    return (NULL);
+	tmp = env;
+	len = strlen(name);
+	while (tmp->next != NULL)
+	{
+		if (strncmp(tmp->name, name, len) == 0 &&  tmp->export == 1)
+		{
+			return (tmp->value);
+		}
+		tmp = tmp->next;
+	}
+	return (NULL);
 }
 
-char   *check_for_env_value(char *str, t_env *env)
+char   *check_for_env_value(char *str, t_env *env, t_token *tok)
 {
     char    *new_str;
     char    *after_doller;
@@ -101,7 +104,7 @@ char   *check_for_env_value(char *str, t_env *env)
             }
             after_doller[k] = '\0';
             var_value = my_getenv(after_doller, env);
-            if (var_value)
+            if (var_value && tok->expansion == 0)
             {
                 strcpy(&new_str[j], var_value); // replace $word with its value
                 j += strlen(var_value);
@@ -112,7 +115,7 @@ char   *check_for_env_value(char *str, t_env *env)
                 strcpy(&new_str[j], after_doller);
                 j += k;
             }
-            free(after_doller);         
+            free(after_doller);
         }
 	}
     new_str[j] = '\0';
@@ -120,55 +123,55 @@ char   *check_for_env_value(char *str, t_env *env)
 	return (new_str);
 }
 
-
-int write_inside_file(t_cmd *cmd, char *word, int fd)
+int	write_inside_file(t_cmd *cmd, char *word, int fd, t_token *tok)
 {
-    char    *str;
+	char	*str;
 
-    str = NULL;
-    while (1)
-    {
-        str = readline(">");
-        if (str == NULL)
-        {
-            return (-1);
-        }
-        if (strcmp(word, str) == 0)
-            break;
-        if (str != NULL)
-        {
-            str = check_for_env_value(str, cmd->env);
-        }
-        write(fd, str, strlen(str));
-        write(fd, "\n", 1);
-        free(str);
-    }
-    free(str);
-    return (0);
+	str = NULL;
+	while (1)
+	{
+		str = readline(">");
+		if (str == NULL || g_signal == 130)
+		{
+			g_signal = 0;
+			return (-1);
+		}
+		if (strcmp(word, str) == 0)
+			break ;
+		if (str != NULL)
+		{
+			str = check_for_env_value(str, cmd->env, tok);
+		}
+		write(fd, str, strlen(str));
+		write(fd, "\n", 1);
+		free(str);
+	}
+	free(str);
+	return (0);
 }
 
-
-int heredoc(t_cmd *cmd, char *word)
+int	heredoc(t_cmd *cmd, char *word, t_token *tok)
 {
-    int fd;
-    char *file;
+	int		fd;
+	char	*file;
 
-    file = random_name();
-    if (!file)
-        return -1;
-    fd = open(file, O_CREAT | O_RDWR, 0644);
-    if (fd == -1)
-        return(free(file), -1);
-    write_inside_file(cmd ,word, fd);
-    fd = open(file, O_RDONLY);
-    if (fd == -1)
-        return(free(file), -1);
-    cmd->fd_in = fd;
-    if (unlink(file) == -1)
-    {
-        printf("there is an error deleting the file\n");
-        return(-1);
-    }
-    cmd->file = file;
-    return (fd);
+	file = random_name();
+	if (!file)
+		return (-1);
+	fd = open(file, O_CREAT | O_RDWR, 0644);
+	if (fd == -1)
+		return (free(file), -1);
+	heredoc_signals();
+	write_inside_file(cmd, word, fd, tok);
+	fd = open(file, O_RDONLY);
+	if (fd == -1)
+		return (free(file), -1);
+	cmd->fd_in = fd;
+	if (unlink(file) == -1)
+	{
+		ft_putstr_fd("there is an error deleting the file\n", 2);
+		return (-1);
+	}
+	cmd->file = file;
+	return (fd);
 }

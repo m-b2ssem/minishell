@@ -1,88 +1,63 @@
 
 #include "../minishell.h"
 
-void	print_arr(t_cmd **cmd)
-{
-	t_cmd	*curr;
-	int		i;
 
-	curr = *cmd;
-	i = 0;
-	while (curr != NULL)
+int	parse_cmd(char *str, t_cmd **line, t_env *env, int status)
+{
+	char **arr;
+
+	if (first_string_checks(str) == 1)
+		return (1);
+	arr = ft_split_cmd(str, '|');
+	if (arr == NULL || arr[0] == NULL)
+		return (1);
+	initialize_arguments(line, arr, env);
+	iterate_through_cmd_args(line);
+	decide_token_type(line);
+	if (redirection_spell_check(line) == 1)
 	{
-		if (curr->arg_arr)
+		ft_putstr_fd(REDIR, 2);
+		return (1);
+	}
+	search_quotes_modify(line);
+	handle_backslash(line);
+	handle_expansion(line, status);
+	remove_lone_dollars(line);
+	join_quoted_strings(line);
+	redirection_usage(line);
+	echo_option_checker(line);
+	//handle_expansion_edgecase(line);
+	remove_blank_tokens_from_cmds(line);
+	create_arr_for_exec(line);
+	return (0);
+}
+
+void	handle_expansion_edgecase(t_cmd **line)
+{
+	t_cmd *curr_cmd;
+	t_token *curr_tok;
+	t_token *prev;
+	int here;
+
+	here = 0;
+	curr_cmd = *line;
+	while (curr_cmd != NULL)
+	{
+		curr_tok = curr_cmd->token;
+		prev = NULL;
+		while (curr_tok != NULL)
 		{
-			i = 0;
-			while (curr->arg_arr[i])
+			if (curr_tok->string != NULL && curr_tok->type == HERE_DOC)
+				here = 1;
+			else if (here && curr_tok->string != NULL
+				&& (curr_tok->type == S_QUOTE || curr_tok->type == D_QUOTE)
+				&& prev != NULL && prev->type == ARG)
 			{
-				printf("\t%s\n", curr->arg_arr[i]);
-				i++;
+				prev->type = curr_tok->type;
 			}
+			prev = curr_tok;
+			curr_tok = curr_tok->next;
 		}
-		curr = curr->next;
+		curr_cmd = curr_cmd->next;
 	}
-}
-
-int	parse_cmd(char *str, t_cmd **line, t_env *env)
-{
-	char	**arr;
-	int		quote;
-	int		token;
-
-	quote = check_for_unclosed_quotes(str);
-	if (quote != 0)
-	{
-		ft_putstr_fd(QUOTES, 1);
-		return (1);
-	}
-	token = check_unexpected_token(str);
-	if (token != 0)
-	{
-		ft_putstr_fd(REDIR, 1);
-		return (1);
-	}
-	else
-	{
-		arr = ft_split_cmd(str, '|');
-		if (arr == NULL)
-			return (1);
-		initialize_arguments(line, arr, env);
-		iterate_through_cmd_args(line);
-		decide_token_type(line);
-		if (redirection_spell_check(line) == 1)
-		{
-			ft_putstr_fd(REDIR, 1);
-			free(arr);
-			return (1);
-		}
-		search_quotes_modify(line);
-		handle_expansion(line);
-		join_quoted_strings(line);
-		heredoc_usage(line);
-		create_arr_for_exec(line);
-		print_arr(line);
-	}
-	return (0);
-}
-
-int	check_unexpected_token(char *str)
-{
-	int	i;
-	int	j;
-
-	j = 0;
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] != ' ' && str[i] != '|' && str[i] != '<' && str[i] != '>')
-			j = 1;
-		else if (str[i] == '|')
-		{
-			if (j == 0)
-				return (1);
-			j = 0;
-		}
-		i++;
-	}
-	return (0);
 }

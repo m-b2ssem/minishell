@@ -57,10 +57,10 @@ char	**ft_split_cmd(char const *s, char c)
 	char	**result;
 
 	if (!s)
-		return (0);
+		return (NULL);
 	result = malloc(sizeof(char *) * (numwords(s, c) + 1));
 	if (!result)
-		return (0);
+		return (NULL);
 	if (!split_words(result, s, c, 0))
 		return (free(result), NULL);
 	return (result);
