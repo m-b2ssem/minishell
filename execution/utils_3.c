@@ -1,22 +1,22 @@
 #include "../minishell.h"
 
-int close_fd(t_cmd *cmd)
+int	close_fd(t_cmd *cmd)
 {
-    t_cmd   *cur;
+	t_cmd	*cur;
 
-    cur = cmd;
-    while (cur)
-    {
-        if (cur->fd_in != 0)
-            close(cur->fd_in);
-        if (cur->fd_out != 1)
-            close(cur->fd_out);
-        cur = cur->next;
-    }
-    return (0);
+	cur = cmd;
+	while (cur)
+	{
+		if (cur->fd_in != 0)
+			close(cur->fd_in);
+		if (cur->fd_out != 1)
+			close(cur->fd_out);
+		cur = cur->next;
+	}
+	return (0);
 }
 
-int env_len(t_env *env)
+int	env_len(t_env *env)
 {
 	int		len;
 	t_env	*tmp;

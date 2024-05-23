@@ -1,12 +1,5 @@
 #include "../minishell.h"
 
-static void	printf_error(char *str)
-{
-	ft_putstr_fd("minishell: ", 2);
-	ft_putstr_fd(str, 2);
-	ft_putstr_fd(": command not found\n", 2);
-}
-
 static void	free_paths(char **paths)
 {
 	int	i;
@@ -25,14 +18,10 @@ static char	*search_path_2(char *command, char **paths)
 	char	*tmp;
 	int		i;
 
-	if ( command[0] == '.' || command[1] == '/')
-	{
+	if (command[0] == '.' || command[1] == '/')
 		return (command);
-	}
 	if (access(command, F_OK) == 0)
-	{
-		return (free_paths(paths),command);
-	}
+		return (free_paths(paths), command);
 	i = 0;
 	while (paths[i] != NULL)
 	{
@@ -68,11 +57,7 @@ static char	*search_paths(char **paths, char *command)
 		if (tmp == NULL)
 			return (free_paths(paths), free(bin_path), NULL);
 		if (access(tmp, F_OK) == 0)
-		{
-			free(bin_path);
-			free_paths(paths);
-			return (tmp);
-		}
+			return (free(bin_path), free_paths(paths), tmp);
 		free(bin_path);
 		free(tmp);
 		i++;
@@ -81,10 +66,12 @@ static char	*search_paths(char **paths, char *command)
 	free_paths(paths);
 	return (NULL);
 }
+
 char	*get_path(char *command, t_env *env)
 {
 	char	*path;
 	char	**paths;
+
 	if (command == NULL)
 		return (NULL);
 	path = my_getenv("PATH", env);
