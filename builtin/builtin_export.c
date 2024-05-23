@@ -93,6 +93,8 @@ int	add_variable(t_cmd *cmd)
 	t_env	*new;
 
 	i = 1;
+	name = NULL;
+	value = NULL;
 	if (allocate_memory(name, value, cmd))
 		return (1);
 	while (cmd->arg_arr[i] != NULL)

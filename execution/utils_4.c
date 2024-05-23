@@ -8,12 +8,12 @@ void	herdoc_handler(int signum)
 	{
 		g_signal = 130;
 		ioctl(0, TIOCSTI, "\n");
-		rl_replace_line("", 0);
+		//rl_replace_line("", 0);
 		rl_on_new_line();
 	}
 }
 
-static void	printf_error(char *str)
+void	printf_error(char *str)
 {
 	ft_putstr_fd("minishell: ", 2);
 	ft_putstr_fd(str, 2);

@@ -1,6 +1,6 @@
 #include "../minishell.h"
 
-static	int	free_pipe(int **pipefd)
+int	free_pipe(int **pipefd)
 {
 	int	i;
 
