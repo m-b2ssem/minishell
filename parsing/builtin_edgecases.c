@@ -1,4 +1,3 @@
-
 #include "../minishell.h"
 
 int	builtin_export_checker(char *arr)

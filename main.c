@@ -1,7 +1,6 @@
-
 #include "minishell.h"
 
-extern int g_signal;
+extern int	g_signal;
 
 int	is_all_whitespace(char *str)
 {
@@ -18,11 +17,13 @@ int	is_all_whitespace(char *str)
 
 int	main(int argc, char **argv, char **env)
 {
-	char *str;
-	int status;
-	t_cmd *cmd = NULL;
-	t_env *envp = NULL;
+	char	*str;
+	int	status;
+	t_cmd	*cmd;
+	t_env	*envp;
 
+	cmd = NULL;
+	envp = NULL;
 	if (!argc && !argv)
 		return (0);
 	status = 0;
@@ -32,19 +33,7 @@ int	main(int argc, char **argv, char **env)
 	parent_signals();
 	while (1)
 	{
-		// str = readline(PROMPT);
-		if (isatty(fileno(stdin)))
-			str = readline(PROMPT);
-		else
-		{
-			char *line;
-			line = get_next_line(fileno(stdin));
-			str = ft_strtrim(line, "\n");
-			if (!str)
-				break ;
-			free(line);
-		}
-
+		str = readline(PROMPT);
 		if (str == NULL)
 		{
 			free_list(&envp);

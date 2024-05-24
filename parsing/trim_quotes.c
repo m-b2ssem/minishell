@@ -1,12 +1,13 @@
-
 #include "../minishell.h"
 
 int	update_quote_strings(t_token *tok)
 {
-	char	s1[] = "\"";
-	char	s2[] = "\'";
+	char	*s1;
+	char	*s2;
 	char	*new;
 
+	s1 = "\"";
+	s2 = "\'";
 	new = NULL;
 	if (tok->string[0] == '"')
 		new = ft_strtrim(tok->string, s1);

@@ -320,11 +320,35 @@ char			*expand_exit_status(t_token *tok, int start, int status);
 void			remove_blank_tokens_from_cmds(t_cmd **cmd_list);
 void			remove_blank_tokens(t_cmd *cmd);
 
-/*TOKENIZE_HELPER.c*/
+/*BUILTIN_EDGECASES.c*/
+int	export_checker(t_cmd *cmd);
+int	builtin_export_checker(char *arr);
+int	is_valid_char(char c);
 
-void			get_arguments(char *str, int *i);
-void			get_redirection(char *str, int *i);
-void			get_string_in_quotes(char *str, int *i);
-t_quote_status	get_quote_status(char c, t_quote_status stat);
+void	handle_expansion_edgecase(t_cmd **line);
+
+void	retokenizing_of_env_values(t_cmd **line, t_token *tok);
+int	reinit(char *s, t_token **new_list, t_token **last_new);
+void	new_token_add_back(t_token **head, t_token *new);
+t_token	*reinitialize_tokens(char *s);
+
+int	handle_expansion(t_cmd **line, int status);
+void	update_token_links(t_cmd **line, t_token *prev, t_token *new_list);
+void	retokenizing_of_env_values(t_cmd **line, t_token *tok);
+void	initialize_retokenizing_variables(t_cmd **line, t_token *tok,
+		t_token **curr, int *start);
+void	init_vars(int *i, t_token **prev, t_token **new_list,
+		t_token **last_new);
+
+char	*create_expansion(t_env *curr, char *org, int start, char *tmp);
+void	expansion_pre_checks(int *i, t_token *tok, int *start);
+void	generate_args_for_tok(t_token *tok, t_token **last_new,
+		t_token **new_list);
+void	handle_expansion_loop(t_cmd **line, t_token *curr_tok, int status);
+
+void	initialize_generate_args_variables(int *i, int *start, char **new);
+int	spell_check(t_token *curr_tok, int *redir);
+int	initialize_possible_expansion_variables(int *i, int *start_name, int *size,
+		t_token *tok);
 
 #endif

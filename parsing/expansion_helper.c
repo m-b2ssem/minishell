@@ -1,4 +1,3 @@
-
 #include "../minishell.h"
 
 int	is_valid_char_begin(char c)

@@ -1,4 +1,3 @@
-
 #include "../minishell.h"
 
 int	is_type_arg(t_token *tok)

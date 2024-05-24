@@ -1,4 +1,3 @@
-
 #include "../minishell.h"
 
 int	is_redirection(char c)

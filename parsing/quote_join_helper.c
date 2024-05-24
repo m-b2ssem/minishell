@@ -1,6 +1,4 @@
-
 #include "../minishell.h"
-
 
 int	join_redir_helper(t_token *token)
 {
@@ -21,15 +19,13 @@ int	join_quoted_helper(t_token *curr_tok)
 
 int	find_and_modify_unused_nodes(t_token *tok)
 {
-	t_token *tmp;
+	t_token	*tmp;
 
 	tmp = tok;
 	if (tmp == NULL)
 		return (1);
 	if (tmp->next != NULL && join_quoted_helper(tmp))
 	{
-		// if (tmp->next->type == D_QUOTE || tmp->next->type == S_QUOTE)
-		// 	tmp->expansion = 1;
 		tmp = tmp->next;
 		while (tmp != NULL && tmp->join == 1)
 		{

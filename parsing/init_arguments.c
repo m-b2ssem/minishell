@@ -1,4 +1,3 @@
-
 #include "../minishell.h"
 
 t_cmd	*arg_last(t_cmd *lst)
@@ -78,7 +77,7 @@ int	initialize_arguments(t_cmd **line, char **user, t_env *env)
 		new = init_new_node(user[i], new, env);
 		if (new == NULL)
 		{
-			while (user[i]) // Free remaining user elements in case of failure
+			while (user[i])
 			{
 				free(user[i]);
 				--i;

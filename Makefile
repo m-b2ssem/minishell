@@ -13,6 +13,7 @@ SRC =	main.c redirections/redirections.c redirections/heredoc.c \
 		parsing/init_arguments.c parsing/init_tokens.c parsing/quote_joining.c parsing/quote_joining_util_1.c parsing/quote_joining_util_2.c parsing/quote_join_helper.c parsing/redir_relations.c \
 		parsing/redirection_spell_check.c parsing/token_type.c parsing/tokenize_arguments.c parsing/tokenize_helper.c parsing/tokenize_helper_two.c \
 		parsing/trim_quotes.c parsing/echo_edgecase.c parsing/handle_backlash.c parsing/builtin_edgecases.c\
+		parsing/expansion_utils_3.c parsing/expansion_utils_2.c parsing/expansion_utils.c parsing/expansion_utils_4.c\
 
 SUP = readline_suppression.supp
 

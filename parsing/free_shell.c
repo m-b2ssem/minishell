@@ -1,4 +1,3 @@
-
 #include "../minishell.h"
 
 int	free_list(t_env **head)
@@ -18,29 +17,13 @@ int	free_list(t_env **head)
 	return (0);
 }
 
-/* void	free_list_tokens(t_token **head)
+void	free_list_tokens(t_token **head)
 {
 	t_token	*current;
 	t_token	*tmp;
 
 	current = *head;
-	while (current->next != NULL)
-	{
-		tmp = current;
-		free(tmp->string);
-		current = current->next;
-	}
-	*head = NULL;
-} */
-
-void free_list_tokens(t_token **head)
-{
-	t_token *current;
-	t_token *tmp;
-
-	//tmp = current;
-	current = *head;
-	while(current)
+	while (current)
 	{
 		tmp = current->next;
 		free(current->string);
@@ -51,7 +34,7 @@ void free_list_tokens(t_token **head)
 
 void	free_env_list(t_env *head)
 {
-	t_env *tmp;
+	t_env	*tmp;
 
 	while (head != NULL)
 	{

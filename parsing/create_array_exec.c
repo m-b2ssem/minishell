@@ -1,15 +1,28 @@
-
 #include "../minishell.h"
+
+void	init_array(t_cmd *cmd, t_token *tok, int *i)
+{
+	int	option;
+
+	option = 0;
+	if (tok->type == BUILTIN || tok->type == ARG || tok->type == D_QUOTE
+		|| tok->type == S_QUOTE)
+	{
+		cmd->arg_arr[(*i)++] = tok->string;
+		option = 0;
+	}
+	else if (tok->type == OPTION && !option)
+	{
+		option = 1;
+		cmd->arg_arr[(*i)++] = tok->string;
+	}
+}
 
 void	initialize_arg_array(t_cmd *cmd)
 {
-	t_token	*tok;
-	int		option;
 	int		i;
-	//int		flag;
+	t_token	*tok;
 
-	//flag = 0;
-	option = 0;
 	tok = cmd->token;
 	i = 0;
 	while (tok != NULL)
@@ -18,17 +31,7 @@ void	initialize_arg_array(t_cmd *cmd)
 			tok = tok->next;
 		while (tok != NULL)
 		{
-			if (tok->type == BUILTIN || tok->type == ARG || tok->type == D_QUOTE
-				|| tok->type == S_QUOTE)
-			{
-				cmd->arg_arr[i++] = tok->string;
-				option = 0;
-			}
-			else if (tok->type == OPTION && !option)
-			{
-				option = 1;
-				cmd->arg_arr[i++] = tok->string;
-			}
+			init_array(cmd, tok, &i);
 			tok = tok->next;
 		}
 	}
@@ -47,7 +50,7 @@ int	count_arg(t_cmd *cmd)
 		if (tok->type == ARG || tok->type == BUILTIN || tok->type == D_QUOTE
 			|| tok->type == S_QUOTE || tok->type == OPTION)
 			size++;
-		tok = tok->next;  
+		tok = tok->next;
 	}
 	return (size);
 }

@@ -1,4 +1,3 @@
-
 #include "../minishell.h"
 
 t_token	*token_last(t_token *lst)
