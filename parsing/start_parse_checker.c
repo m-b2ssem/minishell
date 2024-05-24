@@ -58,3 +58,4 @@ int	first_string_checks(char *str)
 	}
 	return (0);
 }
+

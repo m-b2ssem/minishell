@@ -28,9 +28,9 @@ int	spell_check(t_token *curr_tok, int *redir)
 
 int	redirection_spell_check(t_cmd **line)
 {
-	t_cmd	*curr_cmd;
-	t_token	*curr_tok;
-	int		redir;
+	t_cmd *curr_cmd;
+	t_token *curr_tok;
+	int redir;
 
 	redir = 0;
 	curr_cmd = *line;

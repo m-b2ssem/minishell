@@ -92,7 +92,7 @@ int	find_node_and_modify(char *join, t_token **tok, t_token *find)
 	return (0);
 }
 
-int	join_quoted_strings(t_cmd **head)
+void	join_helper(t_cmd *curr_cmd, t_token *curr_tok)
 {
 	char	*new;
 	t_token	*first;

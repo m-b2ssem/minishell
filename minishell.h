@@ -343,35 +343,28 @@ int				builtin_export_checker(char *arr);
 int				is_valid_char(char c);
 void			handle_expansion_edgecase(t_cmd **line);
 
-void			retokenizing_of_env_values(t_cmd **line, t_token *tok);
-int				reinit(char *s, t_token **new_list, t_token **last_new);
-void			new_token_add_back(t_token **head, t_token *new);
-t_token			*reinitialize_tokens(char *s);
+void	retokenizing_of_env_values(t_cmd **line, t_token *tok);
+int	reinit(char *s, t_token **new_list, t_token **last_new);
+void	new_token_add_back(t_token **head, t_token *new);
+t_token	*reinitialize_tokens(char *s);
 
-int				handle_expansion(t_cmd **line, int status);
-void			update_token_links(t_cmd **line, t_token *prev, t_token *new_list);
-void			retokenizing_of_env_values(t_cmd **line, t_token *tok);
-void			init_vars(int *i, t_token **prev, t_token **new_list,
-					t_token **last_new);
+int	handle_expansion(t_cmd **line, int status);
+void	update_token_links(t_cmd **line, t_token *prev, t_token *new_list);
+void	retokenizing_of_env_values(t_cmd **line, t_token *tok);
+void	initialize_retokenizing_variables(t_cmd **line, t_token *tok,
+		t_token **curr, int *start);
+void	init_vars(int *i, t_token **prev, t_token **new_list,
+		t_token **last_new);
 
-char			*create_expansion(t_env *curr, char *org, int start, char *tmp);
-void			expansion_pre_checks(int *i, t_token *tok, int *start);
-void			generate_args_for_tok(t_token *tok, t_token **last_new,
-					t_token **new_list);
-void			handle_expansion_loop(t_cmd **line, t_token *curr_tok, int status);
+char	*create_expansion(t_env *curr, char *org, int start, char *tmp);
+void	expansion_pre_checks(int *i, t_token *tok, int *start);
+void	generate_args_for_tok(t_token *tok, t_token **last_new,
+		t_token **new_list);
+void	handle_expansion_loop(t_cmd **line, t_token *curr_tok, int status);
 
-void			initialize_generate_args_variables(int *i, int *start, char **new);
-int				spell_check(t_token *curr_tok, int *redir);
-int				initialize_possible_expansion_variables(int *i, int *start_name, int *size,
-					t_token *tok);
-void			init_retok_vars(t_cmd **line, t_token *tok, t_token **curr);
-t_quote_status	get_quote_status(char c, t_quote_status stat);
-void			get_string_in_quotes(char *str, int *i);
-
-void			get_redirection(char *str, int *i);
-void			get_arguments(char *str, int *i);
-char			*my_strcat(char *destination, const char *source);
-int				strcmp_custom(const char *str1, const char *str2);
-char			*strcpy_custom(char *destination, const char *source);
+void	initialize_generate_args_variables(int *i, int *start, char **new);
+int	spell_check(t_token *curr_tok, int *redir);
+int	initialize_possible_expansion_variables(int *i, int *start_name, int *size,
+		t_token *tok);
 
 #endif

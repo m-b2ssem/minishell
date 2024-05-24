@@ -55,3 +55,4 @@ void	handle_expansion_edgecase(t_cmd **line)
 		curr_cmd = curr_cmd->next;
 	}
 }
+
