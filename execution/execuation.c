@@ -34,7 +34,6 @@ void	custom_exe_on_child(t_cmd *cmd, pid_t *pross_id, t_cmd *tmp)
 	int	status;
 
 	status = 0;
-	free_file(cmd);
 	if (builtin(cmd))
 	{
 		status = custom_exe(cmd, tmp, pross_id);

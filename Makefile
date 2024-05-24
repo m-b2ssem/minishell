@@ -3,7 +3,7 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror -g
 LIBFT =	library/libft/libft.a
 GETNEXTLINE = 	library/get_next_line/getnextline.a
-SRC =	main.c redirections/redirections.c redirections/heredoc.c \
+SRC =	main.c redirections/redirections.c redirections/heredoc.c  redirections/her_util.c\
 		builtin/builtin_pwd.c builtin/builtin_cd.c builtin/builtin_echo.c builtin/builtin_export.c builtin/builtin_env.c \
 		builtin/builtin_unset.c builtin/builtin_exit.c builtin/export_utils.c\
 		execution/execuation.c execution/piping.c execution/signals.c execution/utils_1.c execution/utils_2.c execution/utils_3.c execution/utils_4.c\

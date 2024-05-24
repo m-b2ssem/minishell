@@ -102,6 +102,16 @@ typedef struct s_cmd
 	struct s_cmd	*next;
 }	t_cmd;
 
+typedef struct s_dollar_vars
+{
+    char	*str;
+    t_env	*env;
+    t_token	*tok;
+    char	*new_str;
+    int		*i;
+    int		*j;
+}				t_dollar_vars;
+
 int				redirections(t_cmd **cmd_first, int **pipefd);
 int				builtin_pwd(void);
 int				builtin_cd(t_cmd *cmd);
@@ -276,6 +286,11 @@ int				redirection_usage(t_cmd **line);
 void			change_redirection_relation(t_token *tok, int *redir);
 void			change_redir_relation(t_token *tok, int *redir);
 int				is_type_arg(t_token *tok);
+char			*my_getenv(char *name, t_env *env);
+char			*handle_doller(t_dollar_vars *vars);
+char			*process_dollar(t_dollar_vars *vars);
+char			*get_after_dollar(t_dollar_vars *vars,
+					char **after_doller, int *k);
 
 /*CREATE_ARRAY_EXEC.c*/
 
@@ -326,7 +341,6 @@ void			remove_blank_tokens(t_cmd *cmd);
 int				export_checker(t_cmd *cmd);
 int				builtin_export_checker(char *arr);
 int				is_valid_char(char c);
-
 void			handle_expansion_edgecase(t_cmd **line);
 
 void			retokenizing_of_env_values(t_cmd **line, t_token *tok);
