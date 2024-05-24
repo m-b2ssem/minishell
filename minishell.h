@@ -290,4 +290,11 @@ int	is_valid_char(char c);
 
 void	handle_expansion_edgecase(t_cmd **line);
 
+void	retokenizing_of_env_values(t_cmd **line, t_token *tok);
+int	reinit(char *s, t_token **new_list, t_token **last_new);
+void	new_token_add_back(t_token **head, t_token *new); 
+t_token	*reinitialize_tokens(char *s);
+
+
+
 #endif
