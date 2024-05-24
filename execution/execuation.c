@@ -34,6 +34,7 @@ void	custom_exe_on_child(t_cmd *cmd, pid_t *pross_id, t_cmd *tmp)
 	int	status;
 
 	status = 0;
+	free_file(cmd);
 	if (builtin(cmd))
 	{
 		status = custom_exe(cmd, tmp, pross_id);
@@ -72,6 +73,7 @@ void	loop_inside_execute(t_cmd *cmd, pid_t *pross_id, t_cmd *tmp)
 			close(cmd->fd_in);
 		if (cmd->fd_out != 1)
 			close(cmd->fd_out);
+		free_file(cmd);
 		cmd = cmd->next;
 		i++;
 	}

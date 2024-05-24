@@ -167,11 +167,12 @@ int	heredoc(t_cmd *cmd, char *word, t_token *tok)
 	if (fd == -1)
 		return (free(file), -1);
 	cmd->fd_in = fd;
-	if (unlink(file) == -1)
+	/*if (unlink(file) == -1)
 	{
 		ft_putstr_fd("there is an error deleting the file\n", 2);
+		free(file);
 		return (-1);
-	}
+	}*/
 	cmd->file = file;
 	return (fd);
 }

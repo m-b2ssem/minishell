@@ -138,6 +138,7 @@ void	loop_inside_execute(t_cmd *cmd, pid_t *pross_id, t_cmd *tmp);
 char	*my_getenv(char *name, t_env *env);
 int	free_pipe(int **pipefd);
 void	printf_error(char *str);
+void	free_file(t_cmd *cmd);
 
 /* signals */
 void	child_signal(void);
