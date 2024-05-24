@@ -69,9 +69,9 @@ t_env	*initialize_env_variables(t_env **head, char **env)
 		{
 			tmp = getenv(name);
 			if (tmp)
-				value = strdup(tmp);
+				value = ft_strdup(tmp);
 			else
-				value = strdup("");
+				value = ft_strdup("");
 		}
 		if (value != NULL)
 			new = lst_new(name, value, new, 1);

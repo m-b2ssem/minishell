@@ -11,10 +11,10 @@ char	*concatenate_strings(char *new, t_token **head)
 	{
 		if (curr_tok->join == 1)
 		{
-			new = strcat(new, curr_tok->string);
+			new = my_strcat(new, curr_tok->string);
 			if (new == NULL)
 				return (NULL);
-			new = strcat(new, "");
+			new = my_strcat(new, "");
 		}
 		else if (prev_tok != NULL && prev_tok->join == 1
 			&& curr_tok->join == 0)

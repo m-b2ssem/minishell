@@ -23,10 +23,10 @@ void	update_value(t_cmd *cmd, char *name, char *value, int export)
 	temp = cmd->env;
 	while (temp != NULL)
 	{
-		if (strcmp(temp->name, name) == 0)
+		if (strcmp_custom(temp->name, name) == 0)
 		{
 			free(temp->value);
-			temp->value = strdup(value);
+			temp->value = ft_strdup(value);
 			temp->export = export;
 			break ;
 		}
@@ -54,7 +54,7 @@ int	search_if_variable_exist(t_cmd *cmd, char *name)
 	temp = cmd->env;
 	while (temp != NULL)
 	{
-		if (strcmp(temp->name, name) == 0)
+		if (strcmp_custom(temp->name, name) == 0)
 		{
 			return (1);
 		}
@@ -69,13 +69,13 @@ void	swap(t_env *a, t_env *b)
 	char	*temp_value;
 	int		temp_export;
 
-	temp_name = strdup(a->name);
-	temp_value = strdup(a->value);
+	temp_name = ft_strdup(a->name);
+	temp_value = ft_strdup(a->value);
 	temp_export = a->export;
 	free(a->name);
 	free(a->value);
-	a->name = strdup(b->name);
-	a->value = strdup(b->value);
+	a->name = ft_strdup(b->name);
+	a->value = ft_strdup(b->value);
 	a->export = b->export;
 	free(b->name);
 	free(b->value);

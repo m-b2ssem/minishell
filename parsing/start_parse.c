@@ -18,7 +18,6 @@ int	parse_cmd(char *str, t_cmd **line, t_env *env, int status)
 		return (1);
 	}
 	search_quotes_modify(line);
-	handle_backslash(line);
 	handle_expansion(line, status);
 	remove_lone_dollars(line);
 	join_quoted_strings(line);

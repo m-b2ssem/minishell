@@ -26,7 +26,7 @@ void	retokenizing_of_env_values(t_cmd **line, t_token *tok)
 	t_token	*prev;
 	int		i;
 
-	initialize_retokenizing_variables(line, tok, &curr);
+	init_retok_vars(line, tok, &curr);
 	init_vars(&i, &prev, &new_list, &last_new);
 	if (curr == tok)
 		(*line)->token = NULL;

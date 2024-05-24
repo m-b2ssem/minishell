@@ -16,7 +16,7 @@ static int	numwords(char const *s, char c)
 	return (word_num);
 }
 
-void	free_word(int word, char *result)
+void	free_word(int word, char **result)
 {
 	while (--word >= 0)
 		free(result[word]);

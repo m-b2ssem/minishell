@@ -61,10 +61,10 @@ char	*my_getenv(char *name, t_env *env)
 	int len;
 
 	tmp = env;
-	len = strlen(name);
+	len = ft_strlen(name);
 	while (tmp->next != NULL)
 	{
-		if (strncmp(tmp->name, name, len) == 0 && tmp->export == 1)
+		if (ft_strncmp(tmp->name, name, len) == 0 && tmp->export == 1)
 		{
 			return (tmp->value);
 		}
@@ -85,7 +85,7 @@ char	*check_for_env_value(char *str, t_env *env, t_token *tok)
 	i = 0;
 	j = 0;
 	k = 0;
-	new_str = malloc(sizeof(char) * (strlen(str) + 1));
+	new_str = malloc(sizeof(char) * (ft_strlen(str) + 1));
 	if (!new_str)
 		return (NULL);
 	while (str[i])
@@ -95,7 +95,7 @@ char	*check_for_env_value(char *str, t_env *env, t_token *tok)
 		else
 		{
 			i++;
-			after_doller = malloc(sizeof(char) * (strlen(str) + 1));
+			after_doller = malloc(sizeof(char) * (ft_strlen(str) + 1));
 			if (!after_doller)
 				return (free(new_str), NULL);
 			while (str[i] != '\0' && str[i] != ' ')
@@ -106,13 +106,13 @@ char	*check_for_env_value(char *str, t_env *env, t_token *tok)
 			var_value = my_getenv(after_doller, env);
 			if (var_value && tok->expansion == 0)
 			{
-				strcpy(&new_str[j], var_value);
-				j += strlen(var_value);
+				strcpy_custom(&new_str[j], var_value);
+				j += ft_strlen(var_value);
 			}
 			else
 			{
 				new_str[j++] = '$';
-				strcpy(&new_str[j], after_doller);
+				strcpy_custom(&new_str[j], after_doller);
 				j += k;
 			}
 			free(after_doller);
@@ -136,13 +136,13 @@ int	write_inside_file(t_cmd *cmd, char *word, int fd, t_token *tok)
 			g_signal = 0;
 			return (-1);
 		}
-		if (strcmp(word, str) == 0)
+		if (strcmp_custom(word, str) == 0)
 			break ;
 		if (str != NULL)
 		{
 			str = check_for_env_value(str, cmd->env, tok);
 		}
-		write(fd, str, strlen(str));
+		write(fd, str, ft_strlen(str));
 		write(fd, "\n", 1);
 		free(str);
 	}

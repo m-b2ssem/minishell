@@ -350,10 +350,14 @@ void			initialize_generate_args_variables(int *i, int *start, char **new);
 int				spell_check(t_token *curr_tok, int *redir);
 int				initialize_possible_expansion_variables(int *i, int *start_name, int *size,
 					t_token *tok);
-void			init_retok_vars(t_cmd **line, t_token *tok, t_token **curr); 
+void			init_retok_vars(t_cmd **line, t_token *tok, t_token **curr);
 t_quote_status	get_quote_status(char c, t_quote_status stat);
 void			get_string_in_quotes(char *str, int *i);
 
 void			get_redirection(char *str, int *i);
 void			get_arguments(char *str, int *i);
+char			*my_strcat(char *destination, const char *source);
+int				strcmp_custom(const char *str1, const char *str2);
+char			*strcpy_custom(char *destination, const char *source);
+
 #endif

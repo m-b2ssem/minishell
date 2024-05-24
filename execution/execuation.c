@@ -41,9 +41,7 @@ void	custom_exe_on_child(t_cmd *cmd, pid_t *pross_id, t_cmd *tmp)
 		clean_exit(tmp, pross_id, status);
 	}
 	else
-	{
 		handle_non_builtin(cmd, pross_id, tmp);
-	}
 }
 
 void	loop_inside_execute(t_cmd *cmd, pid_t *pross_id, t_cmd *tmp)
@@ -97,14 +95,14 @@ int	execute(t_cmd **cmd1)
 		return (10);
 	res = piping(cmd1);
 	if (res)
-		return (free(pross_ids), res); // check which value you should return.
+		return (free(pross_ids), res);
 	if (builtin(cmd) && cmd_lenth(cmd) == 1)
 		return (one_operation(cmd, tmp, pross_ids));
 	else
 		loop_inside_execute(cmd, pross_ids, tmp);
-	parent_signals(); // check
+	parent_signals();
 	status = wait_pid(pross_ids, cmd_lenth(cmd));
-	parent_signals(); // check
+	parent_signals();
 	free(pross_ids);
 	return (status);
 }

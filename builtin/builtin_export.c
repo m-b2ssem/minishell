@@ -14,13 +14,13 @@ t_env	*copy_env_list(t_env *env)
 		if (!temp)
 			return (free_list(&new_env), NULL);
 		if (env->name)
-			temp->name = strdup(env->name);
+			temp->name = ft_strdup(env->name);
 		else
-			temp->name = strdup(" ");
+			temp->name = ft_strdup(" ");
 		if (env->value)
-			temp->value = strdup(env->value);
+			temp->value = ft_strdup(env->value);
 		else
-			temp->value = strdup(" ");
+			temp->value = ft_strdup(" ");
 		temp->export = env->export;
 		temp->next = new_env;
 		new_env = temp;
@@ -45,7 +45,7 @@ void	bubble_sort(t_env **head)
 		ptr1 = *head;
 		while (ptr1->next != lptr)
 		{
-			if (strcmp(ptr1->name, ptr1->next->name) > 0)
+			if (strcmp_custom(ptr1->name, ptr1->next->name) > 0)
 			{
 				swap(ptr1, ptr1->next);
 				swapped = 1;
@@ -95,10 +95,10 @@ int	add_variable(t_cmd *cmd)
 	i = 1;
 	name = NULL;
 	value = NULL;
-	name = ft_calloc(sizeof(char), (strlen(cmd->arg_arr[1]) + 1));
+	name = ft_calloc(sizeof(char), (ft_strlen(cmd->arg_arr[1]) + 1));
 	if (!name)
 		return (1);
-	value = ft_calloc(sizeof(char), (strlen(cmd->arg_arr[1]) + 1));
+	value = ft_calloc(sizeof(char), (ft_strlen(cmd->arg_arr[1]) + 1));
 	if (!value)
 		return (free(name), 1);
 	while (cmd->arg_arr[i] != NULL)
