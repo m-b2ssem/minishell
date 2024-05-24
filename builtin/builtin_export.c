@@ -14,11 +14,11 @@ t_env	*copy_env_list(t_env *env)
 		if (!temp)
 			return (free_list(&new_env), NULL);
 		if (env->name)
-			temp->name = env->name;
+			temp->name = strdup(env->name);
 		else
 			temp->name = strdup(" ");
 		if (env->value)
-			temp->value = env->value;
+			temp->value = strdup(env->value);
 		else
 			temp->value = strdup(" ");
 		temp->export = env->export;
