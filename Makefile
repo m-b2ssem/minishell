@@ -10,7 +10,7 @@ SRC =	main.c redirections/redirections.c redirections/heredoc.c \
 		environment/env_list.c \
 		parsing/start_parse.c parsing/start_parse_checker.c parsing/split_cmd.c parsing/create_array_exec.c parsing/debug_helper.c \
 		parsing/expansion.c parsing/free_shell.c parsing/expansion_helper.c \
-		parsing/init_arguments.c parsing/init_tokens.c parsing/quote_joining.c parsing/quote_join_helper.c parsing/redir_relations.c \
+		parsing/init_arguments.c parsing/init_tokens.c parsing/quote_joining.c parsing/quote_joining_util_1.c parsing/quote_joining_util_2.c parsing/quote_join_helper.c parsing/redir_relations.c \
 		parsing/redirection_spell_check.c parsing/token_type.c parsing/tokenize_arguments.c parsing/tokenize_helper.c parsing/tokenize_helper_two.c \
 		parsing/trim_quotes.c parsing/echo_edgecase.c parsing/handle_backlash.c parsing/builtin_edgecases.c\
 
