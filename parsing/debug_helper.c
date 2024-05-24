@@ -1,10 +1,11 @@
 
 #include "../minishell.h"
 
+
 void	print_list(t_cmd **head)
 {
-	t_cmd	*cmd;
-	t_token	*tok;
+	t_cmd *cmd;
+	t_token *tok;
 
 	cmd = *head;
 	while (cmd != NULL)
@@ -14,8 +15,8 @@ void	print_list(t_cmd **head)
 		while (tok != NULL)
 		{
 			printf("\tTOK:-%s-\n", tok->string);
-			//printf("\tTYPE: %d\n", tok->type);
-			printf("\tJOIN: %d\n", tok->join);
+			printf("\tTYPE: %d\n", tok->type);
+			// printf("\tJOIN: %d\n", tok->join);
 			tok = tok->next;
 		}
 		cmd = cmd->next;
@@ -24,8 +25,8 @@ void	print_list(t_cmd **head)
 
 void	print_arr(t_cmd **cmd)
 {
-	t_cmd	*curr;
-	int		i;
+	t_cmd *curr;
+	int i;
 
 	curr = *cmd;
 	i = 0;
@@ -39,7 +40,6 @@ void	print_arr(t_cmd **cmd)
 				printf("\t%s\n", curr->arg_arr[i]);
 				i++;
 			}
-
 		}
 		curr = curr->next;
 	}
@@ -47,9 +47,9 @@ void	print_arr(t_cmd **cmd)
 
 void	remove_blank_tokens(t_cmd *cmd)
 {
-	t_token	*current;
-	t_token	*prev;
-	t_token	*to_delete;
+	t_token *current;
+	t_token *prev;
+	t_token *to_delete;
 
 	to_delete = NULL;
 	current = cmd->token;
@@ -84,7 +84,7 @@ void	remove_blank_tokens(t_cmd *cmd)
 // Function to remove BLANK tokens from all commands in the list
 void	remove_blank_tokens_from_cmds(t_cmd **cmd_list)
 {
-	t_cmd	*curr_cmd;
+	t_cmd *curr_cmd;
 
 	curr_cmd = *cmd_list;
 	while (curr_cmd != NULL)

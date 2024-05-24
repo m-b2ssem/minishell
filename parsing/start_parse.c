@@ -26,9 +26,11 @@ int	parse_cmd(char *str, t_cmd **line, t_env *env, int status)
 	join_quoted_strings(line);
 	redirection_usage(line);
 	echo_option_checker(line);
-	//handle_expansion_edgecase(line);
+	// handle_expansion_edgecase(line);
 	remove_blank_tokens_from_cmds(line);
 	create_arr_for_exec(line);
+	// print_arr(line);
+	// print_list(line);
 	return (0);
 }
 

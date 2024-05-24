@@ -1,9 +1,10 @@
 #include "../minishell.h"
 
+
 t_env	*copy_env_list(t_env *env)
 {
-	t_env	*new_env;
-	t_env	*temp;
+	t_env *new_env;
+	t_env *temp;
 
 	if (env->next == NULL)
 		return (NULL);
@@ -31,9 +32,9 @@ t_env	*copy_env_list(t_env *env)
 
 void	bubble_sort(t_env **head)
 {
-	int		swapped;
-	t_env	*ptr1;
-	t_env	*lptr;
+	int swapped;
+	t_env *ptr1;
+	t_env *lptr;
 
 	lptr = NULL;
 	swapped = 1;
@@ -58,9 +59,9 @@ void	bubble_sort(t_env **head)
 
 int	return_value(char *arg, char **value)
 {
-	int	i;
-	int	j;
-	int	export;
+	int i;
+	int j;
+	int export;
 
 	i = 0;
 	j = 0;
@@ -86,16 +87,17 @@ int	return_value(char *arg, char **value)
 
 int	add_variable(t_cmd *cmd)
 {
-	int		i;
-	int		export;
-	char	*name;
-	char	*value;
-	t_env	*new;
+	int i;
+	int export;
+	char *name = NULL;
+	char *value = NULL;
+	t_env *new;
 
 	i = 1;
 
 	name = ft_calloc(sizeof(char), (strlen(cmd->arg_arr[1]) + 1));
 	if (!name)
+		return (1);
 	value = ft_calloc(sizeof(char), (strlen(cmd->arg_arr[1]) + 1));
 	if (!value)
 		return (free(name), 1);
@@ -119,8 +121,8 @@ int	add_variable(t_cmd *cmd)
 
 int	builtin_export(t_cmd *cmd)
 {
-	t_env	*temp;
-	t_env	*head;
+	t_env *temp;
+	t_env *head;
 
 	temp = NULL;
 	head = NULL;

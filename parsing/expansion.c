@@ -1,14 +1,15 @@
 
 #include "../minishell.h"
 
+
 extern int g_signal;
 
 char	*create_expansion(t_env *curr, char *org, int start, char *tmp)
 {
-	int		new_size;
-	char	*expanded;
-	int		i;
-	int		j;
+	int new_size;
+	char *expanded;
+	int i;
+	int j;
 
 	i = 0;
 	j = 0;
@@ -28,19 +29,19 @@ char	*create_expansion(t_env *curr, char *org, int start, char *tmp)
 	while (org[start])
 		expanded[j++] = org[start++];
 	expanded[j] = '\0';
-	if (!expanded || expanded[0] == '\0')
+	if (!expanded)
 		return (NULL);
 	return (expanded);
 }
 
 char	*forbidden_variable_name(t_token *tok, char *tmp, int start)
 {
-	char	*expand;
-	char	*org;
-	int		new_size;
-	int		i;
-	int		j;
-	int		new_start;
+	char *expand;
+	char *org;
+	int new_size;
+	int i;
+	int j;
+	int new_start;
 
 	j = 0;
 	org = tok->string;
@@ -70,8 +71,8 @@ char	*forbidden_variable_name(t_token *tok, char *tmp, int start)
 
 char	*get_env_value(char *tmp_name, t_token *tok, t_env **list, int start)
 {
-	t_env	*curr;
-	char	*org_str;
+	t_env *curr;
+	char *org_str;
 
 	org_str = tok->string;
 	curr = NULL;
@@ -85,11 +86,11 @@ char	*get_env_value(char *tmp_name, t_token *tok, t_env **list, int start)
 
 void	possible_expansion(t_cmd **cmd, t_token *tok, int status)
 {
-	int		i;
-	int		start_name;
-	int		size;
-	char	*tmp_name;
-	char	*expand;
+	int i;
+	int start_name;
+	int size;
+	char *tmp_name;
+	char *expand;
 
 	expand = NULL;
 	size = 0;
@@ -123,9 +124,11 @@ void	possible_expansion(t_cmd **cmd, t_token *tok, int status)
 			if (ft_strcmp(tmp_name, "?") == 0)
 				expand = expand_exit_status(tok, start_name, status);
 			else
-				expand = get_env_value(tmp_name, tok, &(*cmd)->env, start_name);
+				expand = get_env_value(tmp_name, tok, &(*cmd)->env,
+						start_name);
 			if (expand)
 			{
+				// printf("\n%s\n", expand);
 				free(tok->string);
 				tok->string = expand;
 				size = ft_strlen(tok->string);
@@ -138,13 +141,13 @@ void	possible_expansion(t_cmd **cmd, t_token *tok, int status)
 
 char	*expand_exit_status(t_token *tok, int start, int status)
 {
-	char	*expand;
-	char	*org;
-	char	*s;
-	int		i;
-	int		new_size;
-	int		j;
-	int		new_start;
+	char *expand;
+	char *org;
+	char *s;
+	int i;
+	int new_size;
+	int j;
+	int new_start;
 
 	j = 0;
 	expand = NULL;
@@ -184,9 +187,9 @@ char	*expand_exit_status(t_token *tok, int start, int status)
 
 int	remove_lone_dollars(t_cmd **line)
 {
-	t_cmd	*curr_cmd;
-	t_token	*curr_token;
-	int		flag;
+	t_cmd *curr_cmd;
+	t_token *curr_token;
+	int flag;
 
 	flag = 0;
 	curr_cmd = *line;
@@ -203,10 +206,6 @@ int	remove_lone_dollars(t_cmd **line)
 				if (!flag && ft_strcmp(curr_token->string, "$") == 0
 					&& curr_token->type == ARG)
 					curr_token->type = BLANK;
-				// else if (!flag && ft_strlen(curr_token->string) == 0
-				// 	&& (curr_token->type == D_QUOTE
-				// 		|| curr_token->type == S_QUOTE))
-				// 	curr_token->type = BLANK;
 			}
 			curr_token = curr_token->next;
 		}
@@ -215,11 +214,169 @@ int	remove_lone_dollars(t_cmd **line)
 	return (0);
 }
 
+t_token	*reinitialize_tokens(char *s)
+{
+	t_token *new = malloc(sizeof(t_token));
+	if (!new)
+		return (NULL);
+	new->string = s;
+	new->type = NON;
+	token_type(new);
+	new->expansion = -1;
+	new->next = NULL;
+	return (new);
+}
+
+int	reinit(char *s, t_token **new_list, t_token **last_new)
+{
+	t_token *new = reinitialize_tokens(s);
+
+	if (!new)
+		return (1);
+	if (!*new_list)
+	{
+		*new_list = new;
+	}
+	else
+	{
+		(*last_new)->next = new;
+	}
+
+	*last_new = new;
+	return (0);
+}
+
+void	retokenizing_of_env_values(t_cmd **line, t_token *tok)
+{
+	if (!tok || !tok->string)
+		return ;
+
+	t_token *last_new = NULL;
+	t_token *new_list = NULL;
+	t_token *curr = (*line)->token;
+	t_token *prev = NULL;
+	int size = strlen(tok->string);
+	int i = 0;
+	int start = 0;
+	char *new = NULL;
+
+	if (curr == tok)
+	{
+		(*line)->token = NULL;
+	}
+	else
+	{
+		while (curr && curr != tok)
+		{
+			prev = curr;
+			curr = curr->next;
+		}
+	}
+
+	while (i < size)
+	{
+		start = i;
+		if (is_redirection(tok->string[i]))
+		{
+			get_redirection(tok->string, &i);
+		}
+		else if (is_space(tok->string[i]))
+		{
+			i++;
+		}
+		else
+		{
+			get_arguments(tok->string, &i);
+		}
+		new = ft_substr(tok->string, start, i - start);
+
+		if (reinit(new, &new_list, &last_new) == 1)
+		{
+			free(new);
+			break ;
+		}
+	}
+	free(tok->string);
+	free(tok);
+
+	if (prev)
+	{
+		prev->next = new_list;
+	}
+	else
+	{
+		(*line)->token = new_list;
+	}
+
+	while (last_new && last_new->next)
+	{
+		last_new = last_new->next;
+	}
+
+	if (last_new)
+	{
+		last_new->next = curr->next;
+	}
+}
+
+// void	retokenizing_of_env_values(t_cmd **line, t_token *tok)
+// {
+// 	if (!tok || !tok->string)
+// 		return ;
+// 	t_token *last_new = NULL;
+// 	t_token *new = NULL;
+// 	t_token *curr = *line;
+// 	t_token *new_list = NULL;
+// 	t_token *prev = NULL;
+// 	int size = ft_strlen(tok->string);
+// 	int i = 0;
+// 	int start = 0;
+// 	char *new = NULL;
+// 	if (curr == tok)
+// 		*line = NULL;
+// 	else
+// 	{
+// 		while (curr && curr != tok)
+// 		{
+// 			prev = curr;
+// 			curr = curr->next;
+// 		}
+// 	}
+// 	while (i < size)
+// 	{
+// 		start = i;
+// 		if (is_redirection(tok->string[i]))
+// 			get_redirection(tok->string, &i);
+// 		else if (is_space(tok->string[i]))
+// 			i++;
+// 		else
+// 			get_arguments(tok->string, &i);
+// 		new = ft_substr(tok->string, start, i - start);
+// 		if (reinit(new, &new_list, &last_new, &new))
+// 			last_new = &new;
+// 	}
+// 	free(tok->string);
+// 	free(tok);
+
+// 	if (prev)
+// 		prev->next = &new_list;
+// 	else
+// 		*line = &new_list;
+// 	while (last_new && last_new->next)
+// 	{
+// 		last_new = last_new->next;
+// 	}
+// 	if (last_new)
+// 	{
+// 		last_new->next = curr->next;
+// 	}
+// }
+
 int	handle_expansion(t_cmd **line, int status)
 {
-	t_cmd	*curr_cmd;
-	int		here;
-	t_token	*curr_tok;
+	t_cmd *curr_cmd;
+	int here;
+	t_token *curr_tok;
 
 	here = 0;
 	curr_cmd = NULL;
@@ -238,7 +395,11 @@ int	handle_expansion(t_cmd **line, int status)
 				if ((curr_tok->type == D_QUOTE || curr_tok->type == ARG)
 					&& curr_tok->expansion != 1)
 					if (ft_strchr(curr_tok->string, '$') != NULL)
+					{
 						possible_expansion(line, curr_tok, status);
+						retokenizing_of_env_values(line, curr_tok);
+							//print_list(line);
+					}
 			}
 			curr_tok = curr_tok->next;
 		}
