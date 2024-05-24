@@ -43,8 +43,10 @@ int	builtin_exit(t_cmd *cmd, t_cmd *tmp, pid_t *pross_id)
 			clean_exit(tmp, pross_id, 2);
 		}
 		exit_status = ft_atoi(cmd->arg_arr[1]);
+		free_env_list(tmp->env);
 		clean_exit(tmp, pross_id, exit_status);
 	}
+	free_env_list(tmp->env);
 	clean_exit(tmp, pross_id, 0);
 	return (0);
 }

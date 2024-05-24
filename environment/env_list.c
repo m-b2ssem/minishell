@@ -53,6 +53,7 @@ t_env	*initialize_env_variables(t_env **head, char **env)
 {
 	int		i;
 	char	*name;
+	char    *tmp;
 	char	*value;
 	t_env	*new;
 
@@ -61,18 +62,26 @@ t_env	*initialize_env_variables(t_env **head, char **env)
 	{
 		name = ft_substr(env[i], 0, find_char(env[i]));
 		if (ft_strcmp(name, "SHLVL") == 0)
-			value = ft_itoa(ft_atoi(getenv("SHLVL")) + 1);
+		{
+			tmp = ft_itoa(ft_atoi(getenv("SHLVL")) + 1);
+			value = tmp;
+		}
 		else
-			value = getenv(name);
+		{
+			tmp = getenv(name);
+			value = tmp ? strdup(tmp) : strdup("");
+		}
 		new = lst_new(name, value ? value : "", new, 1);
 		if (new == NULL)
 		{
+			free(value);
 			free(name);
 			free_env_list(*head);
 			return (NULL);
 		}
 		lst_addback(head, new);
 		free(name);
+		free(value);
 		i++;
 	}
 	return (*head);

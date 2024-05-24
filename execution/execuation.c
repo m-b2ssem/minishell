@@ -10,6 +10,7 @@ void	handle_non_builtin(t_cmd *cmd, pid_t *pross_id, t_cmd *tmp)
 	cmd->path = get_path(cmd->arg_arr[0], cmd->env);
 	if (cmd->path == NULL)
 	{
+		free_env_list(tmp->env);
 		clean_exit(tmp, pross_id, 127);
 	}
 	new_env = env_to_char(cmd->env);
