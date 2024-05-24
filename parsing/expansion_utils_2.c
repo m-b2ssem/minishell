@@ -50,7 +50,7 @@ char	*expand_exit_status(t_token *tok, int start, int status)
 	while (i < (start - 1))
 		expand[j++] = tok->string[i++];
 	while (*s)
-		expand[j++] = *s;
+		expand[j++] = *s++;
 	while (tok->string[++start])
 		expand[j++] = tok->string[start];
 	expand[j] = '\0';
