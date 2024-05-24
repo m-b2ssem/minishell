@@ -31,3 +31,11 @@ void	free_file(t_cmd *cmd)
 		free(cmd->file);
 	}
 }
+
+void	free_new_dd(pid_t *pross_id, t_cmd *tmp)
+{
+	ft_putstr_fd("faild to fork", 2);
+	free_cmd(tmp);
+	free(pross_id);
+	exit(1);
+}

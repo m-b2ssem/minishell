@@ -15,39 +15,37 @@ int	is_all_whitespace(char *str)
 	return (1);
 }
 
+int	dd(t_cmd **cmd, t_env **env, int *status, char **envp)
+{
+	*cmd = NULL;
+	*env = NULL;
+	*status = 0;
+	if (initialize_env_variables(env, envp) == NULL)
+		return (1);
+	return (0);
+}
+
 int	main(int argc, char **argv, char **env)
 {
 	char	*str;
-	int	status;
+	int		status;
 	t_cmd	*cmd;
 	t_env	*envp;
 
-	cmd = NULL;
-	envp = NULL;
-	if (!argc && !argv)
-		return (0);
-	status = 0;
-	envp = initialize_env_variables(&envp, env);
-	if (envp == NULL)
+	if (!argc || !argv || dd(&cmd, &envp, &status, env))
 		return (0);
 	parent_signals();
 	while (1)
 	{
 		str = readline(PROMPT);
 		if (str == NULL)
-		{
-			free_list(&envp);
-			return (0);
-		}
+			return (free_list(&envp), 0);
 		if (is_all_whitespace(str))
 			continue ;
-		if (str != NULL && *str != '\0')
-			add_history(str);
-		if (parse_cmd(str, &cmd, envp, status) == 1)
-		{
-			status = 1;
+		add_history(str);
+		status = parse_cmd(str, &cmd, envp, status);
+		if (status)
 			free_everything(&cmd);
-		}
 		else
 		{
 			status = execute(&cmd);

@@ -4,8 +4,8 @@ extern sig_atomic_t	g_signal;
 
 void	handle_non_builtin(t_cmd *cmd, pid_t *pross_id, t_cmd *tmp)
 {
-	struct	stat	file_stat;
-	char	**new_env;
+	struct stat	file_stat;
+	char		**new_env;
 
 	cmd->path = get_path(cmd->arg_arr[0], cmd->env);
 	if (cmd->path == NULL)
@@ -52,12 +52,7 @@ void	loop_inside_execute(t_cmd *cmd, pid_t *pross_id, t_cmd *tmp)
 	{
 		pross_id[i] = fork();
 		if (pross_id[i] == -1)
-		{
-			ft_putstr_fd("faild to fork", 2);
-			free_cmd(tmp);
-			free(pross_id);
-			exit(1);
-		}
+			free_new_dd(pross_id, tmp);
 		if (pross_id[i] == 0)
 		{
 			child_signal();
@@ -76,15 +71,25 @@ void	loop_inside_execute(t_cmd *cmd, pid_t *pross_id, t_cmd *tmp)
 	}
 }
 
+int	wait_and_free(pid_t *pross_ids, t_cmd **cmd)
+{
+	int	status;
+
+	status = 0;
+	parent_signals();
+	status = wait_pid(pross_ids, cmd_lenth(*cmd));
+	parent_signals();
+	free(pross_ids);
+	return (status);
+}
+
 int	execute(t_cmd **cmd1)
 {
 	pid_t	*pross_ids;
 	t_cmd	*tmp;
 	int		res;
-	int		status;
 	t_cmd	*cmd;
 
-	status = 0;
 	cmd = *cmd1;
 	tmp = cmd;
 	if (cmd_lenth(tmp) == 0)
@@ -99,9 +104,5 @@ int	execute(t_cmd **cmd1)
 		return (one_operation(cmd, tmp, pross_ids));
 	else
 		loop_inside_execute(cmd, pross_ids, tmp);
-	parent_signals();
-	status = wait_pid(pross_ids, cmd_lenth(cmd));
-	parent_signals();
-	free(pross_ids);
-	return (status);
+	return (wait_and_free(pross_ids, cmd1));
 }
