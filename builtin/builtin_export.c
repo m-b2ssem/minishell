@@ -93,9 +93,9 @@ int	add_variable(t_cmd *cmd)
 	t_env	*new;
 
 	i = 1;
+
 	name = ft_calloc(sizeof(char), (strlen(cmd->arg_arr[1]) + 1));
 	if (!name)
-		return (1);
 	value = ft_calloc(sizeof(char), (strlen(cmd->arg_arr[1]) + 1));
 	if (!value)
 		return (free(name), 1);
