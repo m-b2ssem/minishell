@@ -1,5 +1,15 @@
 #include "../minishell.h"
 
+int	c1(char *str)
+{
+	if (ft_strcmp("..", str) == 0)
+		return (0);
+	if (ft_strcmp("--", str) == 0)
+		return (0);
+	if (ft_strcmp("-", str) == 0)
+		return (0);
+	return (1);
+}
 
 int	builtin_env(t_env *env, t_cmd *cmd)
 {

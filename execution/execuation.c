@@ -4,8 +4,8 @@ extern sig_atomic_t	g_signal;
 
 void	handle_non_builtin(t_cmd *cmd, pid_t *pross_id, t_cmd *tmp)
 {
-	struct stat	file_stat;
-	char		**new_env;
+	struct	stat	file_stat;
+	char	**new_env;
 
 	cmd->path = get_path(cmd->arg_arr[0], cmd->env);
 	if (cmd->path == NULL)

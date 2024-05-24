@@ -58,8 +58,8 @@ static int	redirections_out(t_cmd *cmd, t_token *token)
 
 int	redirections(t_cmd **cmd_first, int **pipefd)
 {
-	t_token *tmp;
-	t_cmd *cmd;
+	t_token	*tmp;
+	t_cmd	*cmd;
 
 	cmd = *cmd_first;
 	free_pipe(pipefd);

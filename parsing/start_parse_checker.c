@@ -1,4 +1,3 @@
-
 #include "../minishell.h"
 
 int	check_for_unclosed_quotes(char *str)
@@ -59,4 +58,3 @@ int	first_string_checks(char *str)
 	}
 	return (0);
 }
-

@@ -23,14 +23,14 @@ int	spell_check(t_token *curr_tok, int *redir)
 		}
 		curr_tok = curr_tok->next;
 	}
-	return(0);
+	return (0);
 }
 
 int	redirection_spell_check(t_cmd **line)
 {
-	t_cmd *curr_cmd;
-	t_token *curr_tok;
-	int redir;
+	t_cmd	*curr_cmd;
+	t_token	*curr_tok;
+	int		redir;
 
 	redir = 0;
 	curr_cmd = *line;

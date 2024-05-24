@@ -14,7 +14,7 @@ void	print_list(t_cmd **head)
 		tok = cmd->token;
 		while (tok != NULL)
 		{
-			printf("\tTOK:-%s-\n", tok->string);
+			printf("\tTOK:%s\n", tok->string);
 			printf("\tTYPE: %d\n", tok->type);
 			// printf("\tJOIN: %d\n", tok->join);
 			tok = tok->next;

@@ -1,4 +1,3 @@
-
 #include "../minishell.h"
 
 static int	numwords(char const *s, char c)
@@ -17,15 +16,26 @@ static int	numwords(char const *s, char c)
 	return (word_num);
 }
 
+void	free_word(int word, char *result)
+{
+	while (--word >= 0)
+		free(result[word]);
+}
+
+static void	init_split_vars(int *start_cur, int *end_cur, t_quote_status *stat)
+{
+	*end_cur = 0;
+	*start_cur = 0;
+	*stat = NO_QUOTE;
+}
+
 static int	split_words(char **result, char const *s, char c, int word)
 {
 	int				start_cur;
 	int				end_cur;
 	t_quote_status	quote;
 
-	end_cur = 0;
-	start_cur = 0;
-	quote = NO_QUOTE;
+	init_split_vars(&start_cur, &end_cur, &quote);
 	while (s[end_cur] != '\0')
 	{
 		quote = get_quote_status(s[end_cur], quote);
@@ -38,11 +48,7 @@ static int	split_words(char **result, char const *s, char c, int word)
 				start_cur++;
 			result[word] = malloc(sizeof(char) * (end_cur - start_cur + 2));
 			if (!result[word])
-			{
-				while (--word >= 0)
-					free(result[word]);
-				return (0);
-			}
+				return (free_word(word, result), 0);
 			ft_strlcpy(result[word], (s + start_cur), end_cur - start_cur + 2);
 			word++;
 		}

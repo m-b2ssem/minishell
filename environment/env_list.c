@@ -1,4 +1,3 @@
-
 #include "../minishell.h"
 
 t_env	*lst_last(t_env *lst)
@@ -53,7 +52,7 @@ t_env	*initialize_env_variables(t_env **head, char **env)
 {
 	int		i;
 	char	*name;
-	char    *tmp;
+	char	*tmp;
 	char	*value;
 	t_env	*new;
 
@@ -69,9 +68,15 @@ t_env	*initialize_env_variables(t_env **head, char **env)
 		else
 		{
 			tmp = getenv(name);
-			value = tmp ? strdup(tmp) : strdup("");
+			if (tmp)
+				value = strdup(tmp);
+			else
+				value = strdup("");
 		}
-		new = lst_new(name, value ? value : "", new, 1);
+		if (value != NULL)
+			new = lst_new(name, value, new, 1);
+		else
+			new = lst_new(name, "", new, 1);
 		if (new == NULL)
 		{
 			free(value);

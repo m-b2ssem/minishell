@@ -9,8 +9,7 @@ void	init_vars(int *i, t_token **prev, t_token **new_list,
 	*last_new = NULL;
 }
 
-void	initialize_retokenizing_variables(t_cmd **line, t_token *tok,
-		t_token **curr)
+void	init_retok_vars(t_cmd **line, t_token *tok, t_token **curr)
 {
 	*curr = (*line)->token;
 	if (*curr == tok)
