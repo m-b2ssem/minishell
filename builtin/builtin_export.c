@@ -93,8 +93,12 @@ int	add_variable(t_cmd *cmd)
 	t_env	*new;
 
 	i = 1;
-	if (allocate_memory(name, value, cmd))
+	name = ft_calloc(sizeof(char), (strlen(cmd->arg_arr[1]) + 1));
+	if (!name)
 		return (1);
+	value = ft_calloc(sizeof(char), (strlen(cmd->arg_arr[1]) + 1));
+	if (!value)
+		return (free(name), 1);
 	while (cmd->arg_arr[i] != NULL)
 	{
 		return_name(cmd->arg_arr[i], &name);

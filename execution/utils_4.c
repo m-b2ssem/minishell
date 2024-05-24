@@ -13,7 +13,7 @@ void	herdoc_handler(int signum)
 	}
 }
 
-static void	printf_error(char *str)
+void	printf_error(char *str)
 {
 	ft_putstr_fd("minishell: ", 2);
 	ft_putstr_fd(str, 2);
