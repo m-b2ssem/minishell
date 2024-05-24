@@ -1,4 +1,3 @@
-
 #include "../minishell.h"
 
 int	token_type_builtin(char *s)
@@ -35,10 +34,10 @@ void	token_type(t_token *tok)
 		&& tok->string[2] == '\0')
 		tok->type = APPEND;
 	else if (tok->string[0] == '"' && tok->string[ft_strlen(tok->string)
-		- 1] == '"')
+			- 1] == '"')
 		tok->type = D_QUOTE;
 	else if (tok->string[0] == '\'' && tok->string[ft_strlen(tok->string)
-		- 1] == '\'')
+			- 1] == '\'')
 		tok->type = S_QUOTE;
 	else if ((tok->string[0] == ' ' && tok->string[1] == '\0')
 		|| (tok->string[0] == '\t' && tok->string[1] == '\0'))

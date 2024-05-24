@@ -1,10 +1,8 @@
-
 #include "../minishell.h"
-
 
 int	parse_cmd(char *str, t_cmd **line, t_env *env, int status)
 {
-	char **arr;
+	char	**arr;
 
 	if (first_string_checks(str) == 1)
 		return (1);
@@ -26,20 +24,17 @@ int	parse_cmd(char *str, t_cmd **line, t_env *env, int status)
 	join_quoted_strings(line);
 	redirection_usage(line);
 	echo_option_checker(line);
-	// handle_expansion_edgecase(line);
 	remove_blank_tokens_from_cmds(line);
 	create_arr_for_exec(line);
-	// print_arr(line);
-	// print_list(line);
 	return (0);
 }
 
 void	handle_expansion_edgecase(t_cmd **line)
 {
-	t_cmd *curr_cmd;
-	t_token *curr_tok;
-	t_token *prev;
-	int here;
+	t_cmd	*curr_cmd;
+	t_token	*curr_tok;
+	t_token	*prev;
+	int		here;
 
 	here = 0;
 	curr_cmd = *line;
@@ -54,9 +49,7 @@ void	handle_expansion_edgecase(t_cmd **line)
 			else if (here && curr_tok->string != NULL
 				&& (curr_tok->type == S_QUOTE || curr_tok->type == D_QUOTE)
 				&& prev != NULL && prev->type == ARG)
-			{
 				prev->type = curr_tok->type;
-			}
 			prev = curr_tok;
 			curr_tok = curr_tok->next;
 		}

@@ -48,6 +48,16 @@ typedef enum token_status
 	OPTION
 }	t_token_status;
 
+typedef struct s_token_vars
+{
+	char			*arg;
+	int				size;
+	t_quote_status	stat;
+	t_cmd			*curr;
+	int				start;
+	int				i;
+}				t_token_vars;
+
 typedef enum slash_status
 {
 	NO_SLASH,
