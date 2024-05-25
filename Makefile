@@ -1,8 +1,7 @@
 NAME = minishell
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -g
-LIBFT =	library/libft/libft.a
-GETNEXTLINE = 	library/get_next_line/getnextline.a
+LIBFT = ./libft/libft.a
 SRC =	main.c redirections/redirections.c redirections/heredoc.c  redirections/her_util.c\
 		builtin/builtin_pwd.c builtin/builtin_cd.c builtin/builtin_echo.c builtin/builtin_export.c builtin/builtin_env.c \
 		builtin/builtin_unset.c builtin/builtin_exit.c builtin/export_utils.c\
@@ -20,21 +19,19 @@ SUP = readline_suppression.supp
 OBJ = $(SRC:.c=.o)
 
 $(NAME) : $(OBJ)
-	@make -C ./library/libft
-	@make -C ./library/get_next_line
-	$(CC) $(CFLAGS) $(OBJ) -lreadline $(LIBFT) $(GETNEXTLINE)  -o $(NAME)
+	@make -C ./libft
+	$(CC) $(CFLAGS) $(OBJ) -lreadline $(LIBFT) -o $(NAME)
 
 
 all		: $(NAME)
 
 clean	:
 	@rm -f $(OBJ)
-	@make -C ./library/libft clean
+	@make -C ./libft clean
 
 fclean	: clean
 	@rm -rf $(NAME)
-	@make -C ./library/libft fclean
-	@make -C ./library/get_next_line fclean
+	@make -C ./libft fclean
 
 re		: fclean all
 
