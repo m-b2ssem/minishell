@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   her_util.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amirfatt <amirfatt@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/26 17:57:16 by amirfatt          #+#    #+#             */
+/*   Updated: 2024/05/26 18:03:28 by amirfatt         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
 char	*after_dollar(t_dollar_vars *v, char **ad, int *k)
 {
 	(*v->i)++;
-	*ad = malloc(sizeof(char) * (strlen(v->str) + 1));
+	*ad = malloc(sizeof(char) * (ft_strlen(v->str) + 1));
 	if (!*ad)
 		return (free(v->new_str), NULL);
 	while (v->str[*v->i] != '\0' && v->str[*v->i] != ' ')
@@ -25,13 +37,13 @@ char	*process_dollar(t_dollar_vars *vars)
 	var_value = my_getenv(after_doller, vars->env);
 	if (var_value && vars->tok->expansion == 0)
 	{
-		strcpy(&vars->new_str[*vars->j], var_value);
-		*vars->j += strlen(var_value);
+		strcpy_custom(&vars->new_str[*vars->j], var_value);
+		*vars->j += ft_strlen(var_value);
 	}
 	else
 	{
 		vars->new_str[(*vars->j)++] = '$';
-		strcpy(&vars->new_str[*vars->j], after_doller);
+		strcpy_custom(&vars->new_str[*vars->j], after_doller);
 		*vars->j += k;
 	}
 	free(after_doller);

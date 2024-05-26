@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expansion.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amirfatt <amirfatt@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/26 17:54:48 by amirfatt          #+#    #+#             */
+/*   Updated: 2024/05/26 17:54:48 by amirfatt         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
 extern int	g_signal;
@@ -64,14 +76,14 @@ void	generate_args_for_tok(t_token *tok, t_token **last_new,
 		else if (is_space(tok->string[i]))
 			i++;
 		else
-			get_arguments(tok->string, &i);
+			get_args_other(tok->string, &i);
 		new = ft_substr(tok->string, start, i - start);
 		if (reinit(new, new_list, last_new) == 1)
 		{
 			free(new);
 			break ;
 		}
+		if (i == start)
+			break ;
 	}
-	free(tok->string);
-	free(tok);
 }

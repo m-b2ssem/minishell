@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_memcpy.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amirfatt <amirfatt@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/26 17:49:11 by amirfatt          #+#    #+#             */
+/*   Updated: 2024/05/26 17:49:11 by amirfatt         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 
 void	*ft_memcpy(void *dst, const void *src, size_t n)
@@ -18,18 +30,3 @@ void	*ft_memcpy(void *dst, const void *src, size_t n)
 	}
 	return (data_dst);
 }
-
-/*
-#include <stdio.h>
-#include <string.h>
-
-int main () {
-   const char src[50] = "Hello Word";
-   char dest[50] = "hello";
-   
-   printf("Before ft_memcpy dest = %s\n", dest);
-   ft_memcpy(dest, src, strlen(src)+1);
-   printf("After ft_memcpy dest = %s\n", dest);
-   
-   return(0);
-}*/

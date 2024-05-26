@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expansion_utils.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amirfatt <amirfatt@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/26 17:54:41 by amirfatt          #+#    #+#             */
+/*   Updated: 2024/05/26 19:58:03 by amirfatt         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
 void	init_vars(int *i, t_token **prev, t_token **new_list,
@@ -42,7 +54,7 @@ void	retokenizing_of_env_values(t_cmd **line, t_token *tok)
 	update_links(line, prev, new_list);
 	while (last_new && last_new->next)
 		last_new = last_new->next;
-	if (last_new)
+	if (last_new && last_new->next != NULL)
 		last_new->next = curr->next;
 }
 

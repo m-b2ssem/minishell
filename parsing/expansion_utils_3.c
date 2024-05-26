@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expansion_utils_3.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amirfatt <amirfatt@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/26 17:54:23 by amirfatt          #+#    #+#             */
+/*   Updated: 2024/05/26 19:59:25 by amirfatt         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
 int	initi_poss_var(int *i, int *st, int *siz, t_token *tok)
@@ -72,7 +84,7 @@ void	possible_expansion(t_cmd **cmd, t_token *tok, int status)
 				expand = expand_exit_status(tok, start_name, status);
 			else
 				expand = get_env_value(tmp_name, tok, &(*cmd)->env, start_name);
-			if (expand)
+			if (expand[0] != '\0')
 				helper(tok, &expand, &size, &i);
 			free(tmp_name);
 		}

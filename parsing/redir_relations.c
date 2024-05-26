@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   redir_relations.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amirfatt <amirfatt@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/26 17:55:49 by amirfatt          #+#    #+#             */
+/*   Updated: 2024/05/26 17:55:49 by amirfatt         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
 int	is_type_arg(t_token *tok)
@@ -13,9 +25,7 @@ void	change_redir_relation(t_token *tok, int *redir)
 	{
 		if (*redir == 5)
 		{
-			if (tok->type == ARG)
-				tok->expansion = 0;
-			else
+			if (tok->type == D_QUOTE || tok->type == S_QUOTE)
 				tok->expansion = 1;
 			tok->type = DELIM;
 		}

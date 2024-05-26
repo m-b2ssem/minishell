@@ -1,3 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strrchr.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amirfatt <amirfatt@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/26 17:52:26 by amirfatt          #+#    #+#             */
+/*   Updated: 2024/05/26 17:52:26 by amirfatt         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
 char	*ft_strrchr(const char *s, int c)
 {
 	const char	*last_occurrence;
@@ -29,6 +43,6 @@ int main () {
    ret = ft_strrchr(str, ch);
 
    printf("String after is \n", ret);
-   
+
    return(0);
 }*/

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   tokenize_helper.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amirfatt <amirfatt@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/26 20:46:27 by amirfatt          #+#    #+#             */
+/*   Updated: 2024/05/26 20:46:27 by amirfatt         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
 t_quote_status	get_quote_status(char c, t_quote_status stat)
@@ -45,6 +57,16 @@ void	get_arguments(char *str, int *i)
 		if (is_other_separator(str[(*i)]) && stat == NO_QUOTE)
 			break ;
 		else if (is_other_separator(str[(*i)]) && stat != NO_QUOTE)
+			break ;
+		(*i)++;
+	}
+}
+
+void	get_args_other(char *str, int *i)
+{
+	while (str[(*i)])
+	{
+		if (is_other(str[(*i)]))
 			break ;
 		(*i)++;
 	}

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   heredoc.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amirfatt <amirfatt@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/26 17:57:24 by amirfatt          #+#    #+#             */
+/*   Updated: 2024/05/26 17:57:24 by amirfatt         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
 extern sig_atomic_t	g_signal;
@@ -67,7 +79,7 @@ char	*check_for_env_value(char *str, t_env *env, t_token *tok)
 	vars.tok = tok;
 	vars.i = &i;
 	vars.j = &j;
-	vars.new_str = malloc(sizeof(char) * (strlen(str) + 1));
+	vars.new_str = malloc(sizeof(char) * (ft_strlen(str) + 1));
 	if (!vars.new_str)
 		return (NULL);
 	while (str[i])

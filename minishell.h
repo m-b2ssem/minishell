@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amirfatt <amirfatt@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/26 17:58:03 by amirfatt          #+#    #+#             */
+/*   Updated: 2024/05/26 17:58:03 by amirfatt         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -122,6 +134,9 @@ int				builtin_exit(t_cmd *cmd, t_cmd *tmp, pid_t *pross_id);
 int				heredoc(t_cmd *cmd, char *word, t_token *tok);
 int				write_inside_file(t_cmd *cmd, char *word, int fd, t_token *tok);
 char			*check_for_env_value(char *str, t_env *env, t_token *tok);
+void			remove_blank_tokens_from_cmds(t_cmd **cmd_list);
+void			remove_blank_tokens(t_cmd *cmd);
+void			free_str(t_token *to_delete);
 
 /* exec  */
 
@@ -160,7 +175,6 @@ void			free_file(t_cmd *cmd);
 /* signals*/
 
 void			child_signal(void);
-void			signal_handler_1(int signum);
 void			parent_signals(void);
 void			sig_ign(void);
 void			heredoc_signals(void);
@@ -259,13 +273,13 @@ int				is_valid_char_begin(char c);
 
 int				join_quoted_strings(t_cmd **head);
 int				assign_join_variable(t_cmd **cmd);
-int				find_node_and_modify(char *join, t_token **tok, t_token *find);
+int				find_node_and_modify(char *j, t_token *f, t_cmd **c);
 int				assign_join_variable(t_cmd **cmd);
 char			*join_strings(t_token **head);
 void			process_tok(t_cmd **cmd, t_token **tok, char **n, t_token **f);
 bool			process_n_token(t_token *curr_tok, t_cmd **curr_cmd);
-void			process_join(t_token **tok, char **new, t_token *f);
-void			set_to_type_arg(t_token *curr_tok, char *join);
+void			process_join(t_token **t, char **n, t_token *f, t_cmd **c);
+void			set_to_type_arg(t_token *curr_tok, char *join, int here);
 int				loop_assign_join(t_token *curr_tok, t_token *head_tok);
 int				calculate_total_length(t_token *curr_tok, t_token *prev_tok);
 
@@ -306,11 +320,6 @@ void			free_env_list(t_env *head);
 void			free_list_tokens(t_token **head);
 int				free_list(t_env **head);
 
-/*FT_HELPER.	c*/
-
-void			print_list(t_cmd **head);
-void			print_arr(t_cmd **cmd);
-
 /*BUILTIN_ED	GECASES.c*/
 
 int				export_checker(t_cmd *cmd);
@@ -319,14 +328,11 @@ int				is_valid_char(char c);
 void			handle_expansion_edgecase(t_cmd **line);
 void			retokenizing_of_env_values(t_cmd **line, t_token *tok);
 int				reinit(char *s, t_token **new_list, t_token **last_new);
-void			new_token_add_back(t_token **head, t_token *new);
 t_token			*reinitialize_tokens(char *s);
 void			free_new_dd(pid_t *pross_id, t_cmd *tmp);
 
 int				is_all_whitespace(char *str);
 char			*expand_exit_status(t_token *tok, int start, int status);
-void			remove_blank_tokens_from_cmds(t_cmd **cmd_list);
-void			remove_blank_tokens(t_cmd *cmd);
 
 /*BUILTIN_EDGECASES.c*/
 int				export_checker(t_cmd *cmd);
@@ -336,7 +342,6 @@ void			handle_expansion_edgecase(t_cmd **line);
 
 void			retokenizing_of_env_values(t_cmd **line, t_token *tok);
 int				reinit(char *s, t_token **new_list, t_token **last_new);
-void			new_token_add_back(t_token **head, t_token *new);
 t_token			*reinitialize_tokens(char *s);
 
 int				handle_expansion(t_cmd **line, int status);
@@ -347,7 +352,6 @@ void			init_vars(int *i, t_token **prev, t_token **new_list,
 void			process_token(t_token_vars *vars);
 
 char			*create_expansion(t_env *curr, char *org, int start, char *tmp);
-void			expansion_pre_checks(int *i, t_token *tok, int *start);
 void			generate_args_for_tok(t_token *tok, t_token **last_new,
 					t_token **new_list);
 void			hand_exp_loop(t_cmd **line, t_token *curr_tok, int status);
@@ -366,5 +370,7 @@ int				strcmp_custom(const char *str1, const char *str2);
 char			*strcpy_custom(char *destination, const char *source);
 void			free_n_v(char *n, char *v);
 int				alloc_mem(char **name, char **value, const char *arg);
+void			get_args_other(char *str, int *i);
+int				is_other(char c);
 
 #endif

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strjoin.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amirfatt <amirfatt@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/26 17:51:17 by amirfatt          #+#    #+#             */
+/*   Updated: 2024/05/26 17:51:17 by amirfatt         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 
 char	*ft_strjoin(char const *s1, char const *s2)
@@ -17,14 +29,3 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	ft_strlcpy((joining + s1_len), s2, s2_len + 1);
 	return (joining);
 }
-
-/*
-#include <stdio.h>
-int main ()
-{
-	char *s1 = "hello";
-	char *s2 = "word";
-
-	char res = ft_strjoin(s1,s2);
-	printf("the string res : ", res);
-}*/

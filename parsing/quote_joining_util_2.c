@@ -1,11 +1,26 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   quote_joining_util_2.c                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amirfatt <amirfatt@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/26 17:55:32 by amirfatt          #+#    #+#             */
+/*   Updated: 2024/05/26 17:55:33 by amirfatt         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
-void	set_to_type_arg(t_token *curr_tok, char *join)
+void	set_to_type_arg(t_token *curr_tok, char *join, int here)
 {
 	free(curr_tok->string);
 	curr_tok->string = join;
 	curr_tok->join = 0;
 	curr_tok->type = ARG;
+	if (here)
+		curr_tok->expansion = 1;
+	here = 0;
 }
 
 int	loop_assign_join(t_token *curr_tok, t_token *head_tok)

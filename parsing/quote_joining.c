@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   quote_joining.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amirfatt <amirfatt@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/26 17:55:43 by amirfatt          #+#    #+#             */
+/*   Updated: 2024/05/26 17:55:43 by amirfatt         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
 char	*concatenate_strings(char *new, t_token **head)
@@ -66,23 +78,26 @@ int	assign_join_variable(t_cmd **cmd)
 	return (flag);
 }
 
-int	find_node_and_modify(char *join, t_token **tok, t_token *find)
+int	find_node_and_modify(char *j, t_token *f, t_cmd **c)
 {
 	t_token	*curr_tok;
-	t_token	*tmp_find;
+	t_cmd	*cur;
+	int		here;
 
-	curr_tok = *tok;
-	tmp_find = find;
+	cur = *c;
+	curr_tok = cur->token;
 	while (curr_tok != NULL)
 	{
-		if (curr_tok == tmp_find)
+		if (curr_tok->type == HERE_DOC)
+			here = 1;
+		else if (curr_tok == f)
 		{
 			if (curr_tok->next != NULL)
 			{
-				if (join == NULL)
+				if (j == NULL)
 					return (1);
-				if (join != curr_tok->string)
-					set_to_type_arg(curr_tok, join);
+				if (j != curr_tok->string)
+					set_to_type_arg(curr_tok, j, here);
 				if (curr_tok->string == NULL)
 					return (1);
 			}

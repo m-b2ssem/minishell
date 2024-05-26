@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   token_type.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amirfatt <amirfatt@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/26 17:56:34 by amirfatt          #+#    #+#             */
+/*   Updated: 2024/05/26 17:56:34 by amirfatt         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
 int	token_type_builtin(char *s)
@@ -66,5 +78,12 @@ int	decide_token_type(t_cmd **line)
 		}
 		curr = curr->next;
 	}
+	return (0);
+}
+
+int	is_other(char c)
+{
+	if (c == ' ' || c == '	' || c == '<' || c == '>')
+		return (1);
 	return (0);
 }

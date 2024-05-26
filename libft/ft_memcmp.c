@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_memcmp.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amirfatt <amirfatt@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/26 17:49:04 by amirfatt          #+#    #+#             */
+/*   Updated: 2024/05/26 17:49:04 by amirfatt         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 
 int	ft_memcmp(const void *s1, const void *s2, size_t n)
@@ -20,7 +32,7 @@ int	ft_memcmp(const void *s1, const void *s2, size_t n)
 	return (0);
 }
 
-/* 
+/*
 #include <stdio.h>
 #include <string.h>
 
@@ -39,7 +51,7 @@ int main () {
    } else {
       printf("str1 is equal to str2");
    }
-   
+
    return(0);
 
 	//if Return value < 0 then it indicates str1 is less than str2.

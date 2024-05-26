@@ -1,11 +1,25 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   quote_joining_util_1.c                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amirfatt <amirfatt@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/26 17:55:26 by amirfatt          #+#    #+#             */
+/*   Updated: 2024/05/26 20:48:20 by amirfatt         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
-void	process_join(t_token **tok, char **new, t_token *f)
+void	process_join(t_token **t, char **n, t_token *f, t_cmd **c)
 {
-	*new = join_strings(tok);
-	if (*new)
+	if (f == NULL)
+		return ;
+	*n = join_strings(t);
+	if (*n)
 	{
-		find_node_and_modify(*new, tok, f);
+		find_node_and_modify(*n, f, c);
 		find_and_modify_unused_nodes(f);
 	}
 }
@@ -33,8 +47,10 @@ void	process_tok(t_cmd **cmd, t_token **tok, char **n, t_token **f)
 			*tok = (*tok)->next;
 		if (!process_n_token(*tok, cmd))
 			break ;
+		if (*tok == NULL)
+			break ;
 		*f = *tok;
-		process_join(tok, n, *f);
+		process_join(tok, n, *f, cmd);
 		*tok = (*f)->next;
 	}
 }
