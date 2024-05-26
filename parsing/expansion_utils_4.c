@@ -32,7 +32,7 @@ int	reinit(char *s, t_token **new_list, t_token **last_new)
 	return (0);
 }
 
-void	initialize_generate_args_variables(int *i, int *start, char **new)
+void	init_args_var(int *i, int *start, char **new)
 {
 	*i = 0;
 	*start = 0;
@@ -67,7 +67,7 @@ char	*forbidden_variable_name(t_token *tok, char *tmp, int start)
 	return (expand);
 }
 
-void	handle_expansion_loop(t_cmd **line, t_token *curr_tok, int status)
+void	hand_exp_loop(t_cmd **line, t_token *curr_tok, int status)
 {
 	int	here;
 

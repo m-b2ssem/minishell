@@ -39,19 +39,19 @@ void	retokenizing_of_env_values(t_cmd **line, t_token *tok)
 		}
 	}
 	generate_args_for_tok(tok, &last_new, &new_list);
-	update_token_links(line, prev, new_list);
+	update_links(line, prev, new_list);
 	while (last_new && last_new->next)
 		last_new = last_new->next;
 	if (last_new)
 		last_new->next = curr->next;
 }
 
-void	update_token_links(t_cmd **line, t_token *prev, t_token *new_list)
+void	update_links(t_cmd **l, t_token *p, t_token *n_lst)
 {
-	if (prev)
-		prev->next = new_list;
+	if (p)
+		p->next = n_lst;
 	else
-		(*line)->token = new_list;
+		(*l)->token = n_lst;
 }
 
 int	handle_expansion(t_cmd **line, int status)
@@ -63,7 +63,7 @@ int	handle_expansion(t_cmd **line, int status)
 	while (curr_cmd != NULL)
 	{
 		curr_tok = curr_cmd->token;
-		handle_expansion_loop(line, curr_tok, status);
+		hand_exp_loop(line, curr_tok, status);
 		curr_cmd = curr_cmd->next;
 	}
 	return (0);

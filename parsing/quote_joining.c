@@ -108,7 +108,7 @@ int	join_quoted_strings(t_cmd **head)
 		while (curr_cmd != NULL)
 		{
 			curr_tok = curr_cmd->token;
-			process_tokens_nor(&curr_cmd, &curr_tok, &new, &first);
+			process_tok(&curr_cmd, &curr_tok, &new, &first);
 			curr_cmd = curr_cmd->next;
 		}
 	}

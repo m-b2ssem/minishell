@@ -25,6 +25,22 @@ int	dd(t_cmd **cmd, t_env **env, int *status, char **envp)
 	return (0);
 }
 
+static int	handle_command(t_cmd **cmd, t_env **envp, int *status, char *str)
+{
+	if (is_all_whitespace(str))
+		return (1);
+	add_history(str);
+	*status = parse_cmd(str, cmd, *envp, *status);
+	if (*status)
+		free_everything(cmd);
+	else
+	{
+		*status = execute(cmd);
+		free_everything(cmd);
+	}
+	return (0);
+}
+
 int	main(int argc, char **argv, char **env)
 {
 	char	*str;
@@ -40,16 +56,10 @@ int	main(int argc, char **argv, char **env)
 		str = readline(PROMPT);
 		if (str == NULL)
 			return (free_list(&envp), 0);
-		if (is_all_whitespace(str))
-			continue ;
-		add_history(str);
-		status = parse_cmd(str, &cmd, envp, status);
-		if (status)
-			free_everything(&cmd);
-		else
+		if (handle_command (&cmd, &envp, &status, str))
 		{
-			status = execute(&cmd);
-			free_everything(&cmd);
+			free(str);
+			continue ;
 		}
 		free(str);
 	}

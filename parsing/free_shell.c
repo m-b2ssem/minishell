@@ -66,3 +66,9 @@ void	free_everything(t_cmd **line)
 	}
 	*line = NULL;
 }
+
+void	free_n_v(char *n, char *v)
+{
+	free(n);
+	free(v);
+}

@@ -1,15 +1,15 @@
 #include "../minishell.h"
 
-char	*get_after_dollar(t_dollar_vars *vars, char **after_doller, int *k)
+char	*after_dollar(t_dollar_vars *v, char **ad, int *k)
 {
-	(*vars->i)++;
-	*after_doller = malloc(sizeof(char) * (strlen(vars->str) + 1));
-	if (!*after_doller)
-		return (free(vars->new_str), NULL);
-	while (vars->str[*vars->i] != '\0' && vars->str[*vars->i] != ' ')
-		(*after_doller)[(*k)++] = vars->str[(*vars->i)++];
-	(*after_doller)[*k] = '\0';
-	return (*after_doller);
+	(*v->i)++;
+	*ad = malloc(sizeof(char) * (strlen(v->str) + 1));
+	if (!*ad)
+		return (free(v->new_str), NULL);
+	while (v->str[*v->i] != '\0' && v->str[*v->i] != ' ')
+		(*ad)[(*k)++] = v->str[(*v->i)++];
+	(*ad)[*k] = '\0';
+	return (*ad);
 }
 
 char	*process_dollar(t_dollar_vars *vars)
@@ -19,7 +19,7 @@ char	*process_dollar(t_dollar_vars *vars)
 	int		k;
 
 	k = 0;
-	after_doller = get_after_dollar(vars, &after_doller, &k);
+	after_doller = after_dollar(vars, &after_doller, &k);
 	if (!after_doller)
 		return (NULL);
 	var_value = my_getenv(after_doller, vars->env);

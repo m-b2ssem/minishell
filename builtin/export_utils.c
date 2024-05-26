@@ -83,4 +83,3 @@ void	swap(t_env *a, t_env *b)
 	b->value = temp_value;
 	b->export = temp_export;
 }
-

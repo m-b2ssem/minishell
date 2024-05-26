@@ -107,7 +107,8 @@ int	builtin_cd(t_cmd *cmd)
 	}
 	else
 	{
-		if (cmd->arg_arr[1] != NULL && chdir(cmd->arg_arr[1]) != 0 && c1(cmd->arg_arr[1]))
+		if (cmd->arg_arr[1] != NULL && chdir(cmd->arg_arr[1]) != 0
+			&& c1(cmd->arg_arr[1]))
 			return (ft_putstr_fd("no dirctory with this name\n", 2), 1);
 	}
 	pwd = getcwd(NULL, 0);

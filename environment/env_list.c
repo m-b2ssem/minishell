@@ -48,46 +48,47 @@ void	lst_addback(t_env **list, t_env *new)
 	}
 }
 
+static char	*get_env_value_new(const char *name)
+{
+	char	*value;
+	char	*tmp;
+
+	if (ft_strcmp(name, "SHLVL") == 0)
+	{
+		value = ft_itoa(ft_atoi(getenv("SHLVL")) + 1);
+	}
+	else
+	{
+		tmp = getenv(name);
+		if (tmp)
+			value = ft_strdup(tmp);
+		else
+			value = ft_strdup("");
+	}
+	return (value);
+}
+
 t_env	*initialize_env_variables(t_env **head, char **env)
 {
 	int		i;
 	char	*name;
-	char	*tmp;
 	char	*value;
 	t_env	*new;
 
-	i = 0;
-	while (env[i] != NULL)
+	i = -1;
+	while (env[++i] != NULL)
 	{
 		name = ft_substr(env[i], 0, find_char(env[i]));
-		if (ft_strcmp(name, "SHLVL") == 0)
-		{
-			tmp = ft_itoa(ft_atoi(getenv("SHLVL")) + 1);
-			value = tmp;
-		}
-		else
-		{
-			tmp = getenv(name);
-			if (tmp)
-				value = ft_strdup(tmp);
-			else
-				value = ft_strdup("");
-		}
-		if (value != NULL)
-			new = lst_new(name, value, new, 1);
-		else
-			new = lst_new(name, "", new, 1);
+		value = get_env_value_new(name);
+		new = lst_new(name, value, new, 1);
 		if (new == NULL)
 		{
-			free(value);
-			free(name);
+			free_n_v(name, value);
 			free_env_list(*head);
 			return (NULL);
 		}
 		lst_addback(head, new);
-		free(name);
-		free(value);
-		i++;
+		free_n_v(name, value);
 	}
 	return (*head);
 }

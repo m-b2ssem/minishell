@@ -1,14 +1,13 @@
 #include "../minishell.h"
 
-int	initialize_possible_expansion_variables(int *i, int *start_name, int *size,
-		t_token *tok)
+int	initi_poss_var(int *i, int *st, int *siz, t_token *tok)
 {
 	if (!tok || !tok->string)
 		return (1);
 	*i = 0;
-	*start_name = 0;
-	*size = ft_strlen(tok->string);
-	if (size == 0)
+	*st = 0;
+	*siz = ft_strlen(tok->string);
+	if (siz == 0)
 		return (1);
 	return (0);
 }
@@ -61,7 +60,7 @@ void	possible_expansion(t_cmd **cmd, t_token *tok, int status)
 
 	i = 0;
 	size = ft_strlen(tok->string);
-	if (initialize_possible_expansion_variables(&i, &start_name, &size, tok))
+	if (initi_poss_var(&i, &start_name, &size, tok))
 		return ;
 	init(&tmp_name, &expand);
 	while (i < size)

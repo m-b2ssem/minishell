@@ -2,19 +2,19 @@
 
 extern int	g_signal;
 
-char	*get_env_value(char *tmp_name, t_token *tok, t_env **list, int start)
+char	*get_env_value(char *t, t_token *tok, t_env **lst, int s)
 {
 	t_env	*curr;
 	char	*org_str;
 
 	org_str = tok->string;
 	curr = NULL;
-	if (tmp_name == NULL)
+	if (t == NULL)
 		return (NULL);
-	curr = find_accord_env_name(tmp_name, list);
+	curr = find_accord_env_name(t, lst);
 	if (curr == NULL)
-		return (forbidden_variable_name(tok, tmp_name, start));
-	return (create_expansion(curr, org_str, start, tmp_name));
+		return (forbidden_variable_name(tok, t, s));
+	return (create_expansion(curr, org_str, s, t));
 }
 
 int	remove_lone_dollars(t_cmd **line)
@@ -54,7 +54,7 @@ void	generate_args_for_tok(t_token *tok, t_token **last_new,
 	int		i;
 	int		start;
 
-	initialize_generate_args_variables(&i, &start, &new);
+	init_args_var(&i, &start, &new);
 	size = ft_strlen(tok->string);
 	while (i < size)
 	{

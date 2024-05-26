@@ -92,16 +92,10 @@ int	add_variable(t_cmd *cmd)
 	char	*value;
 	t_env	*new;
 
-	i = 1;
-	name = NULL;
-	value = NULL;
-	name = ft_calloc(sizeof(char), (ft_strlen(cmd->arg_arr[1]) + 1));
-	if (!name)
+	i = 0;
+	if (alloc_mem(&name, &value, cmd->arg_arr[1]))
 		return (1);
-	value = ft_calloc(sizeof(char), (ft_strlen(cmd->arg_arr[1]) + 1));
-	if (!value)
-		return (free(name), 1);
-	while (cmd->arg_arr[i] != NULL)
+	while (cmd->arg_arr[++i] != NULL)
 	{
 		return_name(cmd->arg_arr[i], &name);
 		export = return_value(cmd->arg_arr[i], &value);
@@ -114,7 +108,6 @@ int	add_variable(t_cmd *cmd)
 				return (free(name), free(value), 1);
 			lst_addback(&cmd->env, new);
 		}
-		i++;
 	}
 	return (free(name), free(value), 0);
 }
