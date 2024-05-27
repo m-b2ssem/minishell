@@ -15,26 +15,31 @@
 
 #include "../minishell.h"
 
-int quote_checks(t_token *tok, char **new)
+
+int	quote_checks(t_token *tok, char **new)
 {
 	*new = NULL;
 	if (tok == NULL || tok->string == NULL)
 		return (1);
-	if(ft_strcmp(tok->string, "''") == 0 || ft_strcmp(tok->string, "\"\"") == 0)
-		return(1);
+	if (ft_strcmp(tok->string, "''") == 0 || ft_strcmp(tok->string,
+			"\"\"") == 0)
+	{
+		tok->string[0] = '\0';
+		return (1);
+	}
 	return (0);
 }
 
 int	update_quote_strings(t_token *tok)
 {
-	char	*s1;
-	char	*s2;
-	char	*new;
+	char *s1;
+	char *s2;
+	char *new;
 
 	s1 = "\"";
 	s2 = "\'";
-	if(quote_checks(tok, &new) != 0)
-		return(1);
+	if (quote_checks(tok, &new) != 0)
+		return (1);
 	if (tok->string[0] == '"')
 		new = ft_strtrim(tok->string, s1);
 	else if (tok->string[0] == '\'')
@@ -67,8 +72,7 @@ int	search_quotes_modify(t_cmd **line)
 			if (curr_tok->string != NULL && curr_tok->string[0] != '\0')
 			{
 				if (curr_tok->type == D_QUOTE || curr_tok->type == S_QUOTE)
-					if (update_quote_strings(curr_tok) > 0)
-						return (1);
+					update_quote_strings(curr_tok);
 			}
 			curr_tok = curr_tok->next;
 		}
