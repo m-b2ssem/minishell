@@ -15,6 +15,7 @@
 
 #include "../minishell.h"
 
+
 int	parse_cmd(char *str, t_cmd **line, t_env *env, int status)
 {
 	char **arr;
@@ -29,7 +30,8 @@ int	parse_cmd(char *str, t_cmd **line, t_env *env, int status)
 		return (1);
 	}
 	initialize_arguments(line, arr, env);
-	iterate_through_cmd_args(line);
+	if (iterate_through_cmd_args(line) != 0)
+		free_everything(line);
 	decide_token_type(line);
 	if (redirection_spell_check(line) == 1)
 	{
@@ -43,6 +45,7 @@ int	parse_cmd(char *str, t_cmd **line, t_env *env, int status)
 	redirection_usage(line);
 	echo_option_checker(line);
 	remove_blank_tokens_from_cmds(line);
+	print_list(line);
 	create_arr_for_exec(line);
 	return (0);
 }

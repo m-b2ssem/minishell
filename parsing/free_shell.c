@@ -38,6 +38,7 @@ void	free_list_tokens(t_token **head)
 	while (current)
 	{
 		tmp = current->next;
+		printf("Current->string %p | %s\n", current->string, current->string);
 		free(current->string);
 		free(current);
 		current = tmp;

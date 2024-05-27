@@ -6,7 +6,7 @@
 /*   By: amirfatt <amirfatt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 17:54:23 by amirfatt          #+#    #+#             */
-/*   Updated: 2024/05/27 15:33:09 by amirfatt         ###   ########.fr       */
+/*   Updated: 2024/05/27 18:41:58 by amirfatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,10 @@ int	initi_poss_var(int *i, int *st, int *siz, t_token *tok)
 void	helper(t_token *tok, char **expand, int *size, int *i)
 {
 	free(tok->string);
-	tok->string = *expand;
+	tok->string = ft_strdup(*expand);
+	if (!tok->string)
+		return (free(*expand));
+	free(*expand);
 	*size = ft_strlen(tok->string);
 	*i = 0;
 }
@@ -86,6 +89,8 @@ void	possible_expansion(t_cmd **cmd, t_token *tok, int status)
 				expand = get_env_value(tmp_name, tok, &(*cmd)->env, start_name);
 			if (expand[0] != '\0')
 				helper(tok, &expand, &size, &i);
+			else
+				free(expand);
 			free(tmp_name);
 		}
 	}

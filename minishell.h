@@ -123,6 +123,10 @@ typedef struct s_dollar_vars
 	int			*j;
 }	t_dollar_vars;
 
+void	print_list(t_cmd **head);
+void	print_arr(t_cmd **cmd);
+t_token	*init_new_list(char **arr); 
+
 int				redirections(t_cmd **cmd_first, int **pipefd);
 int				builtin_pwd(void);
 int				builtin_cd(t_cmd *cmd);

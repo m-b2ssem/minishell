@@ -2,9 +2,12 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   expansion.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: amirfatt <amirfatt@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
+/*                                                    +:+ +:+
+	+:+     */
+/*   By: amirfatt <amirfatt@student.42.fr>          +#+  +:+
+	+#+        */
+/*                                                +#+#+#+#+#+
+	+#+           */
 /*   Created: 2024/05/26 17:54:48 by amirfatt          #+#    #+#             */
 /*   Updated: 2024/05/26 17:54:48 by amirfatt         ###   ########.fr       */
 /*                                                                            */
@@ -12,12 +15,13 @@
 
 #include "../minishell.h"
 
-extern int	g_signal;
+
+extern int g_signal;
 
 char	*get_env_value(char *t, t_token *tok, t_env **lst, int s)
 {
-	t_env	*curr;
-	char	*org_str;
+	t_env *curr;
+	char *org_str;
 
 	org_str = tok->string;
 	curr = NULL;
@@ -31,9 +35,9 @@ char	*get_env_value(char *t, t_token *tok, t_env **lst, int s)
 
 int	remove_lone_dollars(t_cmd **line)
 {
-	t_cmd	*curr_cmd;
-	t_token	*curr_token;
-	int		flag;
+	t_cmd *curr_cmd;
+	t_token *curr_token;
+	int flag;
 
 	flag = 0;
 	curr_cmd = *line;
@@ -61,10 +65,10 @@ int	remove_lone_dollars(t_cmd **line)
 void	generate_args_for_tok(t_token *tok, t_token **last_new,
 		t_token **new_list)
 {
-	char	*new;
-	int		size;
-	int		i;
-	int		start;
+	char *new;
+	int size;
+	int i;
+	int start;
 
 	init_args_var(&i, &start, &new);
 	size = ft_strlen(tok->string);
@@ -78,6 +82,7 @@ void	generate_args_for_tok(t_token *tok, t_token **last_new,
 		else
 			get_args_other(tok->string, &i);
 		new = ft_substr(tok->string, start, i - start);
+		free(tok->string);
 		if (reinit(new, new_list, last_new) == 1)
 		{
 			free(new);

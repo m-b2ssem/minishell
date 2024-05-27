@@ -58,6 +58,7 @@ t_token	*new_token(char *arg, t_token *new)
 		return (NULL);
 	init_node_tokens(new);
 	new->string = ft_strdup(arg);
+	printf("New->string-adress: %p | %s | %i\n", new->string, new->string, new->type);
 	if (new->string == NULL)
 		return (NULL);
 	return (new);

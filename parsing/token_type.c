@@ -74,6 +74,7 @@ int	decide_token_type(t_cmd **line)
 		while (tok != NULL)
 		{
 			token_type(tok);
+			printf("Token: %p | %s | %i\n", tok->string, tok->string, tok->type);
 			tok = tok->next;
 		}
 		curr = curr->next;
