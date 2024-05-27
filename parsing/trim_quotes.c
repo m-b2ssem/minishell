@@ -42,7 +42,7 @@ int	search_quotes_modify(t_cmd **line)
 	t_cmd	*curr_cmd;
 	t_token	*curr_tok;
 
-	if (line == NULL)
+	if (line == NULL || *line == NULL)
 		return (1);
 	curr_cmd = *line;
 	while (curr_cmd != NULL)

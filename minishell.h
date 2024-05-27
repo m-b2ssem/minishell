@@ -372,5 +372,6 @@ void			free_n_v(char *n, char *v);
 int				alloc_mem(char **name, char **value, const char *arg);
 void			get_args_other(char *str, int *i);
 int				is_other(char c);
+int				first_string_checks_two(char *str);
 
 #endif
