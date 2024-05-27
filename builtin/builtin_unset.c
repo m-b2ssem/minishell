@@ -23,12 +23,13 @@ int	builtin_unset(t_env **head, t_cmd *cmd)
 {
 	t_env	*prev;
 	t_env	*curr;
+	t_env	*tmp;
 	int		i;
 
 	i = 0;
-	prev = NULL;
 	while (cmd->arg_arr[i] != NULL)
 	{
+		prev = NULL;
 		curr = *head;
 		while (curr != NULL)
 		{
@@ -38,10 +39,15 @@ int	builtin_unset(t_env **head, t_cmd *cmd)
 					*head = curr->next;
 				else
 					prev->next = curr->next;
-				free_variable(curr);
+				tmp = curr;
+				curr = curr->next;
+				free_variable(tmp);
 			}
-			prev = curr;
-			curr = curr->next;
+			else
+			{
+				prev = curr;
+				curr = curr->next;
+			}
 		}
 		i++;
 	}
