@@ -82,7 +82,7 @@ int	initialize_arguments(t_cmd **line, char **user, t_env *env)
 
 	new = NULL;
 	i = -1;
-	if (user == NULL)
+	if (user == NULL )
 		return (1);
 	while (user[++i])
 	{

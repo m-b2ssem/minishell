@@ -15,15 +15,20 @@
 
 #include "../minishell.h"
 
+
 int	parse_cmd(char *str, t_cmd **line, t_env *env, int status)
 {
-	char	**arr;
+	char **arr;
 
 	if (first_string_checks(str) == 1)
 		return (1);
 	arr = ft_split_cmd(str, '|');
 	if (arr == NULL || arr[0] == NULL)
+	{
+		if (arr)
+			free(arr);
 		return (1);
+	}
 	initialize_arguments(line, arr, env);
 	iterate_through_cmd_args(line);
 	decide_token_type(line);
@@ -45,10 +50,10 @@ int	parse_cmd(char *str, t_cmd **line, t_env *env, int status)
 
 void	handle_expansion_edgecase(t_cmd **line)
 {
-	t_cmd	*curr_cmd;
-	t_token	*curr_tok;
-	t_token	*prev;
-	int		here;
+	t_cmd *curr_cmd;
+	t_token *curr_tok;
+	t_token *prev;
+	int here;
 
 	here = 0;
 	curr_cmd = *line;
