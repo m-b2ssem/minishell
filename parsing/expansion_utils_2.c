@@ -6,7 +6,7 @@
 /*   By: amirfatt <amirfatt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 17:54:15 by amirfatt          #+#    #+#             */
-/*   Updated: 2024/05/26 17:54:16 by amirfatt         ###   ########.fr       */
+/*   Updated: 2024/05/27 15:15:17 by amirfatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,13 @@ char	*expand_exit_status(t_token *tok, int start, int status)
 	expand = NULL;
 	s = ft_itoa(status + g_signal);
 	g_signal = 0;
-	new_size = ft_strlen(tok->string) - 1 + ft_strlen(ft_itoa(status));
-	expand = malloc(sizeof(char) * new_size + 1);
+	new_size = ft_strlen(tok->string) + ft_strlen(ft_itoa(status));
+	expand = ft_calloc(new_size + 1, sizeof(char));
 	if (!expand)
+	{
+		free(s);
 		return (NULL);
+	}
 	while (i < (start - 1))
 		expand[j++] = tok->string[i++];
 	while (*s)
