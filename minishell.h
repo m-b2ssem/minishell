@@ -374,5 +374,6 @@ int				alloc_mem(char **name, char **value, const char *arg);
 void			get_args_other(char *str, int *i);
 int				is_other(char c);
 int				first_string_checks_two(char *str);
+int 			quote_checks(t_token *tok, char **new);
 
 #endif

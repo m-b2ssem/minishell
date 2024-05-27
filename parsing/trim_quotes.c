@@ -2,15 +2,28 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   trim_quotes.c                                      :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: amirfatt <amirfatt@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
+/*                                                    +:+ +:+
+	+:+     */
+/*   By: amirfatt <amirfatt@student.42.fr>          +#+  +:+
+	+#+        */
+/*                                                +#+#+#+#+#+
+	+#+           */
 /*   Created: 2024/05/26 17:57:06 by amirfatt          #+#    #+#             */
 /*   Updated: 2024/05/26 17:57:06 by amirfatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+int quote_checks(t_token *tok, char **new)
+{
+	*new = NULL;
+	if (tok == NULL || tok->string == NULL)
+		return (1);
+	if(ft_strcmp(tok->string, "''") == 0 || ft_strcmp(tok->string, "\"\"") == 0)
+		return(1);
+	return (0);
+}
 
 int	update_quote_strings(t_token *tok)
 {
@@ -20,7 +33,8 @@ int	update_quote_strings(t_token *tok)
 
 	s1 = "\"";
 	s2 = "\'";
-	new = NULL;
+	if(quote_checks(tok, &new) != 0)
+		return(1);
 	if (tok->string[0] == '"')
 		new = ft_strtrim(tok->string, s1);
 	else if (tok->string[0] == '\'')
@@ -31,16 +45,16 @@ int	update_quote_strings(t_token *tok)
 	{
 		free(tok->string);
 		tok->string = new;
+		if (tok->string == NULL)
+			return (1);
 	}
-	if (tok->string == NULL)
-		return (1);
 	return (0);
 }
 
 int	search_quotes_modify(t_cmd **line)
 {
-	t_cmd	*curr_cmd;
-	t_token	*curr_tok;
+	t_cmd *curr_cmd;
+	t_token *curr_tok;
 
 	if (line == NULL || *line == NULL)
 		return (1);

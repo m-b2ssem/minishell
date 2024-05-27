@@ -15,7 +15,6 @@
 
 #include "../minishell.h"
 
-
 int	parse_cmd(char *str, t_cmd **line, t_env *env, int status)
 {
 	char **arr;
