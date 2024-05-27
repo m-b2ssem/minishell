@@ -28,6 +28,7 @@ void	handle_non_builtin(t_cmd *cmd, pid_t *pross_id, t_cmd *tmp)
 	new_env = env_to_char(cmd->env);
 	if (new_env == NULL)
 		clean_exit(tmp, pross_id, 127);
+	free_env_list(cmd->env);
 	execve(cmd->path, cmd->arg_arr, new_env);
 	if (stat(cmd->arg_arr[0], &file_stat) == 0)
 	{
@@ -49,6 +50,7 @@ void	custom_exe_on_child(t_cmd *cmd, pid_t *pross_id, t_cmd *tmp)
 	if (builtin(cmd))
 	{
 		status = custom_exe(cmd, tmp, pross_id);
+		free_env_list(cmd->env);
 		clean_exit(tmp, pross_id, status);
 	}
 	else
