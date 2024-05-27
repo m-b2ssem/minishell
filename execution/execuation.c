@@ -19,7 +19,6 @@ void	handle_non_builtin(t_cmd *cmd, pid_t *pross_id, t_cmd *tmp)
 	struct stat	file_stat;
 	char		**new_env;
 
-	close_fd(&tmp);
 	cmd->path = get_path(cmd->arg_arr[0], cmd->env);
 	if (cmd->path == NULL)
 		clean_exit_2(tmp, pross_id, 127);
@@ -58,9 +57,9 @@ void	loop_inside_execute(t_cmd *cmd, pid_t *pross_id, t_cmd *tmp)
 	int	i;
 
 	i = 0;
+	sig_ign();
 	while (cmd != NULL)
 	{
-		sig_ign();
 		pross_id[i] = fork();
 		if (pross_id[i] == -1)
 			free_new_dd(pross_id, tmp);
@@ -89,6 +88,7 @@ int	wait_and_free(pid_t *pross_ids, t_cmd **cmd)
 	status = 0;
 	parent_signals();
 	status = wait_pid(pross_ids, cmd_lenth(*cmd));
+	parent_signals();
 	free(pross_ids);
 	return (status);
 }

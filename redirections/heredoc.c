@@ -138,7 +138,7 @@ int	heredoc(t_cmd *cmd, char *word, t_token *tok)
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
 		return (free(file), -1);
-	cmd->fd_in = fd;
-	cmd->file = file;
+	cmd->file = ft_strdup(file);
+	free(file);
 	return (fd);
 }

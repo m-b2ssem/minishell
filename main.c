@@ -65,6 +65,7 @@ int	main(int argc, char **argv, char **env)
 	parent_signals();
 	while (1)
 	{
+		parent_signals();
 		str = readline(PROMPT);
 		if (str == NULL)
 			return (free_list(&envp), 0);

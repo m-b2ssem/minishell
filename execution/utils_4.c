@@ -47,6 +47,7 @@ void	free_file(t_cmd *cmd)
 void	free_new_dd(pid_t *pross_id, t_cmd *tmp)
 {
 	ft_putstr_fd("faild to fork", 2);
+	close_fd(&tmp);
 	free_cmd(tmp);
 	free(pross_id);
 	exit(1);
@@ -54,6 +55,9 @@ void	free_new_dd(pid_t *pross_id, t_cmd *tmp)
 
 void	clean_exit_2(t_cmd *tmp, pid_t *pross_id, int status)
 {
+	close(2);
+	close(1);
+	close(0);
 	close_fd(&tmp);
 	free_env_list(tmp->env);
 	free_cmd(tmp);
