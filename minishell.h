@@ -149,7 +149,7 @@ int				join_quoted_helper(t_token *curr_tok);
 /*utils*/
 
 int				cmd_lenth(t_cmd *cmd);
-int				close_fd(t_cmd *cmd);
+int				close_fd(t_cmd **cmd);
 int				wait_pid(pid_t *pross_id, int len);
 char			*get_path(char *command, t_env *env);
 void			free_cmd(t_cmd *cmd);
@@ -171,6 +171,7 @@ char			*my_getenv(char *name, t_env *env);
 int				free_pipe(int **pipefd);
 void			printf_error(char *str);
 void			free_file(t_cmd *cmd);
+void			clean_exit_2(t_cmd *tmp, pid_t *pross_id, int status);
 
 /* signals*/
 

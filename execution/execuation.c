@@ -12,23 +12,20 @@
 
 #include "../minishell.h"
 
-extern sig_atomic_t	g_signal;
+extern int	g_signal;
 
 void	handle_non_builtin(t_cmd *cmd, pid_t *pross_id, t_cmd *tmp)
 {
 	struct stat	file_stat;
 	char		**new_env;
 
+	close_fd(&tmp);
 	cmd->path = get_path(cmd->arg_arr[0], cmd->env);
 	if (cmd->path == NULL)
-	{
-		free_env_list(tmp->env);
-		clean_exit(tmp, pross_id, 127);
-	}
+		clean_exit_2(tmp, pross_id, 127);
 	new_env = env_to_char(cmd->env);
 	if (new_env == NULL)
-		clean_exit(tmp, pross_id, 127);
-	free_env_list(cmd->env);
+		clean_exit_2(tmp, pross_id, 127);
 	execve(cmd->path, cmd->arg_arr, new_env);
 	if (stat(cmd->arg_arr[0], &file_stat) == 0)
 	{
@@ -36,10 +33,10 @@ void	handle_non_builtin(t_cmd *cmd, pid_t *pross_id, t_cmd *tmp)
 		ft_putstr_fd(cmd->arg_arr[0], 2);
 		ft_putstr_fd(": Permission denied\n", 2);
 		free(new_env);
-		clean_exit(tmp, pross_id, 126);
+		clean_exit_2(tmp, pross_id, 126);
 	}
 	free(new_env);
-	clean_exit(tmp, pross_id, 127);
+	clean_exit_2(tmp, pross_id, 126);
 }
 
 void	custom_exe_on_child(t_cmd *cmd, pid_t *pross_id, t_cmd *tmp)
@@ -50,8 +47,7 @@ void	custom_exe_on_child(t_cmd *cmd, pid_t *pross_id, t_cmd *tmp)
 	if (builtin(cmd))
 	{
 		status = custom_exe(cmd, tmp, pross_id);
-		free_env_list(cmd->env);
-		clean_exit(tmp, pross_id, status);
+		clean_exit_2(tmp, pross_id, status);
 	}
 	else
 		handle_non_builtin(cmd, pross_id, tmp);
@@ -64,6 +60,7 @@ void	loop_inside_execute(t_cmd *cmd, pid_t *pross_id, t_cmd *tmp)
 	i = 0;
 	while (cmd != NULL)
 	{
+		sig_ign();
 		pross_id[i] = fork();
 		if (pross_id[i] == -1)
 			free_new_dd(pross_id, tmp);
@@ -72,7 +69,7 @@ void	loop_inside_execute(t_cmd *cmd, pid_t *pross_id, t_cmd *tmp)
 			child_signal();
 			dup2(cmd->fd_in, STDIN_FILENO);
 			dup2(cmd->fd_out, STDOUT_FILENO);
-			close_fd(tmp);
+			close_fd(&tmp);
 			custom_exe_on_child(cmd, pross_id, tmp);
 		}
 		if (cmd->fd_in != 0)
@@ -92,7 +89,6 @@ int	wait_and_free(pid_t *pross_ids, t_cmd **cmd)
 	status = 0;
 	parent_signals();
 	status = wait_pid(pross_ids, cmd_lenth(*cmd));
-	parent_signals();
 	free(pross_ids);
 	return (status);
 }
@@ -106,6 +102,7 @@ int	execute(t_cmd **cmd1)
 
 	cmd = *cmd1;
 	tmp = cmd;
+	
 	if (cmd_lenth(tmp) == 0)
 		return (0);
 	pross_ids = ft_calloc(cmd_lenth(cmd), sizeof(pid_t));

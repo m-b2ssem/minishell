@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-extern sig_atomic_t	g_signal;
+extern int	g_signal;
 
 int	random_char(void)
 {
@@ -134,6 +134,7 @@ int	heredoc(t_cmd *cmd, char *word, t_token *tok)
 		return (free(file), -1);
 	heredoc_signals();
 	write_inside_file(cmd, word, fd, tok);
+	close(fd);
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
 		return (free(file), -1);

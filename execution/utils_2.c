@@ -77,7 +77,7 @@ int	wait_pid(pid_t *pross_id, int len)
 		waitpid(pross_id[i], &exit_status, 0);
 		if (WIFSIGNALED(exit_status))
 		{
-			exit_statuses[i] = 128 + WEXITSTATUS(exit_status);
+			exit_statuses[i] = WEXITSTATUS(exit_status);
 		}
 		else if (WIFEXITED(exit_status))
 		{

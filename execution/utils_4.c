@@ -51,3 +51,12 @@ void	free_new_dd(pid_t *pross_id, t_cmd *tmp)
 	free(pross_id);
 	exit(1);
 }
+
+void	clean_exit_2(t_cmd *tmp, pid_t *pross_id, int status)
+{
+	close_fd(&tmp);
+	free_env_list(tmp->env);
+	free_cmd(tmp);
+	free(pross_id);
+	exit(status);
+}

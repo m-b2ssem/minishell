@@ -12,11 +12,11 @@
 
 #include "../minishell.h"
 
-int	close_fd(t_cmd *cmd)
+int	close_fd(t_cmd **cmd)
 {
 	t_cmd	*cur;
 
-	cur = cmd;
+	cur = *cmd;
 	while (cur)
 	{
 		if (cur->fd_in != 0)
@@ -101,7 +101,7 @@ int	one_operation(t_cmd *cmd, t_cmd *tmp, pid_t *pross_ids)
 
 	status = 0;
 	status = custom_exe(cmd, tmp, pross_ids);
-	close_fd(tmp);
+	close_fd(&tmp);
 	free(pross_ids);
 	return (status);
 }
