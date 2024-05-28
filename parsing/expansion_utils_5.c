@@ -6,7 +6,7 @@
 /*   By: amirfatt <amirfatt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 00:49:19 by amirfatt          #+#    #+#             */
-/*   Updated: 2024/05/28 11:43:23 by amirfatt         ###   ########.fr       */
+/*   Updated: 2024/05/28 14:55:20 by amirfatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	token_add_back2(t_token **head, t_token *new_token)
 t_token	*init_new_list(char **arr, t_token **head)
 {
 	t_token	*new;
-	t_token *tmp;
+	t_token	*tmp;
 	int		i;
 
 	new = NULL;
@@ -42,20 +42,7 @@ t_token	*init_new_list(char **arr, t_token **head)
 		new = reinitialize_tokens(arr[i]);
 		if (!new)
 		{
-			while(*head)
-			{
-				tmp = (*head);
-				(*head) = (*head)->next;
-				free(tmp->string);
-				free(tmp);
-			}
-			while(arr[i])
-			{
-				free(arr[i]);
-				arr[i] = NULL;
-				i++;
-			}
-			free(arr);
+			cleanup_on_error(head, arr, i);
 			return (NULL);
 		}
 		token_add_back2(head, new);

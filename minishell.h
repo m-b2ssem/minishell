@@ -135,6 +135,7 @@ int				parse_cmd_2(t_cmd **line, int status);
 void			init(char **tmp, char **expand);
 int				init_vars_modif(int *here, char *j);
 void			helper(t_token *tok, char *expand, int *size, int *i);
+void			cleanup_on_error(t_token **head, char **arr, int i);
 
 int				redirections(t_cmd **cmd_first, int **pipefd);
 int				builtin_pwd(void);

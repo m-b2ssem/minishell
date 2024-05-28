@@ -5,12 +5,20 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: amirfatt <amirfatt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/26 17:42:40 by amirfatt          #+#    #+#             */
-/*   Updated: 2024/05/26 17:42:43 by amirfatt         ###   ########.fr       */
+/*   Created: 2024/05/28 14:57:41 by amirfatt          #+#    #+#             */
+/*   Updated: 2024/05/28 14:57:41 by amirfatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+int	init_vars_modif(int *here, char *j)
+{
+	*here = 0;
+	if (j == NULL)
+		return (1);
+	return (0);
+}
 
 char	*my_strcat(char *destination, const char *source)
 {
@@ -52,4 +60,24 @@ char	*strcpy_custom(char *destination, const char *source)
 	}
 	*destination = '\0';
 	return (temp);
+}
+
+void	cleanup_on_error(t_token **head, char **arr, int i)
+{
+	t_token	*tmp;
+
+	while (*head)
+	{
+		tmp = (*head);
+		(*head) = (*head)->next;
+		free(tmp->string);
+		free(tmp);
+	}
+	while (arr[i])
+	{
+		free(arr[i]);
+		arr[i] = NULL;
+		i++;
+	}
+	free(arr);
 }

@@ -15,10 +15,9 @@
 
 #include "../minishell.h"
 
-
 void	update_token_links(t_cmd **l, t_token *p, t_token *nl, t_token *t)
 {
-	t_token *last_new;
+	t_token	*last_new;
 
 	last_new = nl;
 	if (p)
@@ -35,11 +34,11 @@ void	update_token_links(t_cmd **l, t_token *p, t_token *nl, t_token *t)
 
 void	retokenizing_of_env_values(t_cmd **line, t_token *tok)
 {
-	t_token *curr_tok_head;
-	t_token *last_new;
-	t_token *new_list;
-	t_token *prev;
-	char **arr;
+	t_token	*curr_tok_head;
+	t_token	*last_new;
+	t_token	*new_list;
+	t_token	*prev;
+	char	**arr;
 
 	arr = NULL;
 	if (!line || !tok || !tok->string)
@@ -52,12 +51,14 @@ void	retokenizing_of_env_values(t_cmd **line, t_token *tok)
 	prev = return_prev(curr_tok_head, tok, prev);
 	new_list = init_new_list(arr, &new_list);
 	update_token_links(line, prev, new_list, tok);
+	free(tok->string);
+	tok->string = NULL;
 }
 
 int	handle_expansion(t_cmd **line, int status)
 {
-	t_cmd *curr_cmd;
-	t_token *curr_tok;
+	t_cmd	*curr_cmd;
+	t_token	*curr_tok;
 
 	if (line == NULL || *line == NULL)
 		return (1);
