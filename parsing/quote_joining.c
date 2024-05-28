@@ -78,6 +78,14 @@ int	assign_join_variable(t_cmd **cmd)
 	return (flag);
 }
 
+int init_vars_modif(int *here, char *j)
+{
+	*here = 0;
+	if (j == NULL)
+		return (1);
+	return (0);
+}
+
 int	find_node_and_modify(char *j, t_token *f, t_cmd **c)
 {
 	t_token	*curr_tok;
@@ -86,8 +94,7 @@ int	find_node_and_modify(char *j, t_token *f, t_cmd **c)
 
 	cur = *c;
 	curr_tok = cur->token;
-	if (j == NULL)
-		return (1);
+	init_vars_modif(&here, j);
 	while (curr_tok != NULL)
 	{
 		if (curr_tok->type == HERE_DOC)
@@ -115,6 +122,7 @@ int	join_quoted_strings(t_cmd **head)
 	new = NULL;
 	first = NULL;
 	curr_tok = NULL;
+	curr_cmd = NULL;
 	curr_cmd = *head;
 	if (assign_join_variable(head) > 0)
 	{

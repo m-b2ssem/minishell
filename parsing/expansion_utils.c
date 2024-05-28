@@ -2,9 +2,12 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   expansion_utils.c                                  :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: amirfatt <amirfatt@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
+/*                                                    +:+ +:+
+	+:+     */
+/*   By: amirfatt <amirfatt@student.42.fr>          +#+  +:+
+	+#+        */
+/*                                                +#+#+#+#+#+
+	+#+           */
 /*   Created: 2024/05/28 00:48:18 by amirfatt          #+#    #+#             */
 /*   Updated: 2024/05/28 00:48:18 by amirfatt         ###   ########.fr       */
 /*                                                                            */
@@ -12,9 +15,10 @@
 
 #include "../minishell.h"
 
+
 void	update_token_links(t_cmd **l, t_token *p, t_token *nl, t_token *t)
 {
-	t_token	*last_new;
+	t_token *last_new;
 
 	last_new = nl;
 	if (p)
@@ -23,19 +27,19 @@ void	update_token_links(t_cmd **l, t_token *p, t_token *nl, t_token *t)
 		(*l)->token = nl;
 	while (last_new && last_new->next)
 		last_new = last_new->next;
-	if (last_new)
+	if (t->next != NULL)
 		last_new->next = t->next;
-	free(t->string);
-	free(t);
+	else
+		last_new->next = NULL;
 }
 
 void	retokenizing_of_env_values(t_cmd **line, t_token *tok)
 {
-	t_token	*curr_tok_head;
-	t_token	*last_new;
-	t_token	*new_list;
-	t_token	*prev;
-	char	**arr;
+	t_token *curr_tok_head;
+	t_token *last_new;
+	t_token *new_list;
+	t_token *prev;
+	char **arr;
 
 	arr = NULL;
 	if (!line || !tok || !tok->string)
@@ -52,9 +56,11 @@ void	retokenizing_of_env_values(t_cmd **line, t_token *tok)
 
 int	handle_expansion(t_cmd **line, int status)
 {
-	t_cmd	*curr_cmd;
-	t_token	*curr_tok;
+	t_cmd *curr_cmd;
+	t_token *curr_tok;
 
+	if (line == NULL || *line == NULL)
+		return (1);
 	curr_cmd = *line;
 	while (curr_cmd != NULL)
 	{
