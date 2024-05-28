@@ -6,7 +6,7 @@
 /*   By: amirfatt <amirfatt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 17:54:15 by amirfatt          #+#    #+#             */
-/*   Updated: 2024/05/28 03:00:40 by amirfatt         ###   ########.fr       */
+/*   Updated: 2024/05/28 12:44:42 by amirfatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	*create_expansion(t_env *curr, char *org, int start, char *tmp)
 	new_size = calculate_size(curr, org, tmp);
 	if (new_size == 0)
 		return (NULL);
-	expanded = malloc(sizeof(char) * (new_size + 1));
+	expanded = ft_calloc((new_size + 1), sizeof(char));
 	if (!expanded)
 		return (NULL);
 	while (i < (start - 1))
