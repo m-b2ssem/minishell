@@ -102,7 +102,6 @@ int	execute(t_cmd **cmd1)
 
 	cmd = *cmd1;
 	tmp = cmd;
-	
 	if (cmd_lenth(tmp) == 0)
 		return (0);
 	pross_ids = ft_calloc(cmd_lenth(cmd), sizeof(pid_t));

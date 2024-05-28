@@ -6,7 +6,7 @@
 /*   By: amirfatt <amirfatt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 17:54:15 by amirfatt          #+#    #+#             */
-/*   Updated: 2024/05/27 18:42:40 by amirfatt         ###   ########.fr       */
+/*   Updated: 2024/05/28 03:00:40 by amirfatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,36 +42,19 @@ char	*create_expansion(t_env *curr, char *org, int start, char *tmp)
 	return (expanded);
 }
 
-char	*expand_exit_status(t_token *tok, int start, int status)
+static void	exit_free(char *s, char *t)
 {
-	char	*expand;
-	char	*t;
-	char	*s;
+	free(s);
+	free(t);
+}
+
+static void	copy_strings(char *expand, t_token *tok, char *s, int start)
+{
 	int		i;
-	int		new_size;
 	int		j;
 
 	i = 0;
 	j = 0;
-	expand = NULL;
-	s = ft_itoa(status + g_signal);
-	if (s == NULL)
-		return (NULL);
-	g_signal = 0;
-	t = ft_itoa(status);
-	if (t == NULL)
-	{
-		free(s);
-		return (NULL);
-	}
-	new_size = ft_strlen(tok->string) + ft_strlen(t);
-	expand = ft_calloc(new_size + 1, sizeof(char));
-	if (!expand)
-	{
-		free(s);
-		free(t);
-		return (NULL);
-	}
 	while (i < (start - 1))
 		expand[j++] = tok->string[i++];
 	i = 0;
@@ -80,7 +63,33 @@ char	*expand_exit_status(t_token *tok, int start, int status)
 	while (tok->string[++start])
 		expand[j++] = tok->string[start];
 	expand[j] = '\0';
-	free(s);
-	free(t);
+}
+
+void	init(char **tmp, char **expand)
+{
+	*expand = NULL;
+	*tmp = NULL;
+}
+
+char	*expand_exit_status(t_token *tok, int start, int status)
+{
+	char	*expand;
+	char	*t;
+	char	*s;
+
+	expand = NULL;
+	s = ft_itoa(status + g_signal);
+	if (s == NULL)
+		return (NULL);
+	g_signal = 0;
+	t = ft_itoa(status);
+	if (t == NULL)
+		return (free(s), NULL);
+	expand = ft_calloc((ft_strlen(tok->string) + ft_strlen(t) + 1),
+			sizeof(char));
+	if (!expand)
+		return (exit_free(s, t), NULL);
+	copy_strings(expand, tok, s, start);
+	exit_free(s, t);
 	return (expand);
 }

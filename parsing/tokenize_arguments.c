@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: amirfatt <amirfatt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/26 17:56:41 by amirfatt          #+#    #+#             */
-/*   Updated: 2024/05/26 17:56:41 by amirfatt         ###   ########.fr       */
+/*   Created: 2024/05/28 03:31:16 by amirfatt          #+#    #+#             */
+/*   Updated: 2024/05/28 03:31:16 by amirfatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ void	process_token(t_token_vars *vars)
 		vars->i++;
 	else
 		get_arguments(vars->curr->args, &vars->i);
-	vars->arg = ft_substr(vars->curr->args, vars->start, vars->i - vars->start);
+	vars->arg = ft_substr(vars->curr->args, vars->start, vars->i
+			- vars->start);
 }
 
 int	split_into_tokens(t_cmd **line)
@@ -50,16 +51,6 @@ int	split_into_tokens(t_cmd **line)
 	return (0);
 }
 
-void free_tokens(t_token *token)
-{
-	t_token *prev;
-
-	prev = NULL;
-	while(token && token->next)
-		token = token->next;
-	
-}
-
 int	iterate_through_cmd_args(t_cmd **line)
 {
 	t_cmd	*current;
@@ -68,10 +59,7 @@ int	iterate_through_cmd_args(t_cmd **line)
 	while (current != NULL)
 	{
 		if (split_into_tokens(&current) == 1)
-		{
-			// function to free tokens correctly
 			return (1);
-		}
 		current = current->next;
 	}
 	return (0);

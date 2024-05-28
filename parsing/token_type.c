@@ -60,28 +60,6 @@ void	token_type(t_token *tok)
 		tok->type = NON;
 }
 
-int	decide_token_type(t_cmd **line)
-{
-	t_cmd	*curr;
-	t_token	*tok;
-
-	if (line == NULL)
-		return (1);
-	curr = *line;
-	while (curr != NULL)
-	{
-		tok = curr->token;
-		while (tok != NULL)
-		{
-			token_type(tok);
-			printf("Token: %p | %s | %i\n", tok->string, tok->string, tok->type);
-			tok = tok->next;
-		}
-		curr = curr->next;
-	}
-	return (0);
-}
-
 int	is_other(char c)
 {
 	if (c == ' ' || c == '	' || c == '<' || c == '>')

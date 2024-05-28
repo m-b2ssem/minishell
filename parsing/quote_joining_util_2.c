@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: amirfatt <amirfatt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/26 17:55:32 by amirfatt          #+#    #+#             */
-/*   Updated: 2024/05/26 17:55:33 by amirfatt         ###   ########.fr       */
+/*   Created: 2024/05/28 03:31:41 by amirfatt          #+#    #+#             */
+/*   Updated: 2024/05/28 03:31:41 by amirfatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ void	set_to_type_arg(t_token *curr_tok, char *join, int here)
 {
 	free(curr_tok->string);
 	curr_tok->string = join;
+	if (curr_tok->string == NULL)
+		return ;
 	curr_tok->join = 0;
 	curr_tok->type = ARG;
 	if (here)
@@ -33,7 +35,8 @@ int	loop_assign_join(t_token *curr_tok, t_token *head_tok)
 	while (curr_tok != NULL)
 	{
 		if (prev_tok != NULL && !join_redir_helper(prev_tok)
-			&& curr_tok->string != NULL && join_quoted_helper(curr_tok))
+			&& curr_tok->string != NULL && join_quoted_helper(curr_tok)
+			&& curr_tok->expansion != 2)
 		{
 			if (join_quoted_helper(prev_tok) || (prev_tok->type == BUILTIN
 					&& prev_tok != head_tok))

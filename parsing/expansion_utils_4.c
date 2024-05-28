@@ -24,7 +24,7 @@ t_token	*reinitialize_tokens(char *s)
 	new->string = s;
 	new->type = NON;
 	token_type(new);
-	new->expansion = -1;
+	new->expansion = 2;
 	new->next = NULL;
 	return (new);
 }
@@ -96,7 +96,8 @@ void	hand_exp_loop(t_cmd **line, t_token *curr_tok, int status)
 			{
 				if (ft_strchr(curr_tok->string, '$') != NULL)
 				{
-					possible_expansion(line, curr_tok, status);
+					if (possible_expansion(line, curr_tok, status) != 0)
+						return ;
 					retokenizing_of_env_values(line, curr_tok);
 				}
 			}

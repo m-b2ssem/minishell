@@ -2,24 +2,20 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   start_parse_checker.c                              :+:      :+:    :+:   */
-/*                                                    +:+ +:+
-	+:+     */
-/*   By: amirfatt <amirfatt@student.42.fr>          +#+  +:+
-	+#+        */
-/*                                                +#+#+#+#+#+
-	+#+           */
-/*   Created: 2024/05/26 17:56:15 by amirfatt          #+#    #+#             */
-/*   Updated: 2024/05/26 17:56:15 by amirfatt         ###   ########.fr       */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amirfatt <amirfatt@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/28 01:21:42 by amirfatt          #+#    #+#             */
+/*   Updated: 2024/05/28 01:21:42 by amirfatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-
 int	check_for_unclosed_quotes(char *str)
 {
-	int i;
-	t_quote_status stat;
+	int				i;
+	t_quote_status	stat;
 
 	i = 0;
 	stat = NO_QUOTE;
@@ -33,8 +29,8 @@ int	check_for_unclosed_quotes(char *str)
 
 int	check_unexpected_token(char *str)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	j = 0;
 	i = 0;
@@ -61,13 +57,13 @@ int	first_string_checks_two(char *str)
 		printf_error(str);
 		return (1);
 	}
-	return(0); 
+	return (0);
 }
 
 int	first_string_checks(char *str)
 {
-	int quote;
-	int token;
+	int	quote;
+	int	token;
 
 	quote = 0;
 	token = 0;

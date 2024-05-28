@@ -6,7 +6,7 @@
 /*   By: amirfatt <amirfatt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 17:54:23 by amirfatt          #+#    #+#             */
-/*   Updated: 2024/05/27 18:41:58 by amirfatt         ###   ########.fr       */
+/*   Updated: 2024/05/28 03:00:17 by amirfatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,6 @@ void	helper(t_token *tok, char **expand, int *size, int *i)
 	*i = 0;
 }
 
-void	init(char **tmp, char **expand)
-{
-	*expand = NULL;
-	*tmp = NULL;
-}
-
 char	*get_tmp_name(t_token *tok, int *i, int *start_name)
 {
 	int	size;
@@ -65,7 +59,15 @@ char	*get_tmp_name(t_token *tok, int *i, int *start_name)
 	return (NULL);
 }
 
-void	possible_expansion(t_cmd **cmd, t_token *tok, int status)
+static void	process_expansion(t_token *tok, char *expand, int *size, int *i)
+{
+	if (expand && expand[0] != '\0')
+		helper(tok, &expand, size, i);
+	else
+		free(expand);
+}
+
+int	possible_expansion(t_cmd **cmd, t_token *tok, int status)
 {
 	int		i;
 	int		start_name;
@@ -73,10 +75,8 @@ void	possible_expansion(t_cmd **cmd, t_token *tok, int status)
 	char	*tmp_name;
 	char	*expand;
 
-	i = 0;
-	size = ft_strlen(tok->string);
 	if (initi_poss_var(&i, &start_name, &size, tok))
-		return ;
+		return (1);
 	init(&tmp_name, &expand);
 	while (i < size)
 	{
@@ -87,11 +87,9 @@ void	possible_expansion(t_cmd **cmd, t_token *tok, int status)
 				expand = expand_exit_status(tok, start_name, status);
 			else
 				expand = get_env_value(tmp_name, tok, &(*cmd)->env, start_name);
-			if (expand[0] != '\0')
-				helper(tok, &expand, &size, &i);
-			else
-				free(expand);
+			process_expansion(tok, expand, &size, &i);
 			free(tmp_name);
 		}
 	}
+	return (0);
 }

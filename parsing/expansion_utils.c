@@ -2,113 +2,58 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   expansion_utils.c                                  :+:      :+:    :+:   */
-/*                                                    +:+ +:+
-	+:+     */
-/*   By: amirfatt <amirfatt@student.42.fr>          +#+  +:+
-	+#+        */
-/*                                                +#+#+#+#+#+
-	+#+           */
-/*   Created: 2024/05/26 17:54:41 by amirfatt          #+#    #+#             */
-/*   Updated: 2024/05/26 19:58:03 by amirfatt         ###   ########.fr       */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amirfatt <amirfatt@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/28 00:48:18 by amirfatt          #+#    #+#             */
+/*   Updated: 2024/05/28 00:48:18 by amirfatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-
-t_token	*init_new_list(char **arr)
+void	update_token_links(t_cmd **l, t_token *p, t_token *nl, t_token *t)
 {
-	t_token *new = NULL;
-	t_token *head = NULL;
-	t_token *tmp;
-	t_token *current;
-	int i = -1;
+	t_token	*last_new;
 
-	if (arr == NULL)
-		return (NULL);
-	while (arr[++i])
-	{
-		new = reinitialize_tokens(arr[i]);
-		if (!new)
-		{
-			while (head)
-			{
-				tmp = head;
-				head = head->next;
-				free(tmp->string);
-				free(tmp);
-			}
-			while (arr[i])
-				free(arr[--i]);
-			free(arr);
-			return (NULL);
-		}
-		free(arr[i]);
-		if (!head)
-			head = new;
-		else
-			current->next = new;
-		current = new;
-	}
-	return (head);
+	last_new = nl;
+	if (p)
+		p->next = nl;
+	else
+		(*l)->token = nl;
+	while (last_new && last_new->next)
+		last_new = last_new->next;
+	if (last_new)
+		last_new->next = t->next;
+	free(t->string);
+	free(t);
 }
 
 void	retokenizing_of_env_values(t_cmd **line, t_token *tok)
 {
-	t_token *curr_tok_head;
-	t_token *start;
-	t_token *new_list;
-	char **arr = NULL;
+	t_token	*curr_tok_head;
+	t_token	*last_new;
+	t_token	*new_list;
+	t_token	*prev;
+	char	**arr;
+
+	arr = NULL;
+	if (!line || !tok || !tok->string)
+		return ;
+	in_retok(&curr_tok_head, &last_new, &new_list, &prev);
 	curr_tok_head = (*line)->token;
-	if (!tok || !tok->string)
-		return ;
 	arr = ft_split(tok->string, ' ');
-	if (arr == NULL)
+	if (arr == NULL || pre_check(arr, tok) == 1)
 		return ;
-	if (arr[0] && ft_strcmp(arr[0], tok->string) == 0 && arr[1] == NULL)
-	{
-		free(arr[0]);
-		free(arr);
-		return ;
-	}
-	if (curr_tok_head == tok)
-		start = curr_tok_head;
-	else
-	{
-		while (curr_tok_head && curr_tok_head != tok)
-		{
-			start = curr_tok_head;
-			curr_tok_head = curr_tok_head->next;
-		}
-	}
-	new_list = init_new_list(arr);
-	if (!new_list)
-		return ;
-	if (start == (*line)->token)
-	{
-		new_list->next = curr_tok_head->next;
-		(*line)->token = new_list;
-	}
-	else
-	{
-		t_token *prev = start;
-		t_token *current = new_list;
-		while (current->next)
-			current = current->next;
-		current->next = curr_tok_head->next;
-		prev->next = new_list;
-	}
-	free(tok->string);
-	free(tok);
-	for (int i = 0; arr[i]; i++)
-		free(arr[i]);
-	free(arr);
+	prev = return_prev(curr_tok_head, tok, prev);
+	new_list = init_new_list(arr, &new_list);
+	update_token_links(line, prev, new_list, tok);
 }
 
 int	handle_expansion(t_cmd **line, int status)
 {
-	t_cmd *curr_cmd;
-	t_token *curr_tok;
+	t_cmd	*curr_cmd;
+	t_token	*curr_tok;
 
 	curr_cmd = *line;
 	while (curr_cmd != NULL)

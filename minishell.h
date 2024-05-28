@@ -123,9 +123,16 @@ typedef struct s_dollar_vars
 	int			*j;
 }	t_dollar_vars;
 
-void	print_list(t_cmd **head);
-void	print_arr(t_cmd **cmd);
-t_token	*init_new_list(char **arr); 
+void			process_tokenn(t_token *token, int *flag);
+t_token			*init_new_list(char **arr, t_token **head);
+t_token			*return_prev(t_token *cur_th, t_token *tok, t_token *prev);
+int				pre_check(char **arr, t_token *t);
+void			in_retok(t_token **c_t, t_token **l, t_token **nl, t_token **p);
+t_token			*init_new_list(char **arr, t_token **head);
+void			token_add_back2(t_token **head, t_token *new_token);
+int				possible_expansion(t_cmd **cmd, t_token *tok, int status);
+int				parse_cmd_2(t_cmd **line, int status);
+void			init(char **tmp, char **expand);
 
 int				redirections(t_cmd **cmd_first, int **pipefd);
 int				builtin_pwd(void);
@@ -244,7 +251,6 @@ int				find_char(char *s);
 
 /*TOKEN_TYPE	.c*/
 
-int				decide_token_type(t_cmd **line);
 void			token_type(t_token *tok);
 int				token_type_builtin(char *s);
 
@@ -261,7 +267,6 @@ int				update_quote_strings(t_token *tok);
 /*EXPANSION.	C*/
 
 int				handle_expansion(t_cmd **line, int status);
-void			possible_expansion(t_cmd **cmd, t_token *tok, int status);
 char			*get_env_value(char *t, t_token *tok, t_env **lst, int s);
 char			*create_expansion(t_env *curr, char *org, int start, char *tmp);
 char			*forbidden_variable_name(t_token *tok, char *tmp, int start);
@@ -350,15 +355,12 @@ int				reinit(char *s, t_token **new_list, t_token **last_new);
 t_token			*reinitialize_tokens(char *s);
 
 int				handle_expansion(t_cmd **line, int status);
-void			update_links(t_cmd **l, t_token *p, t_token *n_lst);
 void			retokenizing_of_env_values(t_cmd **line, t_token *tok);
 void			init_vars(int *i, t_token **prev, t_token **new_list,
 					t_token **last_new);
 void			process_token(t_token_vars *vars);
 
 char			*create_expansion(t_env *curr, char *org, int start, char *tmp);
-void			generate_args_for_tok(t_token *tok, t_token **last_new,
-					t_token **new_list);
 void			hand_exp_loop(t_cmd **line, t_token *curr_tok, int status);
 
 void			init_args_var(int *i, int *start, char **new);
@@ -378,6 +380,6 @@ int				alloc_mem(char **name, char **value, const char *arg);
 void			get_args_other(char *str, int *i);
 int				is_other(char c);
 int				first_string_checks_two(char *str);
-int 			quote_checks(t_token *tok, char **new);
+int				quote_checks(t_token *tok, char **new);
 
 #endif

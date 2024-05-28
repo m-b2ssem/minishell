@@ -2,24 +2,20 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   quote_joining.c                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+
-	+:+     */
-/*   By: amirfatt <amirfatt@student.42.fr>          +#+  +:+
-	+#+        */
-/*                                                +#+#+#+#+#+
-	+#+           */
-/*   Created: 2024/05/26 17:55:43 by amirfatt          #+#    #+#             */
-/*   Updated: 2024/05/26 17:55:43 by amirfatt         ###   ########.fr       */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amirfatt <amirfatt@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/28 02:03:56 by amirfatt          #+#    #+#             */
+/*   Updated: 2024/05/28 02:03:56 by amirfatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-
 char	*concatenate_strings(char *new, t_token **head)
 {
-	t_token *curr_tok;
-	t_token *prev_tok;
+	t_token	*curr_tok;
+	t_token	*prev_tok;
 
 	curr_tok = *head;
 	prev_tok = NULL;
@@ -63,10 +59,10 @@ char	*join_strings(t_token **head)
 
 int	assign_join_variable(t_cmd **cmd)
 {
-	t_cmd *curr_cmd;
-	t_token *curr_tok;
-	t_token *head_tok;
-	int flag;
+	t_cmd	*curr_cmd;
+	t_token	*curr_tok;
+	t_token	*head_tok;
+	int		flag;
 
 	flag = 0;
 	curr_cmd = NULL;
@@ -84,13 +80,14 @@ int	assign_join_variable(t_cmd **cmd)
 
 int	find_node_and_modify(char *j, t_token *f, t_cmd **c)
 {
-	t_token *curr_tok;
-	t_cmd *cur;
-	int here;
+	t_token	*curr_tok;
+	t_cmd	*cur;
+	int		here;
 
-	here = 0;
 	cur = *c;
 	curr_tok = cur->token;
+	if (j == NULL)
+		return (1);
 	while (curr_tok != NULL)
 	{
 		if (curr_tok->type == HERE_DOC)
@@ -99,12 +96,8 @@ int	find_node_and_modify(char *j, t_token *f, t_cmd **c)
 		{
 			if (curr_tok->next != NULL)
 			{
-				if (j == NULL)
-					return (1);
 				if (j != curr_tok->string)
 					set_to_type_arg(curr_tok, j, here);
-				if (curr_tok->string == NULL)
-					return (1);
 			}
 		}
 		curr_tok = curr_tok->next;
@@ -114,10 +107,10 @@ int	find_node_and_modify(char *j, t_token *f, t_cmd **c)
 
 int	join_quoted_strings(t_cmd **head)
 {
-	char *new;
-	t_token *first;
-	t_cmd *curr_cmd;
-	t_token *curr_tok;
+	char	*new;
+	t_token	*first;
+	t_cmd	*curr_cmd;
+	t_token	*curr_tok;
 
 	new = NULL;
 	first = NULL;

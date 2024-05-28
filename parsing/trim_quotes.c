@@ -2,19 +2,15 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   trim_quotes.c                                      :+:      :+:    :+:   */
-/*                                                    +:+ +:+
-	+:+     */
-/*   By: amirfatt <amirfatt@student.42.fr>          +#+  +:+
-	+#+        */
-/*                                                +#+#+#+#+#+
-	+#+           */
-/*   Created: 2024/05/26 17:57:06 by amirfatt          #+#    #+#             */
-/*   Updated: 2024/05/26 17:57:06 by amirfatt         ###   ########.fr       */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amirfatt <amirfatt@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/28 02:05:35 by amirfatt          #+#    #+#             */
+/*   Updated: 2024/05/28 02:05:35 by amirfatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
 
 int	quote_checks(t_token *tok, char **new)
 {
@@ -32,9 +28,9 @@ int	quote_checks(t_token *tok, char **new)
 
 int	update_quote_strings(t_token *tok)
 {
-	char *s1;
-	char *s2;
-	char *new;
+	char	*s1;
+	char	*s2;
+	char	*new;
 
 	s1 = "\"";
 	s2 = "\'";
@@ -58,8 +54,8 @@ int	update_quote_strings(t_token *tok)
 
 int	search_quotes_modify(t_cmd **line)
 {
-	t_cmd *curr_cmd;
-	t_token *curr_tok;
+	t_cmd	*curr_cmd;
+	t_token	*curr_tok;
 
 	if (line == NULL || *line == NULL)
 		return (1);
@@ -72,7 +68,8 @@ int	search_quotes_modify(t_cmd **line)
 			if (curr_tok->string != NULL && curr_tok->string[0] != '\0')
 			{
 				if (curr_tok->type == D_QUOTE || curr_tok->type == S_QUOTE)
-					update_quote_strings(curr_tok);
+					if (update_quote_strings(curr_tok) != 0)
+						return (1);
 			}
 			curr_tok = curr_tok->next;
 		}

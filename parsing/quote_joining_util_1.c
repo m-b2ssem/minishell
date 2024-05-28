@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: amirfatt <amirfatt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/26 17:55:26 by amirfatt          #+#    #+#             */
-/*   Updated: 2024/05/26 20:48:20 by amirfatt         ###   ########.fr       */
+/*   Created: 2024/05/28 02:09:22 by amirfatt          #+#    #+#             */
+/*   Updated: 2024/05/28 02:09:22 by amirfatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ bool	process_n_token(t_token *curr_tok, t_cmd **curr_cmd)
 
 void	process_tok(t_cmd **cmd, t_token **tok, char **n, t_token **f)
 {
+	if (tok == NULL || *tok == NULL)
+		return ;
 	while (*tok != NULL)
 	{
 		while (*tok != NULL && (*tok)->join != 1)

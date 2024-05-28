@@ -19,19 +19,29 @@ void	free_str(t_token *to_delete)
 {
 	if (to_delete)
 	{
-		// if (to_delete->string)
-		// 	free(to_delete->string);
+		if (to_delete->string)
+			free(to_delete->string);
 		free(to_delete);
 	}
 }
 
+static void	blanks_init(t_token **p, t_token **to, t_token **t, t_token **c)
+{
+	*p = NULL;
+	*to = NULL;
+	*t = NULL;
+	*c = NULL;
+}
+
 void	remove_blank_tokens(t_cmd *cmd)
 {
-	t_token *current = cmd->token;
-	t_token *prev = NULL;
-	t_token *to_delete = NULL;
-	t_token *tmp;
+	t_token	*current;
+	t_token	*prev;
+	t_token	*to_delete;
+	t_token	*tmp;
 
+	blanks_init(&prev, &to_delete, &tmp, &current);
+	current = cmd->token;
 	while (current != NULL)
 	{
 		tmp = current->next;
@@ -52,7 +62,7 @@ void	remove_blank_tokens(t_cmd *cmd)
 
 void	remove_blank_tokens_from_cmds(t_cmd **cmd_list)
 {
-	t_cmd *curr_cmd;
+	t_cmd	*curr_cmd;
 
 	curr_cmd = *cmd_list;
 	while (curr_cmd != NULL)

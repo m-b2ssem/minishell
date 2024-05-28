@@ -2,24 +2,57 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   start_parse.c                                      :+:      :+:    :+:   */
-/*                                                    +:+ +:+
-	+:+     */
-/*   By: amirfatt <amirfatt@student.42.fr>          +#+  +:+
-	+#+        */
-/*                                                +#+#+#+#+#+
-	+#+           */
-/*   Created: 2024/05/26 17:56:23 by amirfatt          #+#    #+#             */
-/*   Updated: 2024/05/26 17:56:23 by amirfatt         ###   ########.fr       */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amirfatt <amirfatt@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/28 03:32:50 by amirfatt          #+#    #+#             */
+/*   Updated: 2024/05/28 03:32:50 by amirfatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+int	parse_cmd_2(t_cmd **line, int status)
+{
+	handle_expansion(line, status);
+	if (remove_lone_dollars(line) != 0)
+		return (1);
+	join_quoted_strings(line);
+	if (redirection_usage(line) != 0)
+		return (ft_putstr_fd(REDIR, 2), 1);
+	echo_option_checker(line);
+	remove_blank_tokens_from_cmds(line);
+	if (create_arr_for_exec(line) != 0)
+		return (1);
+	return (0);
+}
+
+int	decide_token_type(t_cmd **line)
+{
+	t_cmd	*curr;
+	t_token	*tok;
+
+	if (line == NULL)
+		return (1);
+	curr = *line;
+	while (curr != NULL)
+	{
+		tok = curr->token;
+		while (tok != NULL)
+		{
+			token_type(tok);
+			tok = tok->next;
+		}
+		curr = curr->next;
+	}
+	return (0);
+}
 
 int	parse_cmd(char *str, t_cmd **line, t_env *env, int status)
 {
-	char **arr;
+	char	**arr;
 
+	arr = NULL;
 	if (first_string_checks(str) == 1)
 		return (1);
 	arr = ft_split_cmd(str, '|');
@@ -29,33 +62,26 @@ int	parse_cmd(char *str, t_cmd **line, t_env *env, int status)
 			free(arr);
 		return (1);
 	}
-	initialize_arguments(line, arr, env);
+	if (initialize_arguments(line, arr, env) != 0)
+		return (free_everything(line), 1);
 	if (iterate_through_cmd_args(line) != 0)
-		free_everything(line);
+		return (free_everything(line), 1);
 	decide_token_type(line);
 	if (redirection_spell_check(line) == 1)
-	{
-		ft_putstr_fd(REDIR, 2);
-		return (1);
-	}
-	search_quotes_modify(line);
-	handle_expansion(line, status);
-	remove_lone_dollars(line);
-	join_quoted_strings(line);
-	redirection_usage(line);
-	echo_option_checker(line);
-	remove_blank_tokens_from_cmds(line);
-	print_list(line);
-	create_arr_for_exec(line);
+		return (ft_putstr_fd(REDIR, 2), 1);
+	if (search_quotes_modify(line))
+		return (free_everything(line), 1);
+	if (parse_cmd_2(line, status))
+		return (free_everything(line), 1);
 	return (0);
 }
 
 void	handle_expansion_edgecase(t_cmd **line)
 {
-	t_cmd *curr_cmd;
-	t_token *curr_tok;
-	t_token *prev;
-	int here;
+	t_cmd	*curr_cmd;
+	t_token	*curr_tok;
+	t_token	*prev;
+	int		here;
 
 	here = 0;
 	curr_cmd = *line;
