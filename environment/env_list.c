@@ -2,9 +2,12 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   env_list.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: amirfatt <amirfatt@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
+/*                                                    +:+ +:+
+	+:+     */
+/*   By: amirfatt <amirfatt@student.42.fr>          +#+  +:+
+	+#+        */
+/*                                                +#+#+#+#+#+
+	+#+           */
 /*   Created: 2024/05/26 17:45:21 by amirfatt          #+#    #+#             */
 /*   Updated: 2024/05/26 17:45:21 by amirfatt         ###   ########.fr       */
 /*                                                                            */
@@ -12,9 +15,10 @@
 
 #include "../minishell.h"
 
+
 t_env	*lst_last(t_env *lst)
 {
-	t_env	*current;
+	t_env *current;
 
 	current = lst;
 	if (lst == 0)
@@ -26,7 +30,7 @@ t_env	*lst_last(t_env *lst)
 
 t_env	*lst_new(char *name, char *value, t_env *new, int export)
 {
-	new = malloc(sizeof(t_env));
+	new = ft_calloc(1, sizeof(t_env));
 	if (!new)
 		return (NULL);
 	new->name = ft_strdup(name);
@@ -45,7 +49,7 @@ t_env	*lst_new(char *name, char *value, t_env *new, int export)
 
 void	lst_addback(t_env **list, t_env *new)
 {
-	t_env	*current;
+	t_env *current;
 
 	if (list)
 	{
@@ -62,12 +66,14 @@ void	lst_addback(t_env **list, t_env *new)
 
 static char	*get_env_value_new(const char *name)
 {
-	char	*value;
-	char	*tmp;
+	char *value;
+	char *tmp;
 
 	if (ft_strcmp(name, "SHLVL") == 0)
 	{
 		value = ft_itoa(ft_atoi(getenv("SHLVL")) + 1);
+		if (!value)
+			return (NULL);
 	}
 	else
 	{
@@ -91,12 +97,15 @@ t_env	*initialize_env_variables(t_env **head, char **env)
 	while (env[++i] != NULL)
 	{
 		name = ft_substr(env[i], 0, find_char(env[i]));
+		if (!name)
+			return (NULL);
 		value = get_env_value_new(name);
+		if (!value)
+			return (free(name), NULL);
 		new = lst_new(name, value, new, 1);
 		if (new == NULL)
 		{
 			free_n_v(name, value);
-			free_env_list(*head);
 			return (NULL);
 		}
 		lst_addback(head, new);

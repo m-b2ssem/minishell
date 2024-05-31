@@ -58,8 +58,12 @@ int	main(int argc, char **argv, char **env)
 	t_cmd	*cmd;
 	t_env	*envp;
 
+	envp = NULL; 
 	if (!argc || !argv || dd(&cmd, &envp, &status, env))
-		return (0);
+	{
+		free_env_list(envp);
+		return (1);
+	}
 	parent_signals();
 	while (1)
 	{

@@ -36,12 +36,11 @@
 
 extern int	g_signal;
 
-typedef struct s_cmd	t_cmd;
-
-typedef enum mode_status
-{
-	INTERACTIVE
-}	t_mode_status;
+typedef struct s_cmd			t_cmd;
+typedef struct s_env			t_env;
+typedef struct s_token			t_token;
+typedef struct s_token_vars		t_token_vars;
+typedef struct s_dollar_vars	t_dollar_vars;
 
 typedef enum token_status
 {
@@ -78,12 +77,6 @@ typedef struct s_token_vars
 	int				start;
 	int				i;
 }	t_token_vars;
-
-typedef enum slash_status
-{
-	NO_SLASH,
-	OPEN
-}	t_slash_status;
 
 typedef struct s_token
 {
@@ -138,6 +131,8 @@ void			init(char **tmp, char **expand);
 int				init_vars_modif(int *here, char *j);
 void			helper(t_token *tok, char *expand, int *size, int *i);
 void			cleanup_on_error(t_token **head, char **arr, int i);
+void			init_array(t_cmd *cmd, t_token *tok, int *i, int *option);
+long			ft_atol(const char *str);
 
 int				redirections(t_cmd **cmd_first, int **pipefd);
 int				builtin_pwd(void);
@@ -210,22 +205,22 @@ void			lst_addback(t_env **list, t_env *new);
 t_env			*lst_new(char *name, char *value, t_env *new, int export);
 t_env			*lst_last(t_env *lst);
 
-/*PARSING FO	LDER*/
-/*SPLIT_CMD.	c*/
+/*PARSING FOLDER*/
+/*SPLIT_CMD.c*/
 
 char			**ft_split_cmd(char const *s, char c);
 
-/*START_PARS	E.c*/
+/*START_PARSE.c*/
 
 int				parse_cmd(char *str, t_cmd **line, t_env *env, int status);
 
-/*START_PARS	E_CHECKER.c*/
+/*START_PARSE_CHECKER.c*/
 
 int				first_string_checks(char *str);
 int				check_unexpected_token(char *str);
 int				check_for_unclosed_quotes(char *str);
 
-/*INIT_ARGUM	ENTS.c*/
+/*INIT_ARGUMENTS.c*/
 
 int				initialize_arguments(t_cmd **line, char **user, t_env *env);
 t_cmd			*init_new_node(char *arr, t_cmd *new, t_env *env);
@@ -233,7 +228,7 @@ void			init_node(t_cmd *new, t_env *list);
 void			arg_add_back(t_cmd **stack, t_cmd *new);
 t_cmd			*arg_last(t_cmd *lst);
 
-/*INIT_TOKEN	S.c*/
+/*INIT_TOKENS.c*/
 
 int				initialize_tokens(char *arg, t_token **type);
 t_token			*new_token(char *arg, t_token *new);
@@ -241,12 +236,12 @@ void			init_node_tokens(t_token *new);
 void			token_add_back(t_token **begin, t_token *new);
 t_token			*token_last(t_token *lst);
 
-/*TOKENIZE_A	RGUMENTS.c*/
+/*TOKENIZE_ARGUMENTS.c*/
 
 int				iterate_through_cmd_args(t_cmd **line);
 int				split_into_tokens(t_cmd **line);
 
-/*TOKENIZE_H	ELPER_TWO.c*/
+/*TOKENIZE_HELPER_TWO.c*/
 
 int				is_redirection(char c);
 int				is_other_separator(char c);
@@ -254,22 +249,22 @@ int				is_quotes(char c);
 int				is_space(char c);
 int				find_char(char *s);
 
-/*TOKEN_TYPE	.c*/
+/*TOKEN_TYPE.c*/
 
 void			token_type(t_token *tok);
 int				token_type_builtin(char *s);
 
-/*REDIRECTIO	N_SPELL_CHECK.c*/
+/*REDIRECTION_SPELL_CHECK.c*/
 
 int				redirection_spell_check(t_cmd **line);
 int				is_type_redir(t_token *tok);
 
-/*TRIM_QUOTE	S.c*/
+/*TRIM_QUOTES.c*/
 
 int				search_quotes_modify(t_cmd **line);
 int				update_quote_strings(t_token *tok);
 
-/*EXPANSION.	C*/
+/*EXPANSION.C*/
 
 int				handle_expansion(t_cmd **line, int status);
 char			*get_env_value(char *t, t_token *tok, t_env **lst, int s);
@@ -277,14 +272,14 @@ char			*create_expansion(t_env *curr, char *org, int start, char *tmp);
 char			*forbidden_variable_name(t_token *tok, char *tmp, int start);
 int				remove_lone_dollars(t_cmd **line);
 
-/*EXPANSION_	HELPER.C*/
+/*EXPANSION_HELPER.C*/
 
 int				calculate_size(t_env *curr, char *org, char *tmp);
 t_env			*find_accord_env_name(char *tmp, t_env **list);
 int				is_valid_char_rest(char c);
 int				is_valid_char_begin(char c);
 
-/*QUOTE_JOIN	ING.c*/
+/*QUOTE_JOINING.c*/
 
 int				join_quoted_strings(t_cmd **head);
 int				assign_join_variable(t_cmd **cmd);
@@ -298,14 +293,14 @@ void			set_to_type_arg(t_token *curr_tok, char *join, int here);
 int				loop_assign_join(t_token *curr_tok, t_token *head_tok);
 int				calculate_total_length(t_token *curr_tok, t_token *prev_tok);
 
-/*QUOTE_JOIN	_HELPER.c*/
+/*QUOTE_JOIN_HELPER.c*/
 
 int				find_and_modify_unused_nodes(t_token *tok);
 int				join_quoted_helper(t_token *curr_tok);
 int				join_redir_helper(t_token *token);
 int				c1(char *str);
 
-/*REDIR_RELA	TIONS.c*/
+/*REDIR_RELATIONS.c*/
 
 int				redirection_usage(t_cmd **line);
 void			change_redirection_relation(t_token *tok, int *redir);
@@ -316,26 +311,26 @@ char			*handle_doller(t_dollar_vars *vars);
 char			*process_dollar(t_dollar_vars *vars);
 char			*after_dollar(t_dollar_vars *v, char **ad, int *k);
 
-/*CREATE_ARR	AY_EXEC.c*/
+/*CREATE_ARRAY_EXEC.c*/
 
 int				create_arr_for_exec(t_cmd **line);
 int				count_arg(t_cmd *cmd);
 void			initialize_arg_array(t_cmd *cmd);
 
-/*ECHO_EDGEC	ASE.c*/
+/*ECHO_EDGECASE.c*/
 
 int				echo_option_checker(t_cmd **line);
 int				validate_echo_option(char *str);
 void			modify_echo_option(t_token *tok);
 
-/*FREE_SHELL	.c*/
+/*FREE_SHELL.c*/
 
 void			free_everything(t_cmd **line);
 void			free_env_list(t_env *head);
 void			free_list_tokens(t_token **head);
 int				free_list(t_env **head);
 
-/*BUILTIN_ED	GECASES.c*/
+/*BUILTIN_EDGECASES.c*/
 
 int				export_checker(t_cmd *cmd);
 int				builtin_export_checker(char *arr);
@@ -350,6 +345,7 @@ int				is_all_whitespace(char *str);
 char			*expand_exit_status(t_token *tok, int start, int status);
 
 /*BUILTIN_EDGECASES.c*/
+
 int				export_checker(t_cmd *cmd);
 int				builtin_export_checker(char *arr);
 int				is_valid_char(char c);
@@ -361,8 +357,6 @@ t_token			*reinitialize_tokens(char *s);
 
 int				handle_expansion(t_cmd **line, int status);
 void			retokenizing_of_env_values(t_cmd **line, t_token *tok);
-void			init_vars(int *i, t_token **prev, t_token **new_list,
-					t_token **last_new);
 void			process_token(t_token_vars *vars);
 
 char			*create_expansion(t_env *curr, char *org, int start, char *tmp);
@@ -371,7 +365,6 @@ void			hand_exp_loop(t_cmd **line, t_token *curr_tok, int status);
 void			init_args_var(int *i, int *start, char **new);
 int				spell_check(t_token *curr_tok, int *redir);
 int				initi_poss_var(int *i, int *st, int *siz, t_token *tok);
-void			init_retok_vars(t_cmd **line, t_token *tok, t_token **curr);
 t_quote_status	get_quote_status(char c, t_quote_status stat);
 void			get_string_in_quotes(char *str, int *i);
 

@@ -49,7 +49,9 @@ int	builtin_unset(t_env **head, t_cmd *cmd)
 		while (curr != NULL)
 		{
 			if (ft_strcmp(curr->name, cmd->arg_arr[i]) == 0)
+			{
 				remove_env_variable(head, &prev, &curr);
+			}
 			else
 			{
 				prev = curr;

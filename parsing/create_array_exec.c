@@ -12,20 +12,17 @@
 
 #include "../minishell.h"
 
-void	init_array(t_cmd *cmd, t_token *tok, int *i)
+void	init_array(t_cmd *cmd, t_token *tok, int *i, int *option)
 {
-	int	option;
-
-	option = 0;
 	if (tok->type == BUILTIN || tok->type == ARG || tok->type == D_QUOTE
 		|| tok->type == S_QUOTE)
 	{
 		cmd->arg_arr[(*i)++] = tok->string;
-		option = 0;
+		*option = 0;
 	}
-	else if (tok->type == OPTION && !option)
+	else if (tok->type == OPTION && !(*option))
 	{
-		option = 1;
+		*option = 1;
 		cmd->arg_arr[(*i)++] = tok->string;
 	}
 }
@@ -34,16 +31,18 @@ void	initialize_arg_array(t_cmd *cmd)
 {
 	int		i;
 	t_token	*tok;
+	int option;
 
 	tok = cmd->token;
 	i = 0;
+	option = 0;
 	while (tok != NULL)
 	{
 		while (tok != NULL && tok->type == BLANK)
 			tok = tok->next;
 		while (tok != NULL)
 		{
-			init_array(cmd, tok, &i);
+			init_array(cmd, tok, &i, &option);
 			tok = tok->next;
 		}
 	}
