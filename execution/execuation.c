@@ -12,8 +12,6 @@
 
 #include "../minishell.h"
 
-extern int	g_signal;
-
 void	handle_non_builtin(t_cmd *cmd, pid_t *pross_id, t_cmd *tmp)
 {
 	struct stat	file_stat;

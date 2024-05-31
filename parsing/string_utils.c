@@ -47,19 +47,18 @@ int	strcmp_custom(const char *str1, const char *str2)
 	return (*(unsigned char *)str1 - *(unsigned char *)str2);
 }
 
-char	*strcpy_custom(char *destination, const char *source)
+char	*ft_strcpy(char *dest, char *src)
 {
-	char	*temp;
+	int		i;
 
-	temp = destination;
-	while (*source)
+	i = 0;
+	while (src[i] != '\0')
 	{
-		*destination = *source;
-		destination++;
-		source++;
+		dest[i] = src[i];
+		i++;
 	}
-	*destination = '\0';
-	return (temp);
+	dest[i] = '\0';
+	return (dest);
 }
 
 void	cleanup_on_error(t_token **head, char **arr, int i)

@@ -14,10 +14,10 @@
 
 int	alloc_mem(char **name, char **value, const char *arg)
 {
-	*name = ft_calloc(sizeof(char), ft_strlen(arg) + 1);
+	*name = ft_calloc(ft_strlen(arg) + 1, sizeof(char));
 	if (!*name)
 		return (1);
-	*value = ft_calloc(sizeof(char), ft_strlen(arg) + 1);
+	*value = ft_calloc(ft_strlen(arg) + 1, sizeof(char));
 	if (!*value)
 	{
 		free(*name);

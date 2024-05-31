@@ -34,6 +34,8 @@
 # define EXIT_ARG "minishell: exit: too many arguments\n"
 # define EXIT_NUM "minishell: exit: numeric argument required\n"
 
+extern int	g_signal;
+
 typedef struct s_cmd	t_cmd;
 
 typedef enum mode_status
@@ -377,7 +379,7 @@ void			get_redirection(char *str, int *i);
 void			get_arguments(char *str, int *i);
 char			*my_strcat(char *destination, const char *source);
 int				strcmp_custom(const char *str1, const char *str2);
-char			*strcpy_custom(char *destination, const char *source);
+char			*ft_strcpy(char *dest, char *src);
 void			free_n_v(char *n, char *v);
 int				alloc_mem(char **name, char **value, const char *arg);
 void			get_args_other(char *str, int *i);

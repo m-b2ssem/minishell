@@ -6,13 +6,11 @@
 /*   By: amirfatt <amirfatt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 17:54:15 by amirfatt          #+#    #+#             */
-/*   Updated: 2024/05/28 12:44:42 by amirfatt         ###   ########.fr       */
+/*   Updated: 2024/05/31 09:02:03 by amirfatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-extern int	g_signal;
 
 char	*create_expansion(t_env *curr, char *org, int start, char *tmp)
 {

@@ -12,8 +12,6 @@
 
 #include "../minishell.h"
 
-extern int	g_signal;
-
 int	random_char(void)
 {
 	char	tmp[4];
@@ -79,7 +77,7 @@ char	*check_for_env_value(char *str, t_env *env, t_token *tok)
 	vars.tok = tok;
 	vars.i = &i;
 	vars.j = &j;
-	vars.new_str = malloc(sizeof(char) * (ft_strlen(str) + 1));
+	vars.new_str = ft_calloc(ft_strlen(str) + 1, sizeof(char));
 	if (!vars.new_str)
 		return (NULL);
 	while (str[i])

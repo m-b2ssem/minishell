@@ -12,8 +12,6 @@
 
 #include "../minishell.h"
 
-extern int	g_signal;
-
 t_token	*reinitialize_tokens(char *s)
 {
 	t_token	*new;

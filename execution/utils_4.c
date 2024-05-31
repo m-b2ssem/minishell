@@ -12,8 +12,6 @@
 
 #include "../minishell.h"
 
-extern int	g_signal;
-
 void	herdoc_handler(int signum)
 {
 	if (signum == SIGINT)

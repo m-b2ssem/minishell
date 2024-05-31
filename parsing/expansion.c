@@ -12,8 +12,6 @@
 
 #include "../minishell.h"
 
-extern int	g_signal;
-
 char	*get_env_value(char *t, t_token *tok, t_env **lst, int s)
 {
 	t_env	*curr;

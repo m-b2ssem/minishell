@@ -19,10 +19,7 @@ int	quote_checks(t_token *tok, char **new)
 		return (1);
 	if (ft_strcmp(tok->string, "''") == 0 || ft_strcmp(tok->string,
 			"\"\"") == 0)
-	{
 		tok->string[0] = '\0';
-		return (1);
-	}
 	return (0);
 }
 
@@ -68,8 +65,7 @@ int	search_quotes_modify(t_cmd **line)
 			if (curr_tok->string != NULL && curr_tok->string[0] != '\0')
 			{
 				if (curr_tok->type == D_QUOTE || curr_tok->type == S_QUOTE)
-					if (update_quote_strings(curr_tok) != 0)
-						return (1);
+					update_quote_strings(curr_tok);
 			}
 			curr_tok = curr_tok->next;
 		}

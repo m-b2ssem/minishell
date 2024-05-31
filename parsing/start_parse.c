@@ -12,6 +12,27 @@
 
 #include "../minishell.h"
 
+void	print_list(t_cmd **head)
+{
+	t_cmd	*cmd;
+	t_token	*tok;
+
+	cmd = *head;
+	while (cmd != NULL)
+	{
+		printf("Node: %s\n", cmd->args);
+		tok = cmd->token;
+		while (tok != NULL)
+		{
+			printf("\tTOK:-%s-\n", tok->string);
+			//printf("\tTYPE: %d\n", tok->type);
+			printf("\tJOIN: %d\n", tok->join);
+			tok = tok->next;
+		}
+		cmd = cmd->next;
+	}
+}
+
 int	parse_cmd_2(t_cmd **line, int status)
 {
 	handle_expansion(line, status);
