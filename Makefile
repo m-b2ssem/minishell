@@ -29,7 +29,7 @@ SRC =	main.c \
 		parsing/expansion.c parsing/free_shell.c parsing/expansion_helper.c parsing/remove_blanks.c\
 		parsing/init_arguments.c parsing/init_tokens.c parsing/quote_joining.c parsing/quote_joining_util_1.c parsing/quote_joining_util_2.c parsing/quote_join_helper.c parsing/redir_relations.c \
 		parsing/redirection_spell_check.c parsing/token_type.c parsing/tokenize_arguments.c parsing/tokenize_helper.c parsing/tokenize_helper_two.c \
-		parsing/trim_quotes.c parsing/echo_edgecase.c parsing/builtin_edgecases.c parsing/string_utils.c builtin/export_utils_2.c\
+		parsing/trim_quotes.c parsing/echo_edgecase.c parsing/builtin_edgecases.c parsing/string_utils.c \
 		parsing/expansion_utils_3.c parsing/expansion_utils_2.c parsing/expansion_utils.c parsing/expansion_utils_4.c parsing/start_parse_checker.c\
 
 SUP = readline_suppression.supp

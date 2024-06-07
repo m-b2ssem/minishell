@@ -46,17 +46,22 @@ void	update_value(t_cmd *cmd, char *name, char *value, int export)
 	}
 }
 
-void	return_name(char *arg, char **name)
+char	*return_name(char *arg)
 {
-	int	i;
+	int		i;
+	char	*name;
 
 	i = 0;
+	name = (char *)malloc(sizeof(char) * (strlen(arg) + 1));
+	if (!name)
+		return (NULL);
 	while (arg[i] != '=' && arg[i] != '\0')
 	{
-		(*name)[i] = arg[i];
+		name[i] = arg[i];
 		i++;
 	}
-	(*name)[i] = '\0';
+	name[i] = '\0';
+	return (name);
 }
 
 int	search_if_variable_exist(t_cmd *cmd, char *name)

@@ -68,32 +68,36 @@ void	bubble_sort(t_env **head)
 	}
 }
 
-int	return_value(char *arg, char **value)
+char	*return_value(char *arg, int *export)
 {
-	int	i;
-	int	j;
-	int	export;
+	int		i;
+	int		j;
+	char *value;
 
 	i = 0;
 	j = 0;
-	export = 0;
+	*export = 0;
+	value = malloc(sizeof(char) * (ft_strlen(arg) + 1));
+	if (!value)
+		return (NULL);
 	while (arg[i] != '=' && arg[i] != '\0')
 		i++;
 	if (arg[i] == '\0')
 	{
-		(*value)[j] = ' ';
-		(*value)[j + 1] = '\0';
-		return (export);
+		value[j] = ' ';
+		value[j + 1] = '\0';
+		export = 0;
+		return (value);
 	}
 	if (arg[i] == '=')
 	{
-		export = 1;
+		*export = 1;
 		i++;
 	}
 	while (arg[i] != '\0')
-		(*value)[j++] = arg[i++];
-	(*value)[j] = '\0';
-	return (export);
+		value[j++] = arg[i++];
+	value[j] = '\0';
+	return (value);
 }
 
 int	add_variable(t_cmd *cmd)
@@ -104,13 +108,14 @@ int	add_variable(t_cmd *cmd)
 	char	*value;
 	t_env	*new;
 
-	i = 0;
-	if (alloc_mem(&name, &value, cmd->arg_arr[1]))
-		return (1);
-	while (cmd->arg_arr[++i] != NULL)
+	i = 1;
+	export = 0;
+	while (cmd->arg_arr[i] != NULL)
 	{
-		return_name(cmd->arg_arr[i], &name);
-		export = return_value(cmd->arg_arr[i], &value);
+		name = return_name(cmd->arg_arr[i]);
+		value = return_value(cmd->arg_arr[i], &export);
+		if (!name || !value)
+			return (1);
 		if (search_if_variable_exist(cmd, name))
 			update_value(cmd, name, value, export);
 		else
@@ -120,8 +125,11 @@ int	add_variable(t_cmd *cmd)
 				return (free(name), free(value), 1);
 			lst_addback(&cmd->env, new);
 		}
+		free(name);
+		free(value);
+		i++;
 	}
-	return (free(name), free(value), 0);
+	return (0);
 }
 
 int	builtin_export(t_cmd *cmd)
