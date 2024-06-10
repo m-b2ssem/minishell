@@ -81,7 +81,7 @@ char	*check_for_env_value(char *str, t_env *env, t_token *tok)
 	vars.tok = tok;
 	vars.i = &i;
 	vars.j = &j;
-	vars.new_str = ft_calloc(ft_strlen(str) + 2, sizeof(char));
+	vars.new_str = ft_calloc(ft_strlen(str) + 20, sizeof(char));
 	if (!vars.new_str)
 		return (NULL);
 	while (str[i])
@@ -93,7 +93,7 @@ char	*check_for_env_value(char *str, t_env *env, t_token *tok)
 	}
 	// why not use the vars.j?
 	// we still have an invalid read and invalid write when valid expansion inside heredoc
-	vars.new_str[j] = '\0';
+	// vars.new_str[j] = '\0';
 	return (free(str), vars.new_str);
 }
 

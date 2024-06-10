@@ -37,7 +37,7 @@ char	*process_dollar(t_dollar_vars *vars)
 	var_value = my_getenv(after_doller, vars->env);
 	if (var_value && vars->tok->expansion == 0)
 	{
-		ft_strcpy(&vars->new_str[*vars->j], var_value);
+		ft_strcpy(vars->new_str, var_value);
 		*vars->j += ft_strlen(var_value);
 	}
 	else
