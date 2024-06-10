@@ -52,7 +52,7 @@ char	**env_to_char(t_env *env)
 
 	tmp = env;
 	i = env_len(tmp);
-	new_env = malloc(sizeof(char *) * (i + 1));
+	new_env = ft_calloc((i + 1), sizeof(char *));
 	if (!new_env)
 		return (NULL);
 	tmp = env;
@@ -66,6 +66,8 @@ char	**env_to_char(t_env *env)
 		}
 		else
 			new_env[i] = ft_strjoin(tmp->name, "=");
+		// ft_strjoin protect
+			//bassem
 		i++;
 		tmp = tmp->next;
 	}

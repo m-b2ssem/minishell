@@ -22,7 +22,7 @@ t_env	*copy_env_list(t_env *env)
 	new_env = NULL;
 	while (env != NULL)
 	{
-		temp = (t_env *)malloc(sizeof(t_env));
+		temp = (t_env *)ft_calloc(1, sizeof(t_env));
 		if (!temp)
 			return (free_list(&new_env), NULL);
 		if (env->name)
@@ -77,7 +77,7 @@ char	*return_value(char *arg, int *export)
 	i = 0;
 	j = 0;
 	*export = 0;
-	value = malloc(sizeof(char) * (ft_strlen(arg) + 1));
+	value = ft_calloc((ft_strlen(arg) + 1), sizeof(char));
 	if (!value)
 		return (NULL);
 	while (arg[i] != '=' && arg[i] != '\0')

@@ -39,7 +39,7 @@ char	*ft_itoa(int n)
 	nl = n;
 	if (n < 0)
 		nl *= -1;
-	result = malloc(sizeof(char) * (len + 1));
+	result = ft_calloc((len + 1), sizeof(char));
 	if (!result)
 		return (NULL);
 	result[len] = 0;

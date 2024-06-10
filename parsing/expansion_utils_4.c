@@ -16,7 +16,7 @@ t_token	*reinitialize_tokens(char *s)
 {
 	t_token	*new;
 
-	new = malloc(sizeof(t_token));
+	new = ft_calloc(1, sizeof(t_token));
 	if (!new)
 		return (NULL);
 	new->string = s;
@@ -61,7 +61,7 @@ char	*forbidden_variable_name(t_token *tok, char *tmp, int start)
 	j = 0;
 	expand = NULL;
 	new_size = ft_strlen(tok->string) - ft_strlen(tmp);
-	expand = malloc(sizeof(char) * new_size);
+	expand = ft_calloc(new_size, sizeof(char));
 	if (!expand)
 		return (NULL);
 	while (i < (start - 1))

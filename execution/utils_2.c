@@ -69,7 +69,7 @@ int	wait_pid(pid_t *pross_id, int len)
 
 	i = 0;
 	status = 0;
-	exit_statuses = malloc(sizeof(int) * len);
+	exit_statuses = ft_calloc(len, sizeof(int));
 	if (!exit_statuses)
 		return (-1);
 	while (i < len)

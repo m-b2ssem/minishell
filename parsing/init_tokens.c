@@ -53,7 +53,7 @@ void	init_node_tokens(t_token *new)
 
 t_token	*new_token(char *arg, t_token *new)
 {
-	new = malloc(sizeof(t_token));
+	new = ft_calloc(1, sizeof(t_token));
 	if (!new)
 		return (NULL);
 	init_node_tokens(new);

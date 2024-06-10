@@ -15,7 +15,7 @@
 char	*after_dollar(t_dollar_vars *v, char **ad, int *k)
 {
 	(*v->i)++;
-	*ad = malloc(sizeof(char) * (ft_strlen(v->str) + 1));
+	*ad = ft_calloc((ft_strlen(v->str) + 1), sizeof(char));
 	if (!*ad)
 		return (free(v->new_str), NULL);
 	while (v->str[*v->i] != '\0' && v->str[*v->i] != ' ')

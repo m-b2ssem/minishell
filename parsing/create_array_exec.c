@@ -79,7 +79,7 @@ int	create_arr_for_exec(t_cmd **line)
 	while (curr_cmd != NULL)
 	{
 		size = count_arg(curr_cmd);
-		arg_arr = malloc(sizeof(char *) * (size + 1));
+		arg_arr = ft_calloc((size + 1), sizeof(char *));
 		if (!arg_arr)
 			return (1);
 		curr_cmd->arg_arr = arg_arr;

@@ -58,7 +58,7 @@ int	main(int argc, char **argv, char **env)
 	t_cmd	*cmd;
 	t_env	*envp;
 
-	envp = NULL; 
+	envp = NULL;
 	if (!argc || !argv || dd(&cmd, &envp, &status, env))
 	{
 		free_env_list(envp);

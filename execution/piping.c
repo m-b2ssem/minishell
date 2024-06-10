@@ -58,13 +58,13 @@ int	piping(t_cmd **cmd)
 	index = 0;
 	tmp = *cmd;
 	len = cmd_lenth(tmp);
-	pipefd = malloc(sizeof(int *) * (len + 1));
+	pipefd = ft_calloc((len + 1), sizeof(int *));
 	if (!pipefd)
 		return (5);
 	pipefd[len] = NULL;
 	while (tmp)
 	{
-		pipefd[index] = malloc(sizeof(int) * 2);
+		pipefd[index] = ft_calloc(2, sizeof(int));
 		if (!pipefd[index])
 			return (free_pipe(pipefd), 5);
 		if (setup_pipe(tmp, pipefd, index))

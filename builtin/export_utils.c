@@ -52,7 +52,7 @@ char	*return_name(char *arg)
 	char	*name;
 
 	i = 0;
-	name = (char *)malloc(sizeof(char) * (strlen(arg) + 1));
+	name = (char *)ft_calloc((ft_strlen(arg) + 1), sizeof(char));
 	if (!name)
 		return (NULL);
 	while (arg[i] != '=' && arg[i] != '\0')

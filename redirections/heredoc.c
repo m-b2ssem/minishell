@@ -46,7 +46,7 @@ char	*random_name(void)
 
 	i = 0;
 	c = 0;
-	file = malloc(sizeof(char) * 31);
+	file = ft_calloc(31, sizeof(char));
 	if (!file)
 		return (NULL);
 	while (i < 30)

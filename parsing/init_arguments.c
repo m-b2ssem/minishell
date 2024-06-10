@@ -59,7 +59,7 @@ void	init_node(t_cmd *new, t_env *list)
 
 t_cmd	*init_new_node(char *arr, t_cmd *new, t_env *env)
 {
-	new = malloc(sizeof(t_cmd));
+	new = ft_calloc(1, sizeof(t_cmd));
 	if (!new)
 	{
 		free(arr);
