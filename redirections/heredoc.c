@@ -91,9 +91,6 @@ char	*check_for_env_value(char *str, t_env *env, t_token *tok)
 		else if (!handle_doller(&vars))
 			return (NULL);
 	}
-	// why not use the vars.j?
-	// we still have an invalid read and invalid write when valid expansion inside heredoc
-	// vars.new_str[j] = '\0';
 	return (free(str), vars.new_str);
 }
 

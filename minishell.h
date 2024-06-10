@@ -135,6 +135,7 @@ void			init_array(t_cmd *cmd, t_token *tok, int *i, int *option);
 long			ft_atol(const char *str);
 void			handle_value(char *arg, int *i, int *export);
 int				create_add_new_variable(t_cmd *cmd, int export, char *name, char *value);
+int				calc_size_heredoc(char *value, char *org, char *tmp);
 
 int				redirections(t_cmd **cmd_first, int **pipefd);
 int				builtin_pwd(void);

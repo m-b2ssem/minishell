@@ -63,3 +63,20 @@ int	calculate_size(t_env *curr, char *org, char *tmp)
 	res = ft_strlen(org) + diff;
 	return (res);
 }
+
+int calc_size_heredoc(char *value, char *org, char *tmp)
+{
+	int	res;
+	int	diff;
+
+	diff = 0;
+	res = 0;
+	if (!value || !org || !tmp)
+		return (res);
+	if (ft_strlen(value) >= ft_strlen(tmp))
+		diff = ft_strlen(value) - ft_strlen(tmp);
+	else
+		diff = ft_strlen(tmp) - ft_strlen(value);
+	res = ft_strlen(org) + diff;
+	return (res);
+}

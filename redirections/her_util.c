@@ -2,15 +2,19 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   her_util.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: amirfatt <amirfatt@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
+/*                                                    +:+ +:+
+	+:+     */
+/*   By: amirfatt <amirfatt@student.42.fr>          +#+  +:+
+	+#+        */
+/*                                                +#+#+#+#+#+
+	+#+           */
 /*   Created: 2024/05/26 17:57:16 by amirfatt          #+#    #+#             */
 /*   Updated: 2024/05/26 18:03:28 by amirfatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
 
 char	*after_dollar(t_dollar_vars *v, char **ad, int *k)
 {
@@ -26,9 +30,11 @@ char	*after_dollar(t_dollar_vars *v, char **ad, int *k)
 
 char	*process_dollar(t_dollar_vars *vars)
 {
-	char	*after_doller;
-	char	*var_value;
-	int		k;
+	char *after_doller;
+	char *temp;
+	int new_len;
+	char *var_value;
+	int k;
 
 	k = 0;
 	after_doller = after_dollar(vars, &after_doller, &k);
@@ -37,7 +43,14 @@ char	*process_dollar(t_dollar_vars *vars)
 	var_value = my_getenv(after_doller, vars->env);
 	if (var_value && vars->tok->expansion == 0)
 	{
-		ft_strcpy(vars->new_str, var_value);
+		new_len = calc_size_heredoc(var_value, vars->str, after_doller);
+		temp = ft_calloc((new_len + 1), sizeof(char));
+		if (!temp)
+			return (free(var_value), free(after_doller), NULL);
+		ft_strcpy(temp, vars->new_str);
+		strcat(temp, var_value);
+		free(vars->new_str);
+		vars->new_str = temp;
 		*vars->j += ft_strlen(var_value);
 	}
 	else
@@ -60,8 +73,8 @@ char	*handle_doller(t_dollar_vars *vars)
 
 char	*my_getenv(char *name, t_env *env)
 {
-	t_env	*tmp;
-	int		len;
+	t_env *tmp;
+	int len;
 
 	tmp = env;
 	len = ft_strlen(name);
