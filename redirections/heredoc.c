@@ -2,9 +2,12 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: amirfatt <amirfatt@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
+/*                                                    +:+ +:+
+	+:+     */
+/*   By: amirfatt <amirfatt@student.42.fr>          +#+  +:+
+	+#+        */
+/*                                                +#+#+#+#+#+
+	+#+           */
 /*   Created: 2024/05/26 17:57:24 by amirfatt          #+#    #+#             */
 /*   Updated: 2024/05/26 17:57:24 by amirfatt         ###   ########.fr       */
 /*                                                                            */
@@ -12,11 +15,12 @@
 
 #include "../minishell.h"
 
+
 int	random_char(void)
 {
-	char	tmp[4];
-	int		c;
-	int		fd;
+	char tmp[4];
+	int c;
+	int fd;
 
 	fd = open("/dev/urandom", O_RDONLY);
 	c = 0;
@@ -40,9 +44,9 @@ int	random_char(void)
 
 char	*random_name(void)
 {
-	char	*file;
-	int		i;
-	int		c;
+	char *file;
+	int i;
+	int c;
 
 	i = 0;
 	c = 0;
@@ -66,9 +70,9 @@ char	*random_name(void)
 
 char	*check_for_env_value(char *str, t_env *env, t_token *tok)
 {
-	t_dollar_vars	vars;
-	int				i;
-	int				j;
+	t_dollar_vars vars;
+	int i;
+	int j;
 
 	i = 0;
 	j = 0;
@@ -84,17 +88,18 @@ char	*check_for_env_value(char *str, t_env *env, t_token *tok)
 	{
 		if (str[i] != '$')
 			vars.new_str[j++] = str[i++];
-		else
-			if (!handle_doller(&vars))
-				return (NULL);
+		else if (!handle_doller(&vars))
+			return (NULL);
 	}
+	// why not use the vars.j?
+	// we still have an invalid read and invalid write when valid expansion inside heredoc
 	vars.new_str[j] = '\0';
 	return (free(str), vars.new_str);
 }
 
 int	write_inside_file(t_cmd *cmd, char *word, int fd, t_token *tok)
 {
-	char	*str;
+	char *str;
 
 	str = NULL;
 	while (1)
@@ -105,7 +110,7 @@ int	write_inside_file(t_cmd *cmd, char *word, int fd, t_token *tok)
 			g_signal = 0;
 			return (-1);
 		}
-		if (strcmp_custom(word, str) == 0)
+		if (ft_strcmp(word, str) == 0)
 			break ;
 		if (str != NULL)
 		{
@@ -121,8 +126,8 @@ int	write_inside_file(t_cmd *cmd, char *word, int fd, t_token *tok)
 
 int	heredoc(t_cmd *cmd, char *word, t_token *tok)
 {
-	int		fd;
-	char	*file;
+	int fd;
+	char *file;
 
 	file = random_name();
 	if (!file)
