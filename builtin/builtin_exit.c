@@ -17,9 +17,9 @@
 
 static int	ft_isnumbers(char *str)
 {
-	int i;
-	long n;
-	char *s;
+	int		i;
+	long	n;
+	char	*s;
 
 	i = 0;
 	n = ft_atol(str);
@@ -27,19 +27,14 @@ static int	ft_isnumbers(char *str)
 	if (!s)
 		return (-1);
 	if (ft_strcmp(s, str) != 0)
-	{
-		free(s);
-		return (0);
-	}
+		return (free(s), 0);
 	if (str[i] == '-' || str[i] == '+')
 		i++;
 	if (str[i] == '\0')
 		return (0);
 	while (str[i] != '\0')
 	{
-		if (n != -1 && i == 18 && str[18] == '8')
-			return (0);
-		if (str[i] < '0' || str[i] > '9')
+		if ((n != -1 && i == 18 && str[18] == '8') || !ft_isdigit(str[i]))
 			return (0);
 		if (ft_isalpha(str[i]) || str[i] == '+' || str[i] == '-')
 			return (0);
@@ -50,7 +45,7 @@ static int	ft_isnumbers(char *str)
 
 int	builtin_exit(t_cmd *cmd, t_cmd *tmp, pid_t *pross_id)
 {
-	int exit_status;
+	int	exit_status;
 
 	exit_status = 0;
 	if (cmd->arg_arr[1] && cmd->arg_arr[2] != NULL)

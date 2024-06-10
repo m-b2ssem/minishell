@@ -31,7 +31,7 @@ void	initialize_arg_array(t_cmd *cmd)
 {
 	int		i;
 	t_token	*tok;
-	int option;
+	int		option;
 
 	tok = cmd->token;
 	i = 0;

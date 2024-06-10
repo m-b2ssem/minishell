@@ -31,8 +31,9 @@ long	ft_atol(const char *str)
 	}
 	while (ft_isdigit(str[i]))
 	{
-		if ((sign == -1 && i > 20) || (sign == 1 && i > 19) || result > LONG_MAX || result < LONG_MIN)
-			return(-1);
+		if ((sign == -1 && i > 20) || (sign == 1 && i > 19)
+			|| result > LONG_MAX || result < LONG_MIN)
+			return (-1);
 		result = (result * 10) + (str[i] - '0');
 		i++;
 	}

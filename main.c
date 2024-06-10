@@ -60,10 +60,7 @@ int	main(int argc, char **argv, char **env)
 
 	envp = NULL;
 	if (!argc || !argv || dd(&cmd, &envp, &status, env))
-	{
-		free_env_list(envp);
-		return (1);
-	}
+		return (free_env_list(envp), 1);
 	parent_signals();
 	while (1)
 	{

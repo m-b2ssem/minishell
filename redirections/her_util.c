@@ -38,7 +38,7 @@ char	*process_dollar(t_dollar_vars *vars)
 	if (var_value && vars->tok->expansion == 0)
 	{
 		ft_strcpy(&vars->new_str[*vars->j], var_value);
-		*vars->j += ft_strlen(var_value) ;
+		*vars->j += ft_strlen(var_value);
 	}
 	else
 	{

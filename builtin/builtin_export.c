@@ -2,9 +2,12 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   builtin_export.c                                   :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: amirfatt <amirfatt@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
+/*                                                    +:+ +:+
+	+:+     */
+/*   By: amirfatt <amirfatt@student.42.fr>          +#+  +:+
+	+#+        */
+/*                                                +#+#+#+#+#+
+	+#+           */
 /*   Created: 2024/05/26 17:43:56 by amirfatt          #+#    #+#             */
 /*   Updated: 2024/05/26 17:43:56 by amirfatt         ###   ########.fr       */
 /*                                                                            */
@@ -72,11 +75,11 @@ char	*return_value(char *arg, int *export)
 {
 	int		i;
 	int		j;
-	char *value;
+	char	*value;
 
 	i = 0;
 	j = 0;
-	*export = 0;
+	*export = 0; // init here necessary?
 	value = ft_calloc((ft_strlen(arg) + 1), sizeof(char));
 	if (!value)
 		return (NULL);
@@ -86,14 +89,10 @@ char	*return_value(char *arg, int *export)
 	{
 		value[j] = ' ';
 		value[j + 1] = '\0';
-		export = 0;
+		*export = 0;
 		return (value);
 	}
-	if (arg[i] == '=')
-	{
-		*export = 1;
-		i++;
-	}
+	handle_value(arg, &i, export); // split a bit because of norminette
 	while (arg[i] != '\0')
 		value[j++] = arg[i++];
 	value[j] = '\0';
@@ -106,11 +105,10 @@ int	add_variable(t_cmd *cmd)
 	int		export;
 	char	*name;
 	char	*value;
-	t_env	*new;
 
-	i = 1;
+	i = 0;
 	export = 0;
-	while (cmd->arg_arr[i] != NULL)
+	while (cmd->arg_arr[++i] != NULL)
 	{
 		name = return_name(cmd->arg_arr[i]);
 		value = return_value(cmd->arg_arr[i], &export);
@@ -120,14 +118,11 @@ int	add_variable(t_cmd *cmd)
 			update_value(cmd, name, value, export);
 		else
 		{
-			new = lst_new(name, value, new, export);
-			if (!new)
-				return (free(name), free(value), 1);
-			lst_addback(&cmd->env, new);
+			// changed because of norminette
+			if (create_add_new_variable(cmd, export, name, value) != 0)
+				return (1);
 		}
-		free(name);
-		free(value);
-		i++;
+		free_n_v(name, value);
 	}
 	return (0);
 }

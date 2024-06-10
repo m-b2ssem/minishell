@@ -15,10 +15,9 @@
 
 #include "../minishell.h"
 
-
 t_env	*lst_last(t_env *lst)
 {
-	t_env *current;
+	t_env	*current;
 
 	current = lst;
 	if (lst == 0)
@@ -49,7 +48,7 @@ t_env	*lst_new(char *name, char *value, t_env *new, int export)
 
 void	lst_addback(t_env **list, t_env *new)
 {
-	t_env *current;
+	t_env	*current;
 
 	if (list)
 	{
@@ -66,8 +65,8 @@ void	lst_addback(t_env **list, t_env *new)
 
 static char	*get_env_value_new(const char *name)
 {
-	char *value;
-	char *tmp;
+	char	*value;
+	char	*tmp;
 
 	if (ft_strcmp(name, "SHLVL") == 0)
 	{

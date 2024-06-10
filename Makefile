@@ -22,7 +22,7 @@ READ_LINK= -lreadline
 SRC =	main.c \
 		redirections/redirections.c redirections/heredoc.c redirections/her_util.c\
 		builtin/builtin_pwd.c builtin/builtin_cd.c builtin/builtin_echo.c builtin/builtin_export.c builtin/builtin_env.c \
-		builtin/builtin_unset.c builtin/builtin_exit.c builtin/export_utils.c\
+		builtin/builtin_unset.c builtin/builtin_exit.c builtin/export_utils.c builtin/builtin_utils.c\
 		execution/execuation.c execution/piping.c execution/signals.c execution/utils_1.c execution/utils_2.c execution/utils_3.c execution/utils_4.c\
 		environment/env_list.c parsing/ft_atol.c\
 		parsing/expansion_utils_5.c parsing/start_parse.c parsing/split_cmd.c parsing/create_array_exec.c \
