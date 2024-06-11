@@ -52,7 +52,8 @@ int	check_unexpected_token(char *str)
 int	first_string_checks_two(char *str)
 {
 	if ((ft_strcmp(str, "$") == 0) || ft_strcmp(str, "\"\"") == 0
-		|| ft_strcmp(str, "''") == 0)
+		|| ft_strcmp(str, "''") == 0 || ft_strcmp(str, "\\") == 0
+		|| ft_strcmp(str, "//") == 0)
 	{
 		printf_error(str);
 		return (1);

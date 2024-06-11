@@ -32,7 +32,7 @@ SRC =	main.c \
 		parsing/trim_quotes.c parsing/echo_edgecase.c parsing/builtin_edgecases.c parsing/string_utils.c \
 		parsing/expansion_utils_3.c parsing/expansion_utils_2.c parsing/expansion_utils.c parsing/expansion_utils_4.c parsing/start_parse_checker.c\
 
-SUP = readline_suppression.supp
+SUP = /home/amirfatt/Desktop/Common_Core/minishell/readline_suppression.supp
 
 OBJ = $(SRC:.c=.o)
 
@@ -65,4 +65,4 @@ re		: fclean all
 
 # Debug with Valgrind
 debug	: all
-	valgrind -s --leak-check=full --show-leak-kinds=all --trace-children=yes --track-fds=yes --suppressions=$(SUP) ./minishell
+	valgrind -s --leak-check=full --show-leak-kinds=all --trace-children=yes --suppressions=$(SUP) ./minishell

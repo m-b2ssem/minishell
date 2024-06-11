@@ -65,7 +65,7 @@ char	**env_to_char(t_env *env)
 			new_env[i] = ft_strjoin(new_env[i], tmp->value);
 		}
 		else
-			new_env[i] = ft_strjoin(tmp->name, "="); // Protect Malloc
+			new_env[i] = ft_strjoin(tmp->name, "=");
 		i++;
 		tmp = tmp->next;
 	}

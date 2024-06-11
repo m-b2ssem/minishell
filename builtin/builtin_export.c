@@ -79,7 +79,7 @@ char	*return_value(char *arg, int *export)
 
 	i = 0;
 	j = 0;
-	*export = 0; // init here necessary?
+	*export = 0;
 	value = ft_calloc((ft_strlen(arg) + 1), sizeof(char));
 	if (!value)
 		return (NULL);
@@ -92,7 +92,7 @@ char	*return_value(char *arg, int *export)
 		*export = 0;
 		return (value);
 	}
-	handle_value(arg, &i, export); // split a bit because of norminette
+	handle_value(arg, &i, export);
 	while (arg[i] != '\0')
 		value[j++] = arg[i++];
 	value[j] = '\0';
@@ -118,7 +118,6 @@ int	add_variable(t_cmd *cmd)
 			update_value(cmd, name, value, export);
 		else
 		{
-			// changed because of norminette
 			if (create_add_new_variable(cmd, export, name, value) != 0)
 				return (1);
 		}

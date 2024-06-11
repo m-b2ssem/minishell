@@ -15,6 +15,20 @@
 
 #include "../minishell.h"
 
+t_env	*find_accord_env_name(char *tmp, t_env **list)
+{
+	t_env	*curr;
+
+	curr = *list;
+	while (curr != NULL)
+	{
+		if (ft_strcmp(tmp, curr->name) == 0)
+			return (curr);
+		curr = curr->next;
+	}
+	return (NULL);
+}
+
 void	free_str(t_token *to_delete)
 {
 	if (to_delete)

@@ -15,7 +15,6 @@
 
 #include "../minishell.h"
 
-
 char	*after_dollar(t_dollar_vars *v, char **ad, int *k)
 {
 	(*v->i)++;
@@ -28,13 +27,29 @@ char	*after_dollar(t_dollar_vars *v, char **ad, int *k)
 	return (*ad);
 }
 
+static void	process_var_value(char *var, t_dollar_vars *vars, char *after)
+{
+	char	*temp;
+	int		new_len;
+
+	temp = NULL;
+	new_len = 0;
+	new_len = calc_size_heredoc(var, vars->str, after);
+	temp = ft_calloc((new_len + 1), sizeof(char));
+	if (!temp)
+		return (free(var), free(after), NULL);
+	ft_strcpy(temp, vars->new_str);
+	my_strcat(temp, var);
+	free(vars->new_str);
+	vars->new_str = temp;
+	*vars->j += ft_strlen(var);
+}
+
 char	*process_dollar(t_dollar_vars *vars)
 {
-	char *after_doller;
-	char *temp;
-	int new_len;
-	char *var_value;
-	int k;
+	char	*after_doller;
+	char	*var_value;
+	int		k;
 
 	k = 0;
 	after_doller = after_dollar(vars, &after_doller, &k);
@@ -42,17 +57,7 @@ char	*process_dollar(t_dollar_vars *vars)
 		return (NULL);
 	var_value = my_getenv(after_doller, vars->env);
 	if (var_value && vars->tok->expansion == 0)
-	{
-		new_len = calc_size_heredoc(var_value, vars->str, after_doller);
-		temp = ft_calloc((new_len + 1), sizeof(char));
-		if (!temp)
-			return (free(var_value), free(after_doller), NULL);
-		ft_strcpy(temp, vars->new_str);
-		strcat(temp, var_value);
-		free(vars->new_str);
-		vars->new_str = temp;
-		*vars->j += ft_strlen(var_value);
-	}
+		process_var_value(var_value, vars, after_doller);
 	else
 	{
 		vars->new_str[(*vars->j)++] = '$';
@@ -73,8 +78,8 @@ char	*handle_doller(t_dollar_vars *vars)
 
 char	*my_getenv(char *name, t_env *env)
 {
-	t_env *tmp;
-	int len;
+	t_env	*tmp;
+	int		len;
 
 	tmp = env;
 	len = ft_strlen(name);

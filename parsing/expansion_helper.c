@@ -33,20 +33,6 @@ int	is_valid_char_rest(char c)
 	return (0);
 }
 
-t_env	*find_accord_env_name(char *tmp, t_env **list)
-{
-	t_env	*curr;
-
-	curr = *list;
-	while (curr != NULL)
-	{
-		if (ft_strcmp(tmp, curr->name) == 0)
-			return (curr);
-		curr = curr->next;
-	}
-	return (NULL);
-}
-
 int	calculate_size(t_env *curr, char *org, char *tmp)
 {
 	int	res;
@@ -64,7 +50,7 @@ int	calculate_size(t_env *curr, char *org, char *tmp)
 	return (res);
 }
 
-int calc_size_heredoc(char *value, char *org, char *tmp)
+int	calc_size_heredoc(char *value, char *org, char *tmp)
 {
 	int	res;
 	int	diff;

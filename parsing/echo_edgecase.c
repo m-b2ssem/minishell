@@ -15,7 +15,6 @@
 
 #include "../minishell.h"
 
-
 void	modify_echo_option(t_token *tok)
 {
 	if (tok == NULL || tok->string == NULL)
@@ -26,7 +25,7 @@ void	modify_echo_option(t_token *tok)
 
 int	validate_echo_option(char *str)
 {
-	int i;
+	int	i;
 
 	i = 1;
 	if (str[0] != '-')
@@ -42,9 +41,9 @@ int	validate_echo_option(char *str)
 
 int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
-	unsigned char *t1;
-	unsigned char *t2;
-	size_t i;
+	unsigned char	*t1;
+	unsigned char	*t2;
+	size_t			i;
 
 	t1 = (unsigned char *)s1;
 	t2 = (unsigned char *)s2;
@@ -62,7 +61,7 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 
 void	echo_option_helper(t_token *curr_tok)
 {
-	int echo;
+	int	echo;
 
 	echo = 0;
 	while (curr_tok != NULL)
@@ -91,8 +90,8 @@ void	echo_option_helper(t_token *curr_tok)
 
 int	echo_option_checker(t_cmd **line)
 {
-	t_cmd *curr_cmd;
-	t_token *curr_tok;
+	t_cmd	*curr_cmd;
+	t_token	*curr_tok;
 
 	curr_cmd = *line;
 	curr_tok = NULL;
